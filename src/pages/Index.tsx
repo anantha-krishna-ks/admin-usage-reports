@@ -26,6 +26,7 @@ const Index = () => {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
+            <DateRangeFilter />
             <Select defaultValue="riverside">
               <SelectTrigger className="w-[250px]">
                 <SelectValue placeholder="Select school" />
@@ -36,7 +37,6 @@ const Index = () => {
                 <SelectItem value="mountain">Mountain View School</SelectItem>
               </SelectContent>
             </Select>
-            <DateRangeFilter />
           </div>
         </div>
 
