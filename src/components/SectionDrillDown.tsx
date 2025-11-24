@@ -95,10 +95,10 @@ export const SectionDrillDown = () => {
               <TableRow>
                 <TableHead className="w-[300px]">Section</TableHead>
                 <TableHead>Grade</TableHead>
-                <TableHead className="text-right">Total Users</TableHead>
-                <TableHead className="text-right">App Usage (hrs)</TableHead>
-                <TableHead className="text-right">Content Usage (hrs)</TableHead>
-                <TableHead className="text-right">Total Usage (hrs)</TableHead>
+                <TableHead>Total Users</TableHead>
+                <TableHead>App Usage (hrs)</TableHead>
+                <TableHead>Content Usage (hrs)</TableHead>
+                <TableHead>Total Usage (hrs)</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -127,10 +127,10 @@ export const SectionDrillDown = () => {
                     <TableCell>
                       <Badge variant="secondary">{section.grade}</Badge>
                     </TableCell>
-                    <TableCell className="text-right">{section.totalUsers}</TableCell>
-                    <TableCell className="text-right">{section.appUsage}</TableCell>
-                    <TableCell className="text-right">{section.contentUsage}</TableCell>
-                    <TableCell className="text-right font-semibold">{section.totalUsage}</TableCell>
+                    <TableCell>{section.totalUsers}</TableCell>
+                    <TableCell>{section.appUsage}</TableCell>
+                    <TableCell>{section.contentUsage}</TableCell>
+                    <TableCell className="font-semibold">{section.totalUsage}</TableCell>
                   </TableRow>
                   {section.subSections &&
                     expandedSections.has(section.section) &&
@@ -138,10 +138,10 @@ export const SectionDrillDown = () => {
                       <TableRow key={`${section.section}-${sub.name}`} className="bg-muted/30">
                         <TableCell className="pl-16 text-muted-foreground">{sub.name}</TableCell>
                         <TableCell></TableCell>
-                        <TableCell className="text-right">{sub.users}</TableCell>
-                        <TableCell className="text-right">{sub.appUsage}</TableCell>
-                        <TableCell className="text-right">{sub.contentUsage}</TableCell>
-                        <TableCell className="text-right">{sub.totalUsage}</TableCell>
+                        <TableCell>{sub.users}</TableCell>
+                        <TableCell>{sub.appUsage}</TableCell>
+                        <TableCell>{sub.contentUsage}</TableCell>
+                        <TableCell>{sub.totalUsage}</TableCell>
                       </TableRow>
                     ))}
                 </>
