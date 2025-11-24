@@ -25,21 +25,19 @@ const Index = () => {
               Comprehensive usage analytics across schools and sections
             </p>
           </div>
-          <Select defaultValue="riverside">
-            <SelectTrigger className="w-[250px]">
-              <SelectValue placeholder="Select school" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="riverside">Riverside Academy</SelectItem>
-              <SelectItem value="lakeside">Lakeside High School</SelectItem>
-              <SelectItem value="mountain">Mountain View School</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Date Range Filter */}
-        <div className="flex items-center gap-4 p-4 bg-card rounded-lg border">
-          <DateRangeFilter />
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Select defaultValue="riverside">
+              <SelectTrigger className="w-[250px]">
+                <SelectValue placeholder="Select school" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="riverside">Riverside Academy</SelectItem>
+                <SelectItem value="lakeside">Lakeside High School</SelectItem>
+                <SelectItem value="mountain">Mountain View School</SelectItem>
+              </SelectContent>
+            </Select>
+            <DateRangeFilter />
+          </div>
         </div>
 
         {/* Stats Cards */}
