@@ -1,11 +1,83 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Activity, BookOpen, Users } from "lucide-react";
+import { StatCard } from "@/components/StatCard";
+import { UsageByUserTypeChart } from "@/components/UsageByUserTypeChart";
+import { UsageDistributionChart } from "@/components/UsageDistributionChart";
+import { DetailedAnalytics } from "@/components/DetailedAnalytics";
+import { SectionDrillDown } from "@/components/SectionDrillDown";
+import { DateRangeFilter } from "@/components/DateRangeFilter";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto p-6 space-y-8">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-bold tracking-tight">Admin Reports</h1>
+            <p className="text-muted-foreground mt-1">
+              Comprehensive usage analytics across schools and sections
+            </p>
+          </div>
+          <Select defaultValue="riverside">
+            <SelectTrigger className="w-[250px]">
+              <SelectValue placeholder="Select school" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="riverside">Riverside Academy</SelectItem>
+              <SelectItem value="lakeside">Lakeside High School</SelectItem>
+              <SelectItem value="mountain">Mountain View School</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Date Range Filter */}
+        <div className="flex items-center gap-4 p-4 bg-card rounded-lg border">
+          <DateRangeFilter />
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid gap-6 md:grid-cols-3">
+          <StatCard
+            title="Total Application Usage"
+            value="8,500"
+            subtitle="hours this month"
+            icon={Activity}
+            iconColor="text-primary"
+          />
+          <StatCard
+            title="Total Content Usage"
+            value="12,750"
+            subtitle="hours this month"
+            icon={BookOpen}
+            iconColor="text-secondary"
+          />
+          <StatCard
+            title="Total Active Users"
+            value="1,008"
+            subtitle="across all user types"
+            icon={Users}
+            iconColor="text-chart-3"
+          />
+        </div>
+
+        {/* Charts */}
+        <div className="grid gap-6 md:grid-cols-2">
+          <UsageByUserTypeChart />
+          <UsageDistributionChart />
+        </div>
+
+        {/* Detailed Analytics */}
+        <DetailedAnalytics />
+
+        {/* Section Drill Down */}
+        <SectionDrillDown />
       </div>
     </div>
   );
