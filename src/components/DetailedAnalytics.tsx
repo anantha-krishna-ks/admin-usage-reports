@@ -43,18 +43,18 @@ export const DetailedAnalytics = () => {
                   <p className="text-sm text-muted-foreground">Application Usage</p>
                   <p className="text-2xl font-bold text-primary">{userTypeData.teachers.applicationUsage}</p>
                 </div>
-                <div className="pl-4 border-l-2 border-primary/20 space-y-1.5">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">Web</span>
-                    <span className="text-sm font-semibold">{userTypeData.teachers.applicationBreakdown.web}</span>
+                <div className="grid grid-cols-3 gap-2 mt-3">
+                  <div className="bg-primary/5 rounded-lg p-2 text-center border border-primary/10">
+                    <p className="text-[10px] text-muted-foreground font-medium mb-1">Web</p>
+                    <p className="text-sm font-bold text-primary">{userTypeData.teachers.applicationBreakdown.web}</p>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">Mobile</span>
-                    <span className="text-sm font-semibold">{userTypeData.teachers.applicationBreakdown.mobile}</span>
+                  <div className="bg-chart-2/5 rounded-lg p-2 text-center border border-chart-2/10">
+                    <p className="text-[10px] text-muted-foreground font-medium mb-1">Mobile</p>
+                    <p className="text-sm font-bold text-chart-2">{userTypeData.teachers.applicationBreakdown.mobile}</p>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">School</span>
-                    <span className="text-sm font-semibold">{userTypeData.teachers.applicationBreakdown.school}</span>
+                  <div className="bg-chart-3/5 rounded-lg p-2 text-center border border-chart-3/10">
+                    <p className="text-[10px] text-muted-foreground font-medium mb-1">School</p>
+                    <p className="text-sm font-bold text-chart-3">{userTypeData.teachers.applicationBreakdown.school}</p>
                   </div>
                 </div>
               </div>
@@ -75,18 +75,18 @@ export const DetailedAnalytics = () => {
                   <p className="text-sm text-muted-foreground">Application Usage</p>
                   <p className="text-2xl font-bold text-primary">{userTypeData.students.applicationUsage}</p>
                 </div>
-                <div className="pl-4 border-l-2 border-primary/20 space-y-1.5">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">Web</span>
-                    <span className="text-sm font-semibold">{userTypeData.students.applicationBreakdown.web}</span>
+                <div className="grid grid-cols-3 gap-2 mt-3">
+                  <div className="bg-primary/5 rounded-lg p-2 text-center border border-primary/10">
+                    <p className="text-[10px] text-muted-foreground font-medium mb-1">Web</p>
+                    <p className="text-sm font-bold text-primary">{userTypeData.students.applicationBreakdown.web}</p>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">Mobile</span>
-                    <span className="text-sm font-semibold">{userTypeData.students.applicationBreakdown.mobile}</span>
+                  <div className="bg-chart-2/5 rounded-lg p-2 text-center border border-chart-2/10">
+                    <p className="text-[10px] text-muted-foreground font-medium mb-1">Mobile</p>
+                    <p className="text-sm font-bold text-chart-2">{userTypeData.students.applicationBreakdown.mobile}</p>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">School</span>
-                    <span className="text-sm font-semibold">{userTypeData.students.applicationBreakdown.school}</span>
+                  <div className="bg-chart-3/5 rounded-lg p-2 text-center border border-chart-3/10">
+                    <p className="text-[10px] text-muted-foreground font-medium mb-1">School</p>
+                    <p className="text-sm font-bold text-chart-3">{userTypeData.students.applicationBreakdown.school}</p>
                   </div>
                 </div>
               </div>
@@ -107,18 +107,18 @@ export const DetailedAnalytics = () => {
                   <p className="text-sm text-muted-foreground">Application Usage</p>
                   <p className="text-2xl font-bold text-primary">{userTypeData.parents.applicationUsage}</p>
                 </div>
-                <div className="pl-4 border-l-2 border-primary/20 space-y-1.5">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">Web</span>
-                    <span className="text-sm font-semibold">{userTypeData.parents.applicationBreakdown.web}</span>
+                <div className="grid grid-cols-3 gap-2 mt-3">
+                  <div className="bg-primary/5 rounded-lg p-2 text-center border border-primary/10">
+                    <p className="text-[10px] text-muted-foreground font-medium mb-1">Web</p>
+                    <p className="text-sm font-bold text-primary">{userTypeData.parents.applicationBreakdown.web}</p>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">Mobile</span>
-                    <span className="text-sm font-semibold">{userTypeData.parents.applicationBreakdown.mobile}</span>
+                  <div className="bg-chart-2/5 rounded-lg p-2 text-center border border-chart-2/10">
+                    <p className="text-[10px] text-muted-foreground font-medium mb-1">Mobile</p>
+                    <p className="text-sm font-bold text-chart-2">{userTypeData.parents.applicationBreakdown.mobile}</p>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">School</span>
-                    <span className="text-sm font-semibold">{userTypeData.parents.applicationBreakdown.school}</span>
+                  <div className="bg-chart-3/5 rounded-lg p-2 text-center border border-chart-3/10">
+                    <p className="text-[10px] text-muted-foreground font-medium mb-1">School</p>
+                    <p className="text-sm font-bold text-chart-3">{userTypeData.parents.applicationBreakdown.school}</p>
                   </div>
                 </div>
               </div>
