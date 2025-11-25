@@ -2,18 +2,19 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 
 const data = [
-  { name: "Application Usage", value: 40 },
-  { name: "Content Usage", value: 60 },
+  { name: "Web", value: 4250 },
+  { name: "Mobile", value: 3150 },
+  { name: "School", value: 1100 },
 ];
 
-const COLORS = ["hsl(var(--chart-1))", "hsl(var(--chart-2))"];
+const COLORS = ["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))"];
 
 export const UsageDistributionChart = () => {
   return (
     <Card>
       <CardHeader>
         <CardTitle>Usage Distribution</CardTitle>
-        <CardDescription>Overall application vs content usage</CardDescription>
+        <CardDescription>Application usage by platform</CardDescription>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
