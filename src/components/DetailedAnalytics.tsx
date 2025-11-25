@@ -166,7 +166,7 @@ export const DetailedAnalytics = () => {
                       <FileText className="h-4 w-4 text-secondary" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs text-muted-foreground">Lesson Plans</p>
+                      <p className="text-xs text-muted-foreground">Assessments</p>
                       <p className="text-sm font-bold text-foreground">{userTypeData.students.contentBreakdown.lessonPlans}</p>
                     </div>
                   </div>
@@ -244,7 +244,7 @@ export const DetailedAnalytics = () => {
                       <FileText className="h-4 w-4 text-secondary" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs text-muted-foreground">Lesson Plans</p>
+                      <p className="text-xs text-muted-foreground">Assessments</p>
                       <p className="text-sm font-bold text-foreground">{userTypeData.parents.contentBreakdown.lessonPlans}</p>
                     </div>
                   </div>
