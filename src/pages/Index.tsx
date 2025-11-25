@@ -61,9 +61,9 @@ const Index = () => {
             icon={BookOpen}
             iconColor="text-secondary"
             drillDown={[
-              { label: "Videos", value: "6,380" },
-              { label: "Documents", value: "4,270" },
-              { label: "Interactive", value: "2,100" }
+              { label: "Lesson Plans", value: "5,100" },
+              { label: "Learning Resources", value: "4,850" },
+              { label: "Ebooks", value: "2,800" }
             ]}
           />
           <StatCard
@@ -73,9 +73,8 @@ const Index = () => {
             icon={Users}
             iconColor="text-chart-3"
             drillDown={[
-              { label: "Teachers", value: "142" },
-              { label: "Students", value: "684" },
-              { label: "Parents", value: "182" }
+              { label: "New Users", value: "324" },
+              { label: "Repeat Users", value: "684" }
             ]}
           />
         </div>
