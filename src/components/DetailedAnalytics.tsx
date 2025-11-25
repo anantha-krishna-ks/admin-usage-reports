@@ -37,24 +37,24 @@ export const DetailedAnalytics = () => {
             <TabsTrigger value="parents">Parents</TabsTrigger>
           </TabsList>
           <TabsContent value="teachers" className="space-y-4 pt-4">
-            <div className="grid grid-cols-3 gap-4">
-              <div className="space-y-3">
+            <div className="grid grid-cols-3 gap-8">
+              <div className="space-y-3 pr-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Application Usage</p>
                   <p className="text-2xl font-bold text-primary">{userTypeData.teachers.applicationUsage}</p>
                 </div>
-                <div className="grid grid-cols-3 gap-2 mt-3">
-                  <div className="bg-primary/5 rounded-lg p-2 text-center border border-primary/10">
-                    <p className="text-[10px] text-muted-foreground font-medium mb-1">Web</p>
-                    <p className="text-sm font-bold text-primary">{userTypeData.teachers.applicationBreakdown.web}</p>
+                <div className="grid grid-cols-3 gap-1.5 mt-3">
+                  <div className="bg-primary/5 rounded-md p-1.5 text-center border border-primary/10">
+                    <p className="text-[9px] text-muted-foreground font-medium mb-0.5">Web</p>
+                    <p className="text-xs font-bold text-primary">{userTypeData.teachers.applicationBreakdown.web}</p>
                   </div>
-                  <div className="bg-chart-2/5 rounded-lg p-2 text-center border border-chart-2/10">
-                    <p className="text-[10px] text-muted-foreground font-medium mb-1">Mobile</p>
-                    <p className="text-sm font-bold text-chart-2">{userTypeData.teachers.applicationBreakdown.mobile}</p>
+                  <div className="bg-chart-2/5 rounded-md p-1.5 text-center border border-chart-2/10">
+                    <p className="text-[9px] text-muted-foreground font-medium mb-0.5">Mobile</p>
+                    <p className="text-xs font-bold text-chart-2">{userTypeData.teachers.applicationBreakdown.mobile}</p>
                   </div>
-                  <div className="bg-chart-3/5 rounded-lg p-2 text-center border border-chart-3/10">
-                    <p className="text-[10px] text-muted-foreground font-medium mb-1">School</p>
-                    <p className="text-sm font-bold text-chart-3">{userTypeData.teachers.applicationBreakdown.school}</p>
+                  <div className="bg-chart-3/5 rounded-md p-1.5 text-center border border-chart-3/10">
+                    <p className="text-[9px] text-muted-foreground font-medium mb-0.5">School</p>
+                    <p className="text-xs font-bold text-chart-3">{userTypeData.teachers.applicationBreakdown.school}</p>
                   </div>
                 </div>
               </div>
@@ -69,24 +69,24 @@ export const DetailedAnalytics = () => {
             </div>
           </TabsContent>
           <TabsContent value="students" className="space-y-4 pt-4">
-            <div className="grid grid-cols-3 gap-4">
-              <div className="space-y-3">
+            <div className="grid grid-cols-3 gap-8">
+              <div className="space-y-3 pr-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Application Usage</p>
                   <p className="text-2xl font-bold text-primary">{userTypeData.students.applicationUsage}</p>
                 </div>
-                <div className="grid grid-cols-3 gap-2 mt-3">
-                  <div className="bg-primary/5 rounded-lg p-2 text-center border border-primary/10">
-                    <p className="text-[10px] text-muted-foreground font-medium mb-1">Web</p>
-                    <p className="text-sm font-bold text-primary">{userTypeData.students.applicationBreakdown.web}</p>
+                <div className="grid grid-cols-3 gap-1.5 mt-3">
+                  <div className="bg-primary/5 rounded-md p-1.5 text-center border border-primary/10">
+                    <p className="text-[9px] text-muted-foreground font-medium mb-0.5">Web</p>
+                    <p className="text-xs font-bold text-primary">{userTypeData.students.applicationBreakdown.web}</p>
                   </div>
-                  <div className="bg-chart-2/5 rounded-lg p-2 text-center border border-chart-2/10">
-                    <p className="text-[10px] text-muted-foreground font-medium mb-1">Mobile</p>
-                    <p className="text-sm font-bold text-chart-2">{userTypeData.students.applicationBreakdown.mobile}</p>
+                  <div className="bg-chart-2/5 rounded-md p-1.5 text-center border border-chart-2/10">
+                    <p className="text-[9px] text-muted-foreground font-medium mb-0.5">Mobile</p>
+                    <p className="text-xs font-bold text-chart-2">{userTypeData.students.applicationBreakdown.mobile}</p>
                   </div>
-                  <div className="bg-chart-3/5 rounded-lg p-2 text-center border border-chart-3/10">
-                    <p className="text-[10px] text-muted-foreground font-medium mb-1">School</p>
-                    <p className="text-sm font-bold text-chart-3">{userTypeData.students.applicationBreakdown.school}</p>
+                  <div className="bg-chart-3/5 rounded-md p-1.5 text-center border border-chart-3/10">
+                    <p className="text-[9px] text-muted-foreground font-medium mb-0.5">School</p>
+                    <p className="text-xs font-bold text-chart-3">{userTypeData.students.applicationBreakdown.school}</p>
                   </div>
                 </div>
               </div>
@@ -101,24 +101,24 @@ export const DetailedAnalytics = () => {
             </div>
           </TabsContent>
           <TabsContent value="parents" className="space-y-4 pt-4">
-            <div className="grid grid-cols-3 gap-4">
-              <div className="space-y-3">
+            <div className="grid grid-cols-3 gap-8">
+              <div className="space-y-3 pr-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Application Usage</p>
                   <p className="text-2xl font-bold text-primary">{userTypeData.parents.applicationUsage}</p>
                 </div>
-                <div className="grid grid-cols-3 gap-2 mt-3">
-                  <div className="bg-primary/5 rounded-lg p-2 text-center border border-primary/10">
-                    <p className="text-[10px] text-muted-foreground font-medium mb-1">Web</p>
-                    <p className="text-sm font-bold text-primary">{userTypeData.parents.applicationBreakdown.web}</p>
+                <div className="grid grid-cols-3 gap-1.5 mt-3">
+                  <div className="bg-primary/5 rounded-md p-1.5 text-center border border-primary/10">
+                    <p className="text-[9px] text-muted-foreground font-medium mb-0.5">Web</p>
+                    <p className="text-xs font-bold text-primary">{userTypeData.parents.applicationBreakdown.web}</p>
                   </div>
-                  <div className="bg-chart-2/5 rounded-lg p-2 text-center border border-chart-2/10">
-                    <p className="text-[10px] text-muted-foreground font-medium mb-1">Mobile</p>
-                    <p className="text-sm font-bold text-chart-2">{userTypeData.parents.applicationBreakdown.mobile}</p>
+                  <div className="bg-chart-2/5 rounded-md p-1.5 text-center border border-chart-2/10">
+                    <p className="text-[9px] text-muted-foreground font-medium mb-0.5">Mobile</p>
+                    <p className="text-xs font-bold text-chart-2">{userTypeData.parents.applicationBreakdown.mobile}</p>
                   </div>
-                  <div className="bg-chart-3/5 rounded-lg p-2 text-center border border-chart-3/10">
-                    <p className="text-[10px] text-muted-foreground font-medium mb-1">School</p>
-                    <p className="text-sm font-bold text-chart-3">{userTypeData.parents.applicationBreakdown.school}</p>
+                  <div className="bg-chart-3/5 rounded-md p-1.5 text-center border border-chart-3/10">
+                    <p className="text-[9px] text-muted-foreground font-medium mb-0.5">School</p>
+                    <p className="text-xs font-bold text-chart-3">{userTypeData.parents.applicationBreakdown.school}</p>
                   </div>
                 </div>
               </div>
