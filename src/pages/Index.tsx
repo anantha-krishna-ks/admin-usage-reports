@@ -60,6 +60,11 @@ const Index = () => {
             subtitle="hours this month"
             icon={BookOpen}
             iconColor="text-secondary"
+            drillDown={[
+              { label: "Videos", value: "6,380" },
+              { label: "Documents", value: "4,270" },
+              { label: "Interactive", value: "2,100" }
+            ]}
           />
           <StatCard
             title="Total Active Users"
@@ -67,6 +72,11 @@ const Index = () => {
             subtitle="across all user types"
             icon={Users}
             iconColor="text-chart-3"
+            drillDown={[
+              { label: "Teachers", value: "142" },
+              { label: "Students", value: "684" },
+              { label: "Parents", value: "182" }
+            ]}
           />
         </div>
 
