@@ -1,24 +1,27 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Monitor, Smartphone, Building2 } from "lucide-react";
+import { Monitor, Smartphone, Building2, FileText, Library, BookOpen } from "lucide-react";
 
 const userTypeData = {
   teachers: {
     applicationUsage: "980 hrs",
     applicationBreakdown: { web: "490 hrs", mobile: "350 hrs", school: "140 hrs" },
     contentUsage: "1,470 hrs",
+    contentBreakdown: { lessonPlans: "590 hrs", learningResources: "520 hrs", ebooks: "360 hrs" },
     totalUsage: "2,450 hrs",
   },
   students: {
     applicationUsage: "6,890 hrs",
     applicationBreakdown: { web: "3,100 hrs", mobile: "2,650 hrs", school: "1,140 hrs" },
     contentUsage: "9,280 hrs",
+    contentBreakdown: { lessonPlans: "3,200 hrs", learningResources: "3,850 hrs", ebooks: "2,230 hrs" },
     totalUsage: "16,170 hrs",
   },
   parents: {
     applicationUsage: "630 hrs",
     applicationBreakdown: { web: "340 hrs", mobile: "210 hrs", school: "80 hrs" },
     contentUsage: "2,000 hrs",
+    contentBreakdown: { lessonPlans: "800 hrs", learningResources: "780 hrs", ebooks: "420 hrs" },
     totalUsage: "2,630 hrs",
   },
 };
@@ -74,9 +77,40 @@ export const DetailedAnalytics = () => {
                   </div>
                 </div>
               </div>
-              <div className="pl-6">
-                <p className="text-sm text-muted-foreground mb-1">Content Usage</p>
-                <p className="text-3xl font-bold text-secondary">{userTypeData.teachers.contentUsage}</p>
+              <div className="pl-6 space-y-4">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Content Usage</p>
+                  <p className="text-3xl font-bold text-secondary">{userTypeData.teachers.contentUsage}</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-br from-secondary/10 to-secondary/5 border border-secondary/20 transition-all hover:shadow-md">
+                    <div className="p-2 rounded-md bg-secondary/10">
+                      <FileText className="h-4 w-4 text-secondary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs text-muted-foreground">Lesson Plans</p>
+                      <p className="text-sm font-bold text-foreground">{userTypeData.teachers.contentBreakdown.lessonPlans}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-br from-chart-4/10 to-chart-4/5 border border-chart-4/20 transition-all hover:shadow-md">
+                    <div className="p-2 rounded-md bg-chart-4/10">
+                      <Library className="h-4 w-4 text-chart-4" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs text-muted-foreground">Learning Resources</p>
+                      <p className="text-sm font-bold text-foreground">{userTypeData.teachers.contentBreakdown.learningResources}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-br from-chart-5/10 to-chart-5/5 border border-chart-5/20 transition-all hover:shadow-md">
+                    <div className="p-2 rounded-md bg-chart-5/10">
+                      <BookOpen className="h-4 w-4 text-chart-5" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs text-muted-foreground">Ebooks</p>
+                      <p className="text-sm font-bold text-foreground">{userTypeData.teachers.contentBreakdown.ebooks}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="pl-6">
                 <p className="text-sm text-muted-foreground mb-1">Total Usage</p>
@@ -121,9 +155,40 @@ export const DetailedAnalytics = () => {
                   </div>
                 </div>
               </div>
-              <div className="pl-6">
-                <p className="text-sm text-muted-foreground mb-1">Content Usage</p>
-                <p className="text-3xl font-bold text-secondary">{userTypeData.students.contentUsage}</p>
+              <div className="pl-6 space-y-4">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Content Usage</p>
+                  <p className="text-3xl font-bold text-secondary">{userTypeData.students.contentUsage}</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-br from-secondary/10 to-secondary/5 border border-secondary/20 transition-all hover:shadow-md">
+                    <div className="p-2 rounded-md bg-secondary/10">
+                      <FileText className="h-4 w-4 text-secondary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs text-muted-foreground">Lesson Plans</p>
+                      <p className="text-sm font-bold text-foreground">{userTypeData.students.contentBreakdown.lessonPlans}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-br from-chart-4/10 to-chart-4/5 border border-chart-4/20 transition-all hover:shadow-md">
+                    <div className="p-2 rounded-md bg-chart-4/10">
+                      <Library className="h-4 w-4 text-chart-4" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs text-muted-foreground">Learning Resources</p>
+                      <p className="text-sm font-bold text-foreground">{userTypeData.students.contentBreakdown.learningResources}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-br from-chart-5/10 to-chart-5/5 border border-chart-5/20 transition-all hover:shadow-md">
+                    <div className="p-2 rounded-md bg-chart-5/10">
+                      <BookOpen className="h-4 w-4 text-chart-5" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs text-muted-foreground">Ebooks</p>
+                      <p className="text-sm font-bold text-foreground">{userTypeData.students.contentBreakdown.ebooks}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="pl-6">
                 <p className="text-sm text-muted-foreground mb-1">Total Usage</p>
@@ -168,9 +233,40 @@ export const DetailedAnalytics = () => {
                   </div>
                 </div>
               </div>
-              <div className="pl-6">
-                <p className="text-sm text-muted-foreground mb-1">Content Usage</p>
-                <p className="text-3xl font-bold text-secondary">{userTypeData.parents.contentUsage}</p>
+              <div className="pl-6 space-y-4">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Content Usage</p>
+                  <p className="text-3xl font-bold text-secondary">{userTypeData.parents.contentUsage}</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-br from-secondary/10 to-secondary/5 border border-secondary/20 transition-all hover:shadow-md">
+                    <div className="p-2 rounded-md bg-secondary/10">
+                      <FileText className="h-4 w-4 text-secondary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs text-muted-foreground">Lesson Plans</p>
+                      <p className="text-sm font-bold text-foreground">{userTypeData.parents.contentBreakdown.lessonPlans}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-br from-chart-4/10 to-chart-4/5 border border-chart-4/20 transition-all hover:shadow-md">
+                    <div className="p-2 rounded-md bg-chart-4/10">
+                      <Library className="h-4 w-4 text-chart-4" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs text-muted-foreground">Learning Resources</p>
+                      <p className="text-sm font-bold text-foreground">{userTypeData.parents.contentBreakdown.learningResources}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-br from-chart-5/10 to-chart-5/5 border border-chart-5/20 transition-all hover:shadow-md">
+                    <div className="p-2 rounded-md bg-chart-5/10">
+                      <BookOpen className="h-4 w-4 text-chart-5" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs text-muted-foreground">Ebooks</p>
+                      <p className="text-sm font-bold text-foreground">{userTypeData.parents.contentBreakdown.ebooks}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="pl-6">
                 <p className="text-sm text-muted-foreground mb-1">Total Usage</p>
