@@ -48,6 +48,11 @@ const Index = () => {
             subtitle="hours this month"
             icon={Activity}
             iconColor="text-primary"
+            drillDown={[
+              { label: "Web", value: "4,250" },
+              { label: "Mobile", value: "3,150" },
+              { label: "School", value: "1,100" }
+            ]}
           />
           <StatCard
             title="Total Content Usage"
