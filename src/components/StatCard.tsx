@@ -17,16 +17,16 @@ interface StatCardProps {
 
 export const StatCard = ({ title, value, subtitle, icon: Icon, iconColor, drillDown }: StatCardProps) => {
   return (
-    <Card className="transition-all hover:shadow-lg h-full flex flex-col">
+    <Card className="transition-all hover:shadow-lg">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
         <Icon className={`h-5 w-5 ${iconColor}`} />
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col">
+      <CardContent className="pb-6">
         <div className="text-3xl font-bold">{value}</div>
         <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
-        {drillDown && drillDown.length > 0 && (
-          <div className="mt-auto pt-3 border-t border-border">
+        <div className="mt-4 pt-3 border-t border-border" style={{ minHeight: '60px' }}>
+          {drillDown && drillDown.length > 0 ? (
             <div className="grid grid-cols-3 gap-2">
               {drillDown.map((item, index) => (
                 <div key={index} className="text-center">
@@ -35,8 +35,10 @@ export const StatCard = ({ title, value, subtitle, icon: Icon, iconColor, drillD
                 </div>
               ))}
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="h-full" />
+          )}
+        </div>
       </CardContent>
     </Card>
   );
