@@ -2,9 +2,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 const data = [
-  { name: "Teachers", applicationUsage: 980, contentUsage: 1470 },
-  { name: "Students", applicationUsage: 6890, contentUsage: 9280 },
-  { name: "Parents", applicationUsage: 630, contentUsage: 2000 },
+  { name: "Teachers", totalUsage: 2450 },
+  { name: "Students", totalUsage: 16170 },
+  { name: "Parents", totalUsage: 2630 },
 ];
 
 export const UsageByUserTypeChart = () => {
@@ -12,7 +12,7 @@ export const UsageByUserTypeChart = () => {
     <Card>
       <CardHeader>
         <CardTitle>Usage by User Type</CardTitle>
-        <CardDescription>Application and content usage breakdown</CardDescription>
+        <CardDescription>Total platform usage breakdown</CardDescription>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
@@ -28,8 +28,7 @@ export const UsageByUserTypeChart = () => {
               }}
             />
             <Legend />
-            <Bar dataKey="applicationUsage" name="Application Usage (hrs)" fill="hsl(var(--chart-1))" radius={[8, 8, 0, 0]} />
-            <Bar dataKey="contentUsage" name="Content Usage (hrs)" fill="hsl(var(--chart-2))" radius={[8, 8, 0, 0]} />
+            <Bar dataKey="totalUsage" name="Total Usage (hrs)" fill="hsl(var(--primary))" radius={[8, 8, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
