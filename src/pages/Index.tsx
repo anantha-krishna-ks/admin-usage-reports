@@ -1,5 +1,6 @@
-import { Activity, BookOpen, Users } from "lucide-react";
+import { Users } from "lucide-react";
 import { StatCard } from "@/components/StatCard";
+import { CombinedUsageCard } from "@/components/CombinedUsageCard";
 import { UsageByUserTypeChart } from "@/components/UsageByUserTypeChart";
 import { UsageDistributionChart } from "@/components/UsageDistributionChart";
 import { DetailedAnalytics } from "@/components/DetailedAnalytics";
@@ -42,30 +43,7 @@ const Index = () => {
 
         {/* Stats Cards */}
         <div className="grid gap-6 md:grid-cols-3">
-          <StatCard
-            title="Total Application Usage"
-            value="8,500"
-            subtitle="hours this month"
-            icon={Activity}
-            iconColor="text-primary"
-            drillDown={[
-              { label: "Web", value: "4,250" },
-              { label: "Mobile", value: "3,150" },
-              { label: "School", value: "1,100" }
-            ]}
-          />
-          <StatCard
-            title="Total Content Usage"
-            value="12,750"
-            subtitle="hours this month"
-            icon={BookOpen}
-            iconColor="text-secondary"
-            drillDown={[
-              { label: "Lesson Plans", value: "5,100" },
-              { label: "Learning Resources", value: "4,850" },
-              { label: "Ebooks", value: "2,800" }
-            ]}
-          />
+          <CombinedUsageCard />
           <StatCard
             title="Total Active Users"
             value="1,008"
