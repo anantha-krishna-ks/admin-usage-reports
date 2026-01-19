@@ -372,7 +372,8 @@ export default function ProctorAnalytics() {
           />
           <StatCard
             title="Highest Flags"
-            value="89 (Headphone detected)"
+            value="89"
+            description="Headphone detected"
             icon={<Flag className="h-4 w-4" />}
             accentColor="hsl(280, 65%, 60%)"
           />
