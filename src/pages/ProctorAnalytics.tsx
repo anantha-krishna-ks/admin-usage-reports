@@ -203,10 +203,21 @@ const Section = ({
             
             {/* View Details button in header */}
             {onViewDetails && (
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="hidden sm:inline-flex gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+              <button 
+                className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg border transition-all duration-200 hover:shadow-sm"
+                style={{ 
+                  borderColor: accentColor,
+                  color: accentColor,
+                  backgroundColor: `color-mix(in srgb, ${accentColor} 8%, transparent)`,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = accentColor;
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = `color-mix(in srgb, ${accentColor} 8%, transparent)`;
+                  e.currentTarget.style.color = accentColor;
+                }}
                 onClick={(e) => {
                   e.stopPropagation();
                   onViewDetails();
@@ -214,7 +225,7 @@ const Section = ({
               >
                 View Details
                 <ArrowRight className="h-3.5 w-3.5" />
-              </Button>
+              </button>
             )}
             
             {/* Toggle indicator */}
