@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon, ChevronDown, ChevronUp, Clock, Users, AlertTriangle, CheckCircle, XCircle, Headphones, Eye, FileCheck, ShieldCheck, Camera, UserCheck, Pause, Play, RotateCcw, Flag, Timer, ThumbsUp, ThumbsDown, Zap, Search } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Clock, Users, AlertTriangle, CheckCircle, XCircle, Headphones, Eye, FileCheck, ShieldCheck, Camera, UserCheck, Pause, Play, RotateCcw, Flag, Timer, ThumbsUp, ThumbsDown, Zap, Search, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from "recharts";
 import type { DateRange } from "react-day-picker";
+import { EnhancedDateFilter } from "@/components/proctoring/EnhancedDateFilter";
+import { ExportButton } from "@/components/proctoring/ExportButton";
+import { DrillDownModal } from "@/components/proctoring/DrillDownModal";
 
 // Mock data
 const preCheckTimeData = [
@@ -44,11 +43,10 @@ interface StatCardProps {
   value: string | number;
   icon: React.ReactNode;
   description?: string;
-  trend?: "up" | "down" | "neutral";
 }
 
 const StatCard = ({ title, value, icon, description }: StatCardProps) => (
-  <Card className="border-border/50 hover:border-border transition-colors">
+  <Card className="border-border/50 hover:border-border transition-all shadow-sm hover:shadow-md">
     <CardContent className="p-5">
       <div className="flex items-start justify-between">
         <div className="space-y-1">
@@ -69,15 +67,16 @@ interface SectionProps {
   description: string;
   children: React.ReactNode;
   defaultOpen?: boolean;
+  onViewDetails?: () => void;
 }
 
-const Section = ({ title, description, children, defaultOpen = false }: SectionProps) => {
+const Section = ({ title, description, children, defaultOpen = false, onViewDetails }: SectionProps) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <Card className="border-border/50">
+    <Card className="border-border/50 shadow-md hover:shadow-lg transition-shadow overflow-hidden">
       <CardHeader 
-        className="cursor-pointer hover:bg-muted/30 transition-colors rounded-t-lg"
+        className="cursor-pointer hover:bg-muted/30 transition-colors"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center justify-between">
@@ -90,7 +89,27 @@ const Section = ({ title, description, children, defaultOpen = false }: SectionP
           </Button>
         </div>
       </CardHeader>
-      {isOpen && <CardContent className="pt-0">{children}</CardContent>}
+      {isOpen && (
+        <CardContent className="pt-0">
+          {children}
+          {onViewDetails && (
+            <div className="flex justify-end mt-6 pt-4 border-t border-border/50">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="gap-2 shadow-sm hover:shadow-md transition-shadow"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onViewDetails();
+                }}
+              >
+                <Search className="h-4 w-4" />
+                View Details
+              </Button>
+            </div>
+          )}
+        </CardContent>
+      )}
     </Card>
   );
 };
@@ -103,8 +122,8 @@ interface MetricItemProps {
 }
 
 const MetricItem = ({ icon, label, value, subtext }: MetricItemProps) => (
-  <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border border-border/30 hover:bg-muted/50 transition-colors">
-    <div className="p-2 bg-background rounded-md border border-border/50">
+  <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border border-border/30 hover:bg-muted/50 hover:shadow-sm transition-all">
+    <div className="p-2 bg-background rounded-md border border-border/50 shadow-sm">
       {icon}
     </div>
     <div className="flex-1 min-w-0">
@@ -117,6 +136,21 @@ const MetricItem = ({ icon, label, value, subtext }: MetricItemProps) => (
 
 export default function ProctorAnalytics() {
   const [date, setDate] = useState<DateRange | undefined>();
+  const [drillDownModal, setDrillDownModal] = useState<{
+    open: boolean;
+    type: "precheck" | "during" | "post";
+    title: string;
+    description: string;
+  }>({
+    open: false,
+    type: "precheck",
+    title: "",
+    description: "",
+  });
+
+  const openDrillDown = (type: "precheck" | "during" | "post", title: string, description: string) => {
+    setDrillDownModal({ open: true, type, title, description });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -128,40 +162,10 @@ export default function ProctorAnalytics() {
               <h1 className="text-2xl font-semibold tracking-tight">Proctoring Analytics</h1>
               <p className="text-muted-foreground mt-1">Comprehensive assessment monitoring report</p>
             </div>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-[280px] justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date?.from ? (
-                    date.to ? (
-                      <>
-                        {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}
-                      </>
-                    ) : (
-                      format(date.from, "LLL dd, y")
-                    )
-                  ) : (
-                    <span>Select date range</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="end">
-                <Calendar
-                  mode="range"
-                  selected={date}
-                  onSelect={setDate}
-                  numberOfMonths={2}
-                  initialFocus
-                  className="pointer-events-auto"
-                />
-              </PopoverContent>
-            </Popover>
+            <div className="flex items-center gap-3">
+              <EnhancedDateFilter date={date} onDateChange={setDate} />
+              <ExportButton />
+            </div>
           </div>
         </div>
 
@@ -201,7 +205,7 @@ export default function ProctorAnalytics() {
         </div>
 
         {/* Assessment Trend Chart */}
-        <Card className="mb-8 border-border/50">
+        <Card className="mb-8 border-border/50 shadow-md">
           <CardHeader>
             <CardTitle className="text-lg font-semibold">Assessment Trend</CardTitle>
             <CardDescription>Daily assessment overview for the selected period</CardDescription>
@@ -218,6 +222,7 @@ export default function ProctorAnalytics() {
                     border: "1px solid hsl(var(--border))",
                     borderRadius: "8px",
                     fontSize: "13px",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                   }}
                 />
                 <Legend />
@@ -236,6 +241,7 @@ export default function ProctorAnalytics() {
             title="Pre-check Analytics" 
             description="Average completion times and verification metrics"
             defaultOpen={true}
+            onViewDetails={() => openDrillDown("precheck", "Pre-check Analytics Details", "Detailed breakdown of pre-check times for all candidates")}
           >
             <div className="space-y-6">
               {/* Time Metrics Grid */}
@@ -260,7 +266,7 @@ export default function ProctorAnalytics() {
 
               {/* Pre-check Steps Chart */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <Card className="border-border/30">
+                <Card className="border-border/30 shadow-sm">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base font-semibold">Step-wise Average Time</CardTitle>
                   </CardHeader>
@@ -276,6 +282,7 @@ export default function ProctorAnalytics() {
                             border: "1px solid hsl(var(--border))",
                             borderRadius: "8px",
                             fontSize: "13px",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                           }}
                           formatter={(value: number) => [`${value}s`, "Avg Time"]}
                         />
@@ -312,13 +319,6 @@ export default function ProctorAnalytics() {
                   />
                 </div>
               </div>
-
-              <div className="flex justify-end">
-                <Button variant="outline" size="sm" className="gap-2">
-                  <Search className="h-4 w-4" />
-                  View Details
-                </Button>
-              </div>
             </div>
           </Section>
 
@@ -326,11 +326,12 @@ export default function ProctorAnalytics() {
           <Section 
             title="During Assessment Analytics" 
             description="Real-time monitoring flags and proctor interventions"
+            onViewDetails={() => openDrillDown("during", "During Assessment Details", "Detailed breakdown of flags and interventions for all candidates")}
           >
             <div className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Flag Distribution */}
-                <Card className="border-border/30">
+                <Card className="border-border/30 shadow-sm">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base font-semibold">Flag Distribution</CardTitle>
                   </CardHeader>
@@ -356,6 +357,7 @@ export default function ProctorAnalytics() {
                             border: "1px solid hsl(var(--border))",
                             borderRadius: "8px",
                             fontSize: "13px",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                           }}
                         />
                         <Legend />
@@ -412,13 +414,6 @@ export default function ProctorAnalytics() {
                   subtext="During assessment"
                 />
               </div>
-
-              <div className="flex justify-end">
-                <Button variant="outline" size="sm" className="gap-2">
-                  <Search className="h-4 w-4" />
-                  View Details
-                </Button>
-              </div>
             </div>
           </Section>
 
@@ -426,11 +421,12 @@ export default function ProctorAnalytics() {
           <Section 
             title="Post Submission Analytics" 
             description="Review times and approval metrics"
+            onViewDetails={() => openDrillDown("post", "Post Submission Details", "Detailed breakdown of review and approval times for all submissions")}
           >
             <div className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Submission Status Chart */}
-                <Card className="border-border/30">
+                <Card className="border-border/30 shadow-sm">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base font-semibold">Submission Status</CardTitle>
                   </CardHeader>
@@ -456,6 +452,7 @@ export default function ProctorAnalytics() {
                             border: "1px solid hsl(var(--border))",
                             borderRadius: "8px",
                             fontSize: "13px",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                           }}
                           formatter={(value: number) => [`${value}%`, "Percentage"]}
                         />
@@ -505,17 +502,19 @@ export default function ProctorAnalytics() {
                   subtext="Need manual review"
                 />
               </div>
-
-              <div className="flex justify-end">
-                <Button variant="outline" size="sm" className="gap-2">
-                  <Search className="h-4 w-4" />
-                  View Details
-                </Button>
-              </div>
             </div>
           </Section>
         </div>
       </div>
+
+      {/* Drill Down Modal */}
+      <DrillDownModal
+        open={drillDownModal.open}
+        onOpenChange={(open) => setDrillDownModal((prev) => ({ ...prev, open }))}
+        title={drillDownModal.title}
+        description={drillDownModal.description}
+        type={drillDownModal.type}
+      />
     </div>
   );
 }
