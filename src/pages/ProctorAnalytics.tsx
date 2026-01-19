@@ -43,63 +43,71 @@ interface StatCardProps {
   value: string | number;
   icon: React.ReactNode;
   description?: string;
-  variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+  trend?: { value: number; label?: string };
+  accentColor?: string;
 }
 
-const variantStyles = {
-  default: {
-    iconBg: 'bg-muted/80',
-    iconColor: 'text-foreground',
-    accent: 'from-muted/20 to-transparent',
-  },
-  primary: {
-    iconBg: 'bg-primary/10',
-    iconColor: 'text-primary',
-    accent: 'from-primary/5 to-transparent',
-  },
-  success: {
-    iconBg: 'bg-emerald-500/10',
-    iconColor: 'text-emerald-600',
-    accent: 'from-emerald-500/5 to-transparent',
-  },
-  warning: {
-    iconBg: 'bg-amber-500/10',
-    iconColor: 'text-amber-600',
-    accent: 'from-amber-500/5 to-transparent',
-  },
-  danger: {
-    iconBg: 'bg-rose-500/10',
-    iconColor: 'text-rose-600',
-    accent: 'from-rose-500/5 to-transparent',
-  },
-  info: {
-    iconBg: 'bg-sky-500/10',
-    iconColor: 'text-sky-600',
-    accent: 'from-sky-500/5 to-transparent',
-  },
-};
-
-const StatCard = ({ title, value, icon, description, variant = 'default' }: StatCardProps) => {
-  const styles = variantStyles[variant];
-  
+const StatCard = ({ title, value, icon, description, trend, accentColor = 'hsl(var(--primary))' }: StatCardProps) => {
   return (
-    <Card className="relative overflow-hidden border-border/40 bg-card hover:border-border/60 transition-all duration-300 shadow-sm hover:shadow-lg group">
-      <div className={`absolute inset-0 bg-gradient-to-br ${styles.accent} opacity-60`} />
-      <CardContent className="relative p-5">
-        <div className="flex items-start justify-between gap-4">
-          <div className="space-y-1.5 flex-1">
-            <p className="text-sm text-muted-foreground font-medium tracking-wide uppercase">{title}</p>
-            <p className="text-3xl font-semibold tracking-tight">{value}</p>
-            {description && (
-              <p className="text-xs text-muted-foreground/80 font-medium">{description}</p>
+    <div className="group relative">
+      {/* Main card container */}
+      <div 
+        className="relative bg-card rounded-xl border border-border/50 p-5 transition-all duration-200 hover:border-border"
+        style={{
+          boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.04)',
+        }}
+      >
+        {/* Accent line */}
+        <div 
+          className="absolute top-0 left-5 right-5 h-[2px] rounded-full opacity-80"
+          style={{ backgroundColor: accentColor }}
+        />
+        
+        {/* Content */}
+        <div className="pt-3">
+          {/* Header row with icon */}
+          <div className="flex items-start justify-between mb-3">
+            <span className="text-[11px] font-medium text-muted-foreground/70 tracking-widest uppercase">
+              {title}
+            </span>
+            <div 
+              className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200"
+              style={{ 
+                backgroundColor: `color-mix(in srgb, ${accentColor} 12%, transparent)`,
+                color: accentColor 
+              }}
+            >
+              {icon}
+            </div>
+          </div>
+          
+          {/* Value */}
+          <div className="flex items-baseline gap-2">
+            <span className="text-[28px] font-semibold tracking-tight tabular-nums text-foreground">
+              {value}
+            </span>
+            {trend && (
+              <span 
+                className={`text-xs font-medium px-1.5 py-0.5 rounded ${
+                  trend.value >= 0 
+                    ? 'text-emerald-700 bg-emerald-50 dark:text-emerald-400 dark:bg-emerald-950/50' 
+                    : 'text-rose-700 bg-rose-50 dark:text-rose-400 dark:bg-rose-950/50'
+                }`}
+              >
+                {trend.value >= 0 ? '+' : ''}{trend.value}%
+              </span>
             )}
           </div>
-          <div className={`p-3 ${styles.iconBg} rounded-xl ${styles.iconColor} transition-transform duration-300 group-hover:scale-110`}>
-            {icon}
-          </div>
+          
+          {/* Description / Footer */}
+          {description && (
+            <p className="text-[11px] text-muted-foreground/60 mt-2 font-medium">
+              {description}
+            </p>
+          )}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 
@@ -215,39 +223,43 @@ export default function ProctorAnalytics() {
           <StatCard
             title="Total Assessments"
             value="894"
-            icon={<FileCheck className="h-5 w-5" />}
-            variant="primary"
+            icon={<FileCheck className="h-4 w-4" />}
+            trend={{ value: 12.5 }}
+            accentColor="hsl(var(--primary))"
           />
           <StatCard
             title="Submitted"
             value="857"
-            icon={<CheckCircle className="h-5 w-5" />}
-            variant="success"
+            icon={<CheckCircle className="h-4 w-4" />}
+            trend={{ value: 8.2 }}
+            accentColor="hsl(160, 60%, 45%)"
           />
           <StatCard
             title="Rescheduled"
             value="24"
-            icon={<RotateCcw className="h-5 w-5" />}
-            variant="warning"
+            icon={<RotateCcw className="h-4 w-4" />}
+            trend={{ value: -3.1 }}
+            accentColor="hsl(38, 92%, 50%)"
           />
           <StatCard
             title="No Show"
             value="37"
-            icon={<XCircle className="h-5 w-5" />}
-            variant="danger"
+            icon={<XCircle className="h-4 w-4" />}
+            trend={{ value: -5.4 }}
+            accentColor="hsl(0, 72%, 51%)"
           />
           <StatCard
             title="Watchlist"
             value="12"
-            icon={<Eye className="h-5 w-5" />}
-            variant="info"
+            icon={<Eye className="h-4 w-4" />}
+            accentColor="hsl(199, 89%, 48%)"
           />
           <StatCard
             title="Headphone Flags"
             value="89"
             description="Highest flag type"
-            icon={<Headphones className="h-5 w-5" />}
-            variant="danger"
+            icon={<Headphones className="h-4 w-4" />}
+            accentColor="hsl(280, 65%, 60%)"
           />
         </div>
 
