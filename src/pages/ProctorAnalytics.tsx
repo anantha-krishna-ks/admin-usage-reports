@@ -346,28 +346,24 @@ export default function ProctorAnalytics() {
             title="Total Assessments"
             value="894"
             icon={<FileCheck className="h-4 w-4" />}
-            trend={{ value: 12.5 }}
             accentColor="hsl(var(--primary))"
           />
           <StatCard
             title="Submitted"
             value="857"
             icon={<CheckCircle className="h-4 w-4" />}
-            trend={{ value: 8.2 }}
             accentColor="hsl(160, 60%, 45%)"
           />
           <StatCard
             title="Rescheduled"
             value="24"
             icon={<RotateCcw className="h-4 w-4" />}
-            trend={{ value: -3.1 }}
             accentColor="hsl(38, 92%, 50%)"
           />
           <StatCard
             title="No Show"
             value="37"
             icon={<XCircle className="h-4 w-4" />}
-            trend={{ value: -5.4 }}
             accentColor="hsl(0, 72%, 51%)"
           />
           <StatCard
