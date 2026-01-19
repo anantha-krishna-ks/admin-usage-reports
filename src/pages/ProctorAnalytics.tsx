@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Clock, Users, AlertTriangle, CheckCircle, XCircle, Headphones, Eye, FileCheck, ShieldCheck, Camera, UserCheck, Pause, Play, RotateCcw, Flag, Timer, ThumbsUp, ThumbsDown, Zap, Search, ChevronDown, ChevronUp } from "lucide-react";
+import { Clock, Users, AlertTriangle, CheckCircle, XCircle, Headphones, Eye, FileCheck, ShieldCheck, Camera, UserCheck, Pause, Play, RotateCcw, Flag, Timer, ThumbsUp, ThumbsDown, Zap, ChevronDown, ArrowRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from "recharts";
@@ -184,22 +184,38 @@ const Section = ({
             
             {/* Title and description */}
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-3">
-                <h3 className="text-base font-semibold text-foreground">{title}</h3>
-                {badge && (
-                  <span 
-                    className="text-[11px] font-medium px-2 py-0.5 rounded-full"
-                    style={{ 
-                      backgroundColor: `color-mix(in srgb, ${accentColor} 15%, transparent)`,
-                      color: accentColor 
-                    }}
-                  >
-                    {badge.label}: {badge.value}
-                  </span>
-                )}
-              </div>
+              <h3 className="text-base font-semibold text-foreground">{title}</h3>
               <p className="text-sm text-muted-foreground/70 mt-0.5">{description}</p>
             </div>
+            
+            {/* Badge */}
+            {badge && (
+              <span 
+                className="hidden sm:inline-flex text-[11px] font-medium px-2.5 py-1 rounded-full"
+                style={{ 
+                  backgroundColor: `color-mix(in srgb, ${accentColor} 15%, transparent)`,
+                  color: accentColor 
+                }}
+              >
+                {badge.label}: {badge.value}
+              </span>
+            )}
+            
+            {/* View Details button in header */}
+            {onViewDetails && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="hidden sm:inline-flex gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onViewDetails();
+                }}
+              >
+                View Details
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Button>
+            )}
             
             {/* Toggle indicator */}
             <div 
@@ -227,19 +243,20 @@ const Section = ({
               
               {children}
               
+              {/* Mobile view details button */}
               {onViewDetails && (
-                <div className="flex justify-end mt-6 pt-4 border-t border-border/40">
+                <div className="flex sm:hidden justify-center mt-6 pt-4 border-t border-border/40">
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="gap-2 text-xs font-medium shadow-sm hover:shadow transition-all"
+                    className="gap-1.5 text-xs font-medium"
                     onClick={(e) => {
                       e.stopPropagation();
                       onViewDetails();
                     }}
                   >
-                    <Search className="h-3.5 w-3.5" />
                     View Details
+                    <ArrowRight className="h-3.5 w-3.5" />
                   </Button>
                 </div>
               )}
