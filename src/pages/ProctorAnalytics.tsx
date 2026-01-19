@@ -43,24 +43,65 @@ interface StatCardProps {
   value: string | number;
   icon: React.ReactNode;
   description?: string;
+  variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
 }
 
-const StatCard = ({ title, value, icon, description }: StatCardProps) => (
-  <Card className="border-border/50 hover:border-border transition-all shadow-sm hover:shadow-md">
-    <CardContent className="p-5">
-      <div className="flex items-start justify-between">
-        <div className="space-y-1">
-          <p className="text-sm text-muted-foreground font-medium">{title}</p>
-          <p className="text-2xl font-semibold tracking-tight">{value}</p>
-          {description && <p className="text-xs text-muted-foreground">{description}</p>}
+const variantStyles = {
+  default: {
+    iconBg: 'bg-muted/80',
+    iconColor: 'text-foreground',
+    accent: 'from-muted/20 to-transparent',
+  },
+  primary: {
+    iconBg: 'bg-primary/10',
+    iconColor: 'text-primary',
+    accent: 'from-primary/5 to-transparent',
+  },
+  success: {
+    iconBg: 'bg-emerald-500/10',
+    iconColor: 'text-emerald-600',
+    accent: 'from-emerald-500/5 to-transparent',
+  },
+  warning: {
+    iconBg: 'bg-amber-500/10',
+    iconColor: 'text-amber-600',
+    accent: 'from-amber-500/5 to-transparent',
+  },
+  danger: {
+    iconBg: 'bg-rose-500/10',
+    iconColor: 'text-rose-600',
+    accent: 'from-rose-500/5 to-transparent',
+  },
+  info: {
+    iconBg: 'bg-sky-500/10',
+    iconColor: 'text-sky-600',
+    accent: 'from-sky-500/5 to-transparent',
+  },
+};
+
+const StatCard = ({ title, value, icon, description, variant = 'default' }: StatCardProps) => {
+  const styles = variantStyles[variant];
+  
+  return (
+    <Card className="relative overflow-hidden border-border/40 bg-card hover:border-border/60 transition-all duration-300 shadow-sm hover:shadow-lg group">
+      <div className={`absolute inset-0 bg-gradient-to-br ${styles.accent} opacity-60`} />
+      <CardContent className="relative p-5">
+        <div className="flex items-start justify-between gap-4">
+          <div className="space-y-1.5 flex-1">
+            <p className="text-sm text-muted-foreground font-medium tracking-wide uppercase">{title}</p>
+            <p className="text-3xl font-semibold tracking-tight">{value}</p>
+            {description && (
+              <p className="text-xs text-muted-foreground/80 font-medium">{description}</p>
+            )}
+          </div>
+          <div className={`p-3 ${styles.iconBg} rounded-xl ${styles.iconColor} transition-transform duration-300 group-hover:scale-110`}>
+            {icon}
+          </div>
         </div>
-        <div className="p-2.5 bg-muted/50 rounded-lg">
-          {icon}
-        </div>
-      </div>
-    </CardContent>
-  </Card>
-);
+      </CardContent>
+    </Card>
+  );
+};
 
 interface SectionProps {
   title: string;
@@ -174,33 +215,39 @@ export default function ProctorAnalytics() {
           <StatCard
             title="Total Assessments"
             value="894"
-            icon={<FileCheck className="h-5 w-5 text-primary" />}
+            icon={<FileCheck className="h-5 w-5" />}
+            variant="primary"
           />
           <StatCard
             title="Submitted"
             value="857"
-            icon={<CheckCircle className="h-5 w-5 text-chart-2" />}
+            icon={<CheckCircle className="h-5 w-5" />}
+            variant="success"
           />
           <StatCard
             title="Rescheduled"
             value="24"
-            icon={<RotateCcw className="h-5 w-5 text-chart-3" />}
+            icon={<RotateCcw className="h-5 w-5" />}
+            variant="warning"
           />
           <StatCard
             title="No Show"
             value="37"
-            icon={<XCircle className="h-5 w-5 text-destructive" />}
+            icon={<XCircle className="h-5 w-5" />}
+            variant="danger"
           />
           <StatCard
             title="Watchlist"
             value="12"
-            icon={<Eye className="h-5 w-5 text-chart-4" />}
+            icon={<Eye className="h-5 w-5" />}
+            variant="info"
           />
           <StatCard
             title="Headphone Flags"
             value="89"
             description="Highest flag type"
-            icon={<Headphones className="h-5 w-5 text-chart-5" />}
+            icon={<Headphones className="h-5 w-5" />}
+            variant="danger"
           />
         </div>
 
