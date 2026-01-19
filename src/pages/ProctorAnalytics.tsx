@@ -371,9 +371,9 @@ export default function ProctorAnalytics() {
             accentColor="hsl(199, 89%, 48%)"
           />
           <StatCard
-            title="Headphone Flags"
-            value="89"
-            icon={<Headphones className="h-4 w-4" />}
+            title="Highest Flags"
+            value="89 (Headphone detected)"
+            icon={<Flag className="h-4 w-4" />}
             accentColor="hsl(280, 65%, 60%)"
           />
         </div>
