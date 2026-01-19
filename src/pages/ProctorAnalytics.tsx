@@ -41,13 +41,14 @@ const dailyAssessmentTrend = [
 interface StatCardProps {
   title: string;
   value: string | number;
+  valueLabel?: string;
   icon: React.ReactNode;
   description?: string;
   trend?: { value: number; label?: string };
   accentColor?: string;
 }
 
-const StatCard = ({ title, value, icon, description, trend, accentColor = 'hsl(var(--primary))' }: StatCardProps) => {
+const StatCard = ({ title, value, valueLabel, icon, description, trend, accentColor = 'hsl(var(--primary))' }: StatCardProps) => {
   return (
     <div className="group relative cursor-pointer">
       {/* Main card container */}
@@ -90,10 +91,15 @@ const StatCard = ({ title, value, icon, description, trend, accentColor = 'hsl(v
           </div>
           
           {/* Value */}
-          <div className="flex items-baseline gap-2">
+          <div className="flex items-baseline gap-2 flex-wrap">
             <span className="text-[28px] font-semibold tracking-tight tabular-nums text-foreground transition-transform duration-300 group-hover:translate-x-0.5">
               {value}
             </span>
+            {valueLabel && (
+              <span className="text-[10px] font-medium text-muted-foreground/70 tracking-wide">
+                ({valueLabel})
+              </span>
+            )}
             {trend && (
               <span 
                 className={`text-xs font-medium px-1.5 py-0.5 rounded transition-transform duration-300 group-hover:scale-105 ${
@@ -373,7 +379,7 @@ export default function ProctorAnalytics() {
           <StatCard
             title="Highest Flags"
             value="89"
-            description="Headphone detected"
+            valueLabel="Headphone detected"
             icon={<Flag className="h-4 w-4" />}
             accentColor="hsl(280, 65%, 60%)"
           />
