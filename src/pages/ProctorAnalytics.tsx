@@ -179,14 +179,14 @@ interface MetricItemProps {
 }
 
 const MetricItem = ({ icon, label, value, subtext }: MetricItemProps) => (
-  <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border border-border/30 hover:bg-muted/50 hover:shadow-sm transition-all">
-    <div className="p-2 bg-background rounded-md border border-border/50 shadow-sm">
+  <div className="flex items-center gap-4 p-4 bg-card rounded-xl border border-border/60 shadow-[0_1px_3px_0_rgb(0_0_0/0.05),0_1px_2px_-1px_rgb(0_0_0/0.05)] hover:shadow-[0_4px_12px_-2px_rgb(0_0_0/0.08)] hover:border-border transition-all duration-200">
+    <div className="p-2.5 bg-muted/50 rounded-lg border border-border/40">
       {icon}
     </div>
     <div className="flex-1 min-w-0">
-      <p className="text-sm text-muted-foreground font-medium truncate">{label}</p>
-      <p className="text-lg font-semibold">{value}</p>
-      {subtext && <p className="text-xs text-muted-foreground">{subtext}</p>}
+      <p className="text-xs text-muted-foreground/70 font-medium tracking-wide uppercase truncate">{label}</p>
+      <p className="text-xl font-semibold tracking-tight mt-0.5">{value}</p>
+      {subtext && <p className="text-[11px] text-muted-foreground/60 mt-1">{subtext}</p>}
     </div>
   </div>
 );
