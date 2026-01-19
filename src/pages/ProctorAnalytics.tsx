@@ -49,29 +49,37 @@ interface StatCardProps {
 
 const StatCard = ({ title, value, icon, description, trend, accentColor = 'hsl(var(--primary))' }: StatCardProps) => {
   return (
-    <div className="group relative">
+    <div className="group relative cursor-pointer">
       {/* Main card container */}
       <div 
-        className="relative bg-card rounded-xl border border-border/50 p-5 transition-all duration-200 hover:border-border"
+        className="relative bg-card rounded-xl border border-border/50 p-5 transition-all duration-300 hover:border-transparent overflow-hidden"
         style={{
           boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.04)',
         }}
       >
-        {/* Accent line */}
+        {/* Background fill on hover */}
         <div 
-          className="absolute top-0 left-5 right-5 h-[2px] rounded-full opacity-80"
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ 
+            background: `linear-gradient(135deg, color-mix(in srgb, ${accentColor} 8%, transparent), color-mix(in srgb, ${accentColor} 4%, transparent))`
+          }}
+        />
+        
+        {/* Accent line - expands on hover */}
+        <div 
+          className="absolute top-0 left-5 right-5 h-[2px] rounded-full opacity-80 transition-all duration-300 group-hover:left-0 group-hover:right-0 group-hover:rounded-none group-hover:opacity-100"
           style={{ backgroundColor: accentColor }}
         />
         
         {/* Content */}
-        <div className="pt-3">
+        <div className="relative pt-3">
           {/* Header row with icon */}
           <div className="flex items-start justify-between mb-3">
-            <span className="text-[11px] font-medium text-muted-foreground/70 tracking-widest uppercase">
+            <span className="text-[11px] font-medium text-muted-foreground/70 tracking-widest uppercase transition-colors duration-300 group-hover:text-muted-foreground">
               {title}
             </span>
             <div 
-              className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200"
+              className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110"
               style={{ 
                 backgroundColor: `color-mix(in srgb, ${accentColor} 12%, transparent)`,
                 color: accentColor 
@@ -83,12 +91,12 @@ const StatCard = ({ title, value, icon, description, trend, accentColor = 'hsl(v
           
           {/* Value */}
           <div className="flex items-baseline gap-2">
-            <span className="text-[28px] font-semibold tracking-tight tabular-nums text-foreground">
+            <span className="text-[28px] font-semibold tracking-tight tabular-nums text-foreground transition-transform duration-300 group-hover:translate-x-0.5">
               {value}
             </span>
             {trend && (
               <span 
-                className={`text-xs font-medium px-1.5 py-0.5 rounded ${
+                className={`text-xs font-medium px-1.5 py-0.5 rounded transition-transform duration-300 group-hover:scale-105 ${
                   trend.value >= 0 
                     ? 'text-emerald-700 bg-emerald-50 dark:text-emerald-400 dark:bg-emerald-950/50' 
                     : 'text-rose-700 bg-rose-50 dark:text-rose-400 dark:bg-rose-950/50'
