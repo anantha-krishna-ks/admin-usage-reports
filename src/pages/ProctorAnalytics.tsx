@@ -125,49 +125,129 @@ interface SectionProps {
   children: React.ReactNode;
   defaultOpen?: boolean;
   onViewDetails?: () => void;
+  stepNumber?: number;
+  accentColor?: string;
+  badge?: { label: string; value: string | number };
 }
 
-const Section = ({ title, description, children, defaultOpen = false, onViewDetails }: SectionProps) => {
+const Section = ({ 
+  title, 
+  description, 
+  children, 
+  defaultOpen = false, 
+  onViewDetails,
+  stepNumber,
+  accentColor = 'hsl(var(--primary))',
+  badge
+}: SectionProps) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <Card className="border-border/50 shadow-md hover:shadow-lg transition-shadow overflow-hidden">
-      <CardHeader 
-        className="cursor-pointer hover:bg-muted/30 transition-colors"
-        onClick={() => setIsOpen(!isOpen)}
+    <div className="group relative">
+      {/* Main container */}
+      <div 
+        className={`relative bg-card rounded-xl border transition-all duration-300 overflow-hidden ${
+          isOpen 
+            ? 'border-border shadow-[0_4px_20px_-4px_rgb(0_0_0/0.1)]' 
+            : 'border-border/50 shadow-sm hover:shadow-md hover:border-border'
+        }`}
       >
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="text-lg font-semibold">{title}</CardTitle>
-            <CardDescription className="mt-1">{description}</CardDescription>
-          </div>
-          <Button variant="ghost" size="icon" className="shrink-0">
-            {isOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
-          </Button>
-        </div>
-      </CardHeader>
-      {isOpen && (
-        <CardContent className="pt-0">
-          {children}
-          {onViewDetails && (
-            <div className="flex justify-end mt-6 pt-4 border-t border-border/50">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="gap-2 shadow-sm hover:shadow-md transition-shadow"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onViewDetails();
-                }}
+        {/* Left accent bar */}
+        <div 
+          className={`absolute left-0 top-0 bottom-0 w-1 transition-all duration-300 ${
+            isOpen ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'
+          }`}
+          style={{ backgroundColor: accentColor }}
+        />
+        
+        {/* Header */}
+        <div 
+          className={`cursor-pointer transition-colors duration-200 ${
+            isOpen ? 'bg-muted/20' : 'hover:bg-muted/10'
+          }`}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <div className="flex items-center gap-4 p-5 pl-6">
+            {/* Step number indicator */}
+            {stepNumber && (
+              <div 
+                className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
+                  isOpen 
+                    ? 'text-white' 
+                    : 'bg-muted/60 text-muted-foreground'
+                }`}
+                style={isOpen ? { backgroundColor: accentColor } : {}}
               >
-                <Search className="h-4 w-4" />
-                View Details
-              </Button>
+                {stepNumber}
+              </div>
+            )}
+            
+            {/* Title and description */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-3">
+                <h3 className="text-base font-semibold text-foreground">{title}</h3>
+                {badge && (
+                  <span 
+                    className="text-[11px] font-medium px-2 py-0.5 rounded-full"
+                    style={{ 
+                      backgroundColor: `color-mix(in srgb, ${accentColor} 15%, transparent)`,
+                      color: accentColor 
+                    }}
+                  >
+                    {badge.label}: {badge.value}
+                  </span>
+                )}
+              </div>
+              <p className="text-sm text-muted-foreground/70 mt-0.5">{description}</p>
             </div>
-          )}
-        </CardContent>
-      )}
-    </Card>
+            
+            {/* Toggle indicator */}
+            <div 
+              className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${
+                isOpen 
+                  ? 'bg-muted/60 rotate-180' 
+                  : 'bg-transparent group-hover:bg-muted/40'
+              }`}
+            >
+              <ChevronDown className="h-4 w-4 text-muted-foreground" />
+            </div>
+          </div>
+        </div>
+        
+        {/* Content with animation */}
+        <div 
+          className={`grid transition-all duration-300 ease-out ${
+            isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+          }`}
+        >
+          <div className="overflow-hidden">
+            <div className="px-6 pb-6 pt-2">
+              {/* Divider */}
+              <div className="h-px bg-border/50 mb-6" />
+              
+              {children}
+              
+              {onViewDetails && (
+                <div className="flex justify-end mt-6 pt-4 border-t border-border/40">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="gap-2 text-xs font-medium shadow-sm hover:shadow transition-all"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onViewDetails();
+                    }}
+                  >
+                    <Search className="h-3.5 w-3.5" />
+                    View Details
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -307,6 +387,9 @@ export default function ProctorAnalytics() {
             title="Pre-check Analytics" 
             description="Average completion times and verification metrics"
             defaultOpen={true}
+            stepNumber={1}
+            accentColor="hsl(var(--primary))"
+            badge={{ label: "Avg Time", value: "7m 15s" }}
             onViewDetails={() => openDrillDown("precheck", "Pre-check Analytics Details", "Detailed breakdown of pre-check times for all candidates")}
           >
             <div className="space-y-6">
@@ -392,6 +475,9 @@ export default function ProctorAnalytics() {
           <Section 
             title="During Assessment Analytics" 
             description="Real-time monitoring flags and proctor interventions"
+            stepNumber={2}
+            accentColor="hsl(38, 92%, 50%)"
+            badge={{ label: "Flags", value: "1,715" }}
             onViewDetails={() => openDrillDown("during", "During Assessment Details", "Detailed breakdown of flags and interventions for all candidates")}
           >
             <div className="space-y-6">
@@ -487,6 +573,9 @@ export default function ProctorAnalytics() {
           <Section 
             title="Post Submission Analytics" 
             description="Review times and approval metrics"
+            stepNumber={3}
+            accentColor="hsl(160, 60%, 45%)"
+            badge={{ label: "Approval", value: "90%" }}
             onViewDetails={() => openDrillDown("post", "Post Submission Details", "Detailed breakdown of review and approval times for all submissions")}
           >
             <div className="space-y-6">
