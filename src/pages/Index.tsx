@@ -5,6 +5,7 @@ import { UsageByUserTypeChart } from "@/components/UsageByUserTypeChart";
 import { UsageDistributionChart } from "@/components/UsageDistributionChart";
 import { DetailedAnalytics } from "@/components/DetailedAnalytics";
 import { SectionDrillDown } from "@/components/SectionDrillDown";
+ import { ContentUsageTable } from "@/components/ContentUsageTable";
 import { DateRangeFilter } from "@/components/DateRangeFilter";
 import {
   Select,
@@ -68,6 +69,9 @@ const Index = () => {
 
         {/* Section Drill Down */}
         <SectionDrillDown />
+ 
+         {/* Content Usage */}
+         <ContentUsageTable />
       </div>
     </div>
   );
