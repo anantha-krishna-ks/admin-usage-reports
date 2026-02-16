@@ -4,6 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ChevronDown, ChevronRight, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import type { DateRange } from "react-day-picker";
+
+interface SectionDrillDownProps {
+  dateRange?: DateRange;
+}
 
 interface SectionEntry {
   name: string;
@@ -128,7 +133,7 @@ const gradesData: GradeData[] = [
   },
 ];
 
-export const SectionDrillDown = () => {
+export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
   const [expandedGrades, setExpandedGrades] = useState<Set<string>>(new Set());
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
@@ -146,7 +151,10 @@ export const SectionDrillDown = () => {
   };
 
   const handlePreview = (grade: string, section: string) => {
-    navigate(`/section-detail?grade=${encodeURIComponent(grade)}&section=${encodeURIComponent(section)}`);
+    const params = new URLSearchParams({ grade, section });
+    if (dateRange?.from) params.set("from", dateRange.from.toISOString());
+    if (dateRange?.to) params.set("to", dateRange.to.toISOString());
+    navigate(`/section-detail?${params.toString()}`);
   };
 
   return (
