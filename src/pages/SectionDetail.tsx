@@ -88,7 +88,13 @@ export default function SectionDetail() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => selectedDevice ? setSelectedDevice(null) : navigate(-1)}
+              onClick={() => {
+                if (selectedDevice) {
+                  setSelectedDevice(null);
+                } else {
+                  navigate("/");
+                }
+              }}
               className="shrink-0"
             >
               <ArrowLeft className="h-5 w-5" />
