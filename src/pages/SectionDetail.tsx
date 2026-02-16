@@ -74,7 +74,7 @@ export default function SectionDetail() {
         <Card className="shadow-sm">
           <CardContent className="py-5 px-6">
             <div className="flex flex-wrap items-end gap-6">
-              <div className="space-y-3">
+              <div className="space-y-3 ml-2">
                 <label className="text-sm font-medium text-muted-foreground">
                   Start Date
                 </label>
