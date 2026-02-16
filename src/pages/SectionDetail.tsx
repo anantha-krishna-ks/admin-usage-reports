@@ -72,10 +72,10 @@ export default function SectionDetail() {
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
         {/* Date Filters */}
         <Card className="shadow-sm">
-          <CardContent className="py-5 px-6">
-            <div className="flex flex-wrap items-end gap-6">
-              <div className="space-y-3">
-                <label className="text-sm font-medium text-muted-foreground">
+          <CardContent className="p-0">
+            <div className="flex items-center gap-8 px-8 py-6">
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                   Start Date
                 </label>
                 <Popover>
@@ -83,12 +83,12 @@ export default function SectionDetail() {
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-[220px] justify-start text-left font-normal h-10 pl-4",
+                        "w-[200px] justify-start text-left font-normal h-10 px-4",
                         !startDate && "text-muted-foreground"
                       )}
                     >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {startDate ? format(startDate, "dd MMM yyyy") : "Pick a date"}
+                      <CalendarIcon className="mr-3 h-4 w-4 shrink-0" />
+                      {startDate ? format(startDate, "dd MMM yyyy") : "Select date"}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -103,8 +103,8 @@ export default function SectionDetail() {
                 </Popover>
               </div>
 
-              <div className="space-y-3">
-                <label className="text-sm font-medium text-muted-foreground">
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                   End Date
                 </label>
                 <Popover>
@@ -112,12 +112,12 @@ export default function SectionDetail() {
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-[220px] justify-start text-left font-normal h-10",
+                        "w-[200px] justify-start text-left font-normal h-10 px-4",
                         !endDate && "text-muted-foreground"
                       )}
                     >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {endDate ? format(endDate, "dd MMM yyyy") : "Pick a date"}
+                      <CalendarIcon className="mr-3 h-4 w-4 shrink-0" />
+                      {endDate ? format(endDate, "dd MMM yyyy") : "Select date"}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -132,10 +132,15 @@ export default function SectionDetail() {
                 </Popover>
               </div>
 
-              <Button className="gap-2 h-10 px-6">
-                <Search className="h-4 w-4" />
-                Go
-              </Button>
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-medium uppercase tracking-wide text-transparent">
+                  &nbsp;
+                </label>
+                <Button className="h-10 px-8 gap-2">
+                  <Search className="h-4 w-4" />
+                  Go
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
