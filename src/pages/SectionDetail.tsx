@@ -74,7 +74,7 @@ export default function SectionDetail() {
         <Card className="shadow-sm">
           <CardContent className="py-5 px-6">
             <div className="flex flex-wrap items-end gap-6">
-              <div className="space-y-3 ml-2">
+              <div className="space-y-3">
                 <label className="text-sm font-medium text-muted-foreground">
                   Start Date
                 </label>
@@ -83,7 +83,7 @@ export default function SectionDetail() {
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-[220px] justify-start text-left font-normal h-10",
+                        "w-[220px] justify-start text-left font-normal h-10 pl-4",
                         !startDate && "text-muted-foreground"
                       )}
                     >
