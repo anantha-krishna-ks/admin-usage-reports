@@ -39,9 +39,11 @@ export default function SectionDetail() {
   const navigate = useNavigate();
   const grade = searchParams.get("grade") || "";
   const section = searchParams.get("section") || "";
+  const fromParam = searchParams.get("from");
+  const toParam = searchParams.get("to");
 
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const [startDate, setStartDate] = useState<Date | undefined>(fromParam ? new Date(fromParam) : undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(toParam ? new Date(toParam) : undefined);
 
   return (
     <div className="min-h-screen bg-background">

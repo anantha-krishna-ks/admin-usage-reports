@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Users } from "lucide-react";
 import { StatCard } from "@/components/StatCard";
 import { CombinedUsageCard } from "@/components/CombinedUsageCard";
@@ -5,8 +6,9 @@ import { UsageByUserTypeChart } from "@/components/UsageByUserTypeChart";
 import { UsageDistributionChart } from "@/components/UsageDistributionChart";
 import { DetailedAnalytics } from "@/components/DetailedAnalytics";
 import { SectionDrillDown } from "@/components/SectionDrillDown";
- import { ContentUsageTable } from "@/components/ContentUsageTable";
+import { ContentUsageTable } from "@/components/ContentUsageTable";
 import { DateRangeFilter } from "@/components/DateRangeFilter";
+import type { DateRange } from "react-day-picker";
 import {
   Select,
   SelectContent,
@@ -16,6 +18,8 @@ import {
 } from "@/components/ui/select";
 
 const Index = () => {
+  const [date, setDate] = useState<DateRange | undefined>();
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto p-6 space-y-8">
@@ -28,7 +32,7 @@ const Index = () => {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
-            <DateRangeFilter />
+            <DateRangeFilter date={date} onDateChange={setDate} />
             <Select defaultValue="riverside">
               <SelectTrigger className="w-[250px]">
                 <SelectValue placeholder="Select school" />
@@ -69,10 +73,10 @@ const Index = () => {
         <DetailedAnalytics />
 
         {/* Section Drill Down */}
-        <SectionDrillDown />
- 
-         {/* Content Usage */}
-         <ContentUsageTable />
+        <SectionDrillDown dateRange={date} />
+
+        {/* Content Usage */}
+        <ContentUsageTable />
       </div>
     </div>
   );

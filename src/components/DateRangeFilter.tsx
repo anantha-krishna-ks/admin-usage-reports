@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -7,9 +6,12 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import type { DateRange } from "react-day-picker";
 
-export const DateRangeFilter = () => {
-  const [date, setDate] = useState<DateRange | undefined>();
+interface DateRangeFilterProps {
+  date: DateRange | undefined;
+  onDateChange: (date: DateRange | undefined) => void;
+}
 
+export const DateRangeFilter = ({ date, onDateChange }: DateRangeFilterProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -38,7 +40,7 @@ export const DateRangeFilter = () => {
         <Calendar
           mode="range"
           selected={date}
-          onSelect={setDate}
+          onSelect={onDateChange}
           numberOfMonths={2}
           initialFocus
           className="pointer-events-auto"
