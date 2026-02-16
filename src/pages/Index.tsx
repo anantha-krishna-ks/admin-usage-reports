@@ -53,7 +53,8 @@ const Index = () => {
             iconColor="text-chart-3"
             drillDown={[
               { label: "New Users", value: "324" },
-              { label: "Repeat Users", value: "684" }
+              { label: "Repeat Users", value: "684" },
+              { label: "Number of Schools", value: "12" }
             ]}
           />
         </div>
