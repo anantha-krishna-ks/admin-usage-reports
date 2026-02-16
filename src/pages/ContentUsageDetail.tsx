@@ -1,0 +1,257 @@
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
+} from "recharts";
+
+// ── Devices / Environment ──
+const deviceData = [
+  { name: "Mobile", visits: 3769, timeSpent: "1,785:45:11 Hours", minutes: 107145 },
+  { name: "Web", visits: 550, timeSpent: "539:42:50 Hours", minutes: 32382 },
+];
+
+const deviceColors = ["hsl(var(--chart-1))", "hsl(var(--chart-3))"];
+
+// ── Roles ──
+const roleData = [
+  { name: "Student", visits: 8861, timeSpent: "1,571:49:28 Hours", minutes: 94309 },
+  { name: "Teacher", visits: 538, timeSpent: "510:48:13 Hours", minutes: 30648 },
+];
+
+const roleColors = ["hsl(var(--chart-2))", "hsl(var(--chart-4))"];
+
+// ── Content Type ──
+const contentTypeData = [
+  { name: "Ebook", visits: 481, timeSpent: "273:40:05 Hours", minutes: 16420 },
+  { name: "Learning Resources", visits: 3065, timeSpent: "395:34:56 Hours", minutes: 23734 },
+  { name: "Test", visits: 43, timeSpent: "15:46:36 Hours", minutes: 946 },
+  { name: "Question Bank", visits: 17, timeSpent: "01:33:54 Hours", minutes: 93 },
+  { name: "Lesson / Weekly / Concept Plans", visits: 132, timeSpent: "22:02:16 Hours", minutes: 1322 },
+  { name: "Answer Key", visits: 1, timeSpent: "00:00:30 Hours", minutes: 0 },
+];
+
+const contentColors = [
+  "hsl(var(--chart-1))",
+  "hsl(var(--chart-2))",
+  "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))",
+  "hsl(var(--chart-5))",
+  "hsl(var(--primary))",
+];
+
+// ── Class - Subject ──
+const classSubjectData = [
+  { name: "I-2024 - Embracing Harmony", visits: 10, timeSpent: "00:01:48 Hours" },
+  { name: "I-2024 - English", visits: 1095, timeSpent: "445:09:19 Hours" },
+  { name: "I-2024 - Mathematics", visits: 506, timeSpent: "53:06:35 Hours" },
+  { name: "I-2024 - Magizhchi", visits: 8, timeSpent: "00:02:16 Hours" },
+  { name: "I-2024 - My Art Palette", visits: 15, timeSpent: "00:06:16 Hours" },
+  { name: "I-2024 - World Around Us", visits: 579, timeSpent: "34:48:11 Hours" },
+  { name: "II-2024 - Embracing Harmony", visits: 10, timeSpent: "00:00:43 Hours" },
+  { name: "II-2024 - English", visits: 233, timeSpent: "08:49:52 Hours" },
+  { name: "II-2024 - Mathematics", visits: 250, timeSpent: "15:14:17 Hours" },
+  { name: "II-2024 - Magizhchi", visits: 6, timeSpent: "00:02:27 Hours" },
+  { name: "II-2024 - My Art Palette", visits: 4, timeSpent: "00:16:42 Hours" },
+  { name: "II-2024 - World Around Us", visits: 489, timeSpent: "29:47:34 Hours" },
+  { name: "III-2025 - English", visits: 86, timeSpent: "04:38:55 Hours" },
+  { name: "III-2025 - Mathematics", visits: 25, timeSpent: "02:59:01 Hours" },
+  { name: "III-2025 - Science", visits: 129, timeSpent: "10:42:43 Hours" },
+  { name: "III-2025 - Social Studies", visits: 121, timeSpent: "09:55:22 Hours" },
+  { name: "IV-2025 - Embracing Harmony", visits: 6, timeSpent: "00:02:52 Hours" },
+  { name: "IV-2025 - English", visits: 26, timeSpent: "01:16:38 Hours" },
+  { name: "IV-2025 - Mathematics", visits: 8, timeSpent: "01:08:05 Hours" },
+  { name: "IV-2025 - My Art Palette", visits: 2, timeSpent: "00:04:34 Hours" },
+  { name: "IV-2025 - Science", visits: 106, timeSpent: "04:49:19 Hours" },
+  { name: "IV-2025 - Social Studies", visits: 48, timeSpent: "02:20:30 Hours" },
+  { name: "Level 1-2025 - English", visits: 129, timeSpent: "38:51:56 Hours" },
+  { name: "Level 1-2025 - General Awareness", visits: 21, timeSpent: "02:49:07 Hours" },
+  { name: "Level 1-2025 - Mathematics", visits: 3, timeSpent: "00:40:22 Hours" },
+  { name: "Level 2-2025 - English", visits: 72, timeSpent: "13:52:27 Hours" },
+  { name: "Level 2-2025 - General Awareness", visits: 46, timeSpent: "08:24:51 Hours" },
+  { name: "Level 3-2025 - Mathematics", visits: 13, timeSpent: "05:32:56 Hours" },
+  { name: "V-2025 - English", visits: 16, timeSpent: "02:23:15 Hours" },
+  { name: "V-2025 - Mathematics", visits: 28, timeSpent: "04:27:31 Hours" },
+  { name: "V-2025 - My Art Palette", visits: 19, timeSpent: "00:55:32 Hours" },
+  { name: "V-2025 - Science", visits: 10, timeSpent: "01:07:14 Hours" },
+  { name: "V-2025 - Social Studies", visits: 115, timeSpent: "03:26:43 Hours" },
+];
+
+const classSubjectChartData = classSubjectData.map((d) => ({
+  name: d.name.length > 18 ? d.name.slice(0, 18) + "…" : d.name,
+  fullName: d.name,
+  visits: d.visits,
+}));
+
+// ── Shared Section Component ──
+interface AnalyticsSectionProps {
+  title: string;
+  chartData: { name: string; [key: string]: any }[];
+  dataKey: string;
+  yLabel: string;
+  colors: string[];
+  tableHeaders: string[];
+  tableRows: { cells: (string | number)[] }[];
+  chartHeight?: number;
+  barSize?: number;
+}
+
+const AnalyticsSection = ({
+  title, chartData, dataKey, yLabel, colors, tableHeaders, tableRows, chartHeight = 300, barSize = 48,
+}: AnalyticsSectionProps) => (
+  <div className="space-y-6">
+    <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+    <Card className="shadow-sm">
+      <CardContent className="pt-6">
+        <div style={{ height: chartHeight }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={chartData} margin={{ top: 10, right: 30, left: 10, bottom: 40 }} barSize={barSize}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
+              <XAxis
+                dataKey="name"
+                tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
+                axisLine={{ stroke: "hsl(var(--border))" }}
+                tickLine={false}
+                angle={-30}
+                textAnchor="end"
+                interval={0}
+              />
+              <YAxis
+                tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
+                axisLine={false}
+                tickLine={false}
+                label={{ value: yLabel, angle: -90, position: "insideLeft", style: { fill: "hsl(var(--muted-foreground))", fontSize: 12 } }}
+              />
+              <Tooltip
+                contentStyle={{
+                  background: "hsl(var(--card))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "var(--radius)",
+                  fontSize: 13,
+                }}
+              />
+              <Bar dataKey={dataKey} radius={[6, 6, 0, 0]}>
+                {chartData.map((_, i) => (
+                  <Cell key={i} fill={colors[i % colors.length]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </CardContent>
+    </Card>
+
+    <Card className="shadow-sm">
+      <CardContent className="px-0 pb-0 pt-0">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-muted/30 border-t">
+              {tableHeaders.map((h) => (
+                <TableHead key={h} className={`font-semibold ${h !== tableHeaders[0] ? "text-right" : "pl-6"} ${h === tableHeaders[tableHeaders.length - 1] ? "pr-6" : ""}`}>
+                  {h}
+                </TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {tableRows.map((row, i) => (
+              <TableRow key={i} className="hover:bg-muted/20 transition-colors">
+                {row.cells.map((cell, j) => (
+                  <TableCell
+                    key={j}
+                    className={`${j === 0 ? "pl-6 font-medium" : "text-right"} ${j === row.cells.length - 1 ? "pr-6" : ""}`}
+                    style={j === 0 ? { color: colors[i % colors.length] } : undefined}
+                  >
+                    {j === row.cells.length - 1 ? (
+                      <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
+                        {cell}
+                      </span>
+                    ) : typeof cell === "number" ? cell.toLocaleString() : cell}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  </div>
+);
+
+export default function ContentUsageDetail() {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const role = searchParams.get("role") || "Teacher";
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <div className="border-b border-border bg-card">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
+          <Button variant="ghost" size="icon" onClick={() => navigate("/")} className="shrink-0">
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <div>
+            <h1 className="text-xl font-semibold text-foreground">Content Usage Reports — {role}</h1>
+            <p className="text-sm text-muted-foreground">Environment, roles, content types &amp; class-subject analytics</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-8 space-y-12">
+        {/* Environment / Devices */}
+        <AnalyticsSection
+          title="Environment"
+          chartData={deviceData.map((d) => ({ name: d.name, visits: d.minutes }))}
+          dataKey="visits"
+          yLabel="Time (Min)"
+          colors={deviceColors}
+          tableHeaders={["Devices", "No. of Visits", "Time Spent"]}
+          tableRows={deviceData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))}
+        />
+
+        {/* Roles */}
+        <AnalyticsSection
+          title="Roles"
+          chartData={roleData.map((d) => ({ name: d.name, visits: d.minutes }))}
+          dataKey="visits"
+          yLabel="Time (Min)"
+          colors={roleColors}
+          tableHeaders={["Roles", "No. of Visits", "Time Spent"]}
+          tableRows={roleData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))}
+        />
+
+        {/* Content Type */}
+        <AnalyticsSection
+          title="Content Type"
+          chartData={contentTypeData.map((d) => ({ name: d.name.length > 14 ? d.name.slice(0, 14) + "…" : d.name, visits: d.minutes }))}
+          dataKey="visits"
+          yLabel="Time (Min)"
+          colors={contentColors}
+          tableHeaders={["Content Type", "No. of Visits", "Time Spent"]}
+          tableRows={contentTypeData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))}
+          chartHeight={320}
+          barSize={40}
+        />
+
+        {/* Class - Subject */}
+        <AnalyticsSection
+          title="Class - Subject"
+          chartData={classSubjectChartData}
+          dataKey="visits"
+          yLabel="Visits"
+          colors={[
+            "hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))",
+            "hsl(var(--chart-4))", "hsl(var(--chart-5))", "hsl(var(--primary))",
+          ]}
+          tableHeaders={["Class - Subject", "No. of Visits", "Time Spent"]}
+          tableRows={classSubjectData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))}
+          chartHeight={360}
+          barSize={16}
+        />
+      </div>
+    </div>
+  );
+}
