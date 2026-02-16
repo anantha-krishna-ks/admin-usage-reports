@@ -74,7 +74,7 @@ export default function SectionDetail() {
         <Card className="shadow-sm">
           <CardContent className="py-5 px-6">
             <div className="flex flex-wrap items-end gap-6">
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <label className="text-sm font-medium text-muted-foreground">
                   Start Date
                 </label>
@@ -103,7 +103,7 @@ export default function SectionDetail() {
                 </Popover>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <label className="text-sm font-medium text-muted-foreground">
                   End Date
                 </label>
