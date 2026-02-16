@@ -200,42 +200,43 @@ export default function SectionDetail() {
         </Card>
 
         {/* Table */}
-        <Card>
-          <CardHeader>
+        <Card className="shadow-sm">
+          <CardHeader className="pb-3">
             <CardTitle>Device Breakdown</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="rounded-md border">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-muted/40">
-                    <TableHead className="font-semibold">Device</TableHead>
-                    <TableHead className="font-semibold">No. of Visits</TableHead>
-                    <TableHead className="font-semibold">Time Spent</TableHead>
+          <CardContent className="px-0 pb-0">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/30 border-t">
+                  <TableHead className="font-semibold pl-6">Device</TableHead>
+                  <TableHead className="font-semibold text-right">No. of Visits</TableHead>
+                  <TableHead className="font-semibold text-right pr-6">Time Spent</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {deviceData.map((row, i) => (
+                  <TableRow key={row.device} className="hover:bg-muted/20 transition-colors">
+                    <TableCell className="pl-6">
+                      <button
+                        className="font-medium hover:underline underline-offset-4 cursor-pointer transition-colors"
+                        style={{ color: chartColors[i] }}
+                        onClick={() => console.log(`Navigate to ${row.device} details`)}
+                      >
+                        {row.device}
+                      </button>
+                    </TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      {row.visits.toLocaleString()}
+                    </TableCell>
+                    <TableCell className="text-right pr-6">
+                      <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
+                        {row.timeSpent} Hours
+                      </span>
+                    </TableCell>
                   </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {deviceData.map((row, i) => (
-                    <TableRow key={row.device} className="hover:bg-muted/30">
-                      <TableCell>
-                        <span
-                          className="font-medium"
-                          style={{ color: chartColors[i] }}
-                        >
-                          {row.device}
-                        </span>
-                      </TableCell>
-                      <TableCell>{row.visits.toLocaleString()}</TableCell>
-                      <TableCell>
-                        <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
-                          {row.timeSpent} Hours
-                        </span>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       </div>
