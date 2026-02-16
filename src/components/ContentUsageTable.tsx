@@ -1,10 +1,11 @@
- import { useState } from "react";
- import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
- import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
- import { Badge } from "@/components/ui/badge";
- import { Button } from "@/components/ui/button";
- import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
- import { ScrollArea } from "@/components/ui/scroll-area";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Eye, BookOpen, FileText, ClipboardList, GraduationCap, BookMarked } from "lucide-react";
  
  interface ContentUsageData {
@@ -113,9 +114,10 @@ const studentBreakdownByClass: Record<string, StudentBreakdownData[]> = {
    },
  ];
  
- export const ContentUsageTable = () => {
-   const [selectedRole, setSelectedRole] = useState<string | null>(null);
+export const ContentUsageTable = () => {
+  const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [selectedClass, setSelectedClass] = useState<string | null>(null);
+  const navigate = useNavigate();
  
    return (
      <>
@@ -156,7 +158,7 @@ const studentBreakdownByClass: Record<string, StudentBreakdownData[]> = {
                          variant="ghost"
                          size="sm"
                          className="h-8 w-8 p-0"
-                         onClick={() => setSelectedRole(row.role)}
+                         onClick={() => navigate(`/content-usage-detail?role=${encodeURIComponent(row.role)}`)}
                        >
                          <Eye className="h-4 w-4" />
                        </Button>

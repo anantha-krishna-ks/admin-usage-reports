@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import ProctorAnalytics from "./pages/ProctorAnalytics";
 import SectionDetail from "./pages/SectionDetail";
+import ContentUsageDetail from "./pages/ContentUsageDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/proctor-analytics" element={<ProctorAnalytics />} />
           <Route path="/section-detail" element={<SectionDetail />} />
+          <Route path="/content-usage-detail" element={<ContentUsageDetail />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
