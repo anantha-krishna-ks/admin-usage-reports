@@ -71,10 +71,10 @@ export default function SectionDetail() {
 
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
         {/* Date Filters */}
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex flex-wrap items-end gap-4">
-              <div className="space-y-1.5">
+        <Card className="shadow-sm">
+          <CardContent className="py-5 px-6">
+            <div className="flex flex-wrap items-end gap-6">
+              <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground">
                   Start Date
                 </label>
@@ -83,7 +83,7 @@ export default function SectionDetail() {
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-[200px] justify-start text-left font-normal",
+                        "w-[220px] justify-start text-left font-normal h-10",
                         !startDate && "text-muted-foreground"
                       )}
                     >
@@ -97,12 +97,13 @@ export default function SectionDetail() {
                       selected={startDate}
                       onSelect={setStartDate}
                       initialFocus
+                      className="pointer-events-auto"
                     />
                   </PopoverContent>
                 </Popover>
               </div>
 
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground">
                   End Date
                 </label>
@@ -111,7 +112,7 @@ export default function SectionDetail() {
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-[200px] justify-start text-left font-normal",
+                        "w-[220px] justify-start text-left font-normal h-10",
                         !endDate && "text-muted-foreground"
                       )}
                     >
@@ -125,12 +126,13 @@ export default function SectionDetail() {
                       selected={endDate}
                       onSelect={setEndDate}
                       initialFocus
+                      className="pointer-events-auto"
                     />
                   </PopoverContent>
                 </Popover>
               </div>
 
-              <Button className="gap-2">
+              <Button className="gap-2 h-10 px-6">
                 <Search className="h-4 w-4" />
                 Go
               </Button>
