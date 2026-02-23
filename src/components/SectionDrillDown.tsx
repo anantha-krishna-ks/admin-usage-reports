@@ -98,7 +98,7 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Section-wise Drill Down</CardTitle>
+        <CardTitle>Class-wise Usage Details</CardTitle>
         <CardDescription>Detailed usage metrics for each grade and role within the school</CardDescription>
       </CardHeader>
       <CardContent>
