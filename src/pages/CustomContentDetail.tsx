@@ -1,8 +1,13 @@
+import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { format } from "date-fns";
+import { ArrowLeft, CalendarIcon, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
 
 interface ClassSubjectData {
   classSubject: string;
@@ -47,19 +52,99 @@ const CustomContentDetail = () => {
   const teacherName = searchParams.get("teacher") || "";
   const data = teacherContentDetail[teacherName] || [];
 
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto p-6 space-y-6">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">{teacherName}</h1>
-            <p className="text-muted-foreground mt-1">Custom content creation details by class & subject</p>
+      {/* Header */}
+      <div className="border-b border-border bg-card">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate("/")}
+              className="shrink-0"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+            <div>
+              <h1 className="text-xl font-semibold text-foreground">{teacherName}</h1>
+              <p className="text-sm text-muted-foreground">
+                Custom content creation details by class &amp; subject
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Start Date
+              </label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-[180px] justify-start text-left font-normal h-9 px-3 text-sm",
+                      !startDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-3.5 w-3.5 shrink-0" />
+                    {startDate ? format(startDate, "dd MMM yyyy") : "Select date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="end">
+                  <Calendar
+                    mode="single"
+                    selected={startDate}
+                    onSelect={setStartDate}
+                    initialFocus
+                    className="pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                End Date
+              </label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-[180px] justify-start text-left font-normal h-9 px-3 text-sm",
+                      !endDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-3.5 w-3.5 shrink-0" />
+                    {endDate ? format(endDate, "dd MMM yyyy") : "Select date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="end">
+                  <Calendar
+                    mode="single"
+                    selected={endDate}
+                    onSelect={setEndDate}
+                    initialFocus
+                    className="pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <Button className="h-9 px-6 gap-2 self-end">
+              <Search className="h-3.5 w-3.5" />
+              Go
+            </Button>
           </div>
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-8 space-y-6">
 
         <Card>
           <CardHeader>
