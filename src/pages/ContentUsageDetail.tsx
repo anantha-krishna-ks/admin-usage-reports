@@ -346,71 +346,15 @@ export default function ContentUsageDetail() {
   const navigate = useNavigate();
   const role = searchParams.get("role") || "Teacher";
 
-  const [selectedClass, setSelectedClass] = useState<string>("");
-  const [selectedSection, setSelectedSection] = useState<string>("");
-  const [showReports, setShowReports] = useState(false);
   const isStudent = role === "Student";
   const isParent = role === "Parent";
   const needsSection = isStudent || isParent;
 
-  // Step 1: Class (and section for Student/Parent) not selected → show dropdown
-  if (!selectedClass || (needsSection && !selectedSection)) {
-    return (
-      <div className="min-h-screen bg-background">
-        <div className="border-b border-border bg-card">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/")} className="shrink-0">
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <div>
-              <h1 className="text-xl font-semibold text-foreground">Content Usage — {role}</h1>
-              <p className="text-sm text-muted-foreground">Select a class to view detailed reports</p>
-            </div>
-          </div>
-        </div>
-        <div className="max-w-md mx-auto px-6 py-16 space-y-6">
-          <Card className="shadow-md">
-            <CardContent className="pt-6 space-y-4">
-              <h2 className="text-lg font-semibold text-foreground">{needsSection ? "Choose Class & Section" : "Choose a Class"}</h2>
-              <p className="text-sm text-muted-foreground">Select the class you want to analyse usage for.</p>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-muted-foreground">Class</label>
-                  <Select onValueChange={(v) => { setSelectedClass(v); if (!needsSection) setSelectedSection(""); }}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select class…" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-popover z-50">
-                      {classOptions.map((c) => (
-                        <SelectItem key={c} value={c}>{c}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                {needsSection && (
-                  <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-muted-foreground">Section</label>
-                    <Select onValueChange={(v) => setSelectedSection(v)}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select section…" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-popover z-50">
-                        {sectionOptions.map((s) => (
-                          <SelectItem key={s} value={s}>{s}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
+  const [selectedClass, setSelectedClass] = useState<string>(classOptions[0]);
+  const [selectedSection, setSelectedSection] = useState<string>(needsSection ? sectionOptions[0] : "");
+  const [showReports, setShowReports] = useState(false);
 
-  // Step 2+: Class selected → tabs + table + optional reports
+  // Main view with dropdowns in header
   return (
     <div className="min-h-screen bg-background">
       <div className="border-b border-border bg-card">
