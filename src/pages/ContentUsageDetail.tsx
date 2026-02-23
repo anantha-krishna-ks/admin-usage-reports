@@ -73,27 +73,27 @@ const schoolAppParents = [
 
 // ── Teacher table data per tab ──
 const userAppTeachers = [
-  { name: "Ms. Priya Sharma", appUsage: 150, contentUsage: 120, totalUsage: 270 },
-  { name: "Mr. Rajesh Kumar", appUsage: 130, contentUsage: 95, totalUsage: 225 },
-  { name: "Ms. Anitha Devi", appUsage: 180, contentUsage: 140, totalUsage: 320 },
-  { name: "Mr. Karthik Rajan", appUsage: 100, contentUsage: 78, totalUsage: 178 },
-  { name: "Ms. Lakshmi Narayanan", appUsage: 160, contentUsage: 115, totalUsage: 275 },
+  { name: "Ms. Priya Sharma", lessonPlan: 42, learningResource: 85, items: 120, tests: 15, ebook: 8 },
+  { name: "Mr. Rajesh Kumar", lessonPlan: 38, learningResource: 72, items: 95, tests: 12, ebook: 5 },
+  { name: "Ms. Anitha Devi", lessonPlan: 55, learningResource: 110, items: 140, tests: 20, ebook: 12 },
+  { name: "Mr. Karthik Rajan", lessonPlan: 30, learningResource: 60, items: 78, tests: 8, ebook: 3 },
+  { name: "Ms. Lakshmi Narayanan", lessonPlan: 48, learningResource: 92, items: 115, tests: 18, ebook: 10 },
 ];
 
 const mobileAppTeachers = [
-  { name: "Ms. Priya Sharma", appUsage: 75, contentUsage: 60, totalUsage: 135 },
-  { name: "Mr. Rajesh Kumar", appUsage: 60, contentUsage: 50, totalUsage: 110 },
-  { name: "Ms. Anitha Devi", appUsage: 90, contentUsage: 70, totalUsage: 160 },
-  { name: "Mr. Karthik Rajan", appUsage: 48, contentUsage: 40, totalUsage: 88 },
-  { name: "Ms. Lakshmi Narayanan", appUsage: 80, contentUsage: 58, totalUsage: 138 },
+  { name: "Ms. Priya Sharma", lessonPlan: 20, learningResource: 45, items: 60, tests: 8, ebook: 4 },
+  { name: "Mr. Rajesh Kumar", lessonPlan: 15, learningResource: 38, items: 50, tests: 5, ebook: 2 },
+  { name: "Ms. Anitha Devi", lessonPlan: 28, learningResource: 55, items: 70, tests: 10, ebook: 6 },
+  { name: "Mr. Karthik Rajan", lessonPlan: 12, learningResource: 30, items: 40, tests: 4, ebook: 1 },
+  { name: "Ms. Lakshmi Narayanan", lessonPlan: 22, learningResource: 48, items: 58, tests: 9, ebook: 5 },
 ];
 
 const schoolAppTeachers = [
-  { name: "Ms. Priya Sharma", appUsage: 38, contentUsage: 30, totalUsage: 68 },
-  { name: "Mr. Rajesh Kumar", appUsage: 30, contentUsage: 25, totalUsage: 55 },
-  { name: "Ms. Anitha Devi", appUsage: 45, contentUsage: 35, totalUsage: 80 },
-  { name: "Mr. Karthik Rajan", appUsage: 24, contentUsage: 20, totalUsage: 44 },
-  { name: "Ms. Lakshmi Narayanan", appUsage: 40, contentUsage: 29, totalUsage: 69 },
+  { name: "Ms. Priya Sharma", lessonPlan: 10, learningResource: 22, items: 30, tests: 4, ebook: 2 },
+  { name: "Mr. Rajesh Kumar", lessonPlan: 8, learningResource: 18, items: 25, tests: 3, ebook: 1 },
+  { name: "Ms. Anitha Devi", lessonPlan: 14, learningResource: 28, items: 35, tests: 5, ebook: 3 },
+  { name: "Mr. Karthik Rajan", lessonPlan: 6, learningResource: 15, items: 20, tests: 2, ebook: 0 },
+  { name: "Ms. Lakshmi Narayanan", lessonPlan: 11, learningResource: 24, items: 29, tests: 4, ebook: 2 },
 ];
 
 // ── Report data (existing) ──
@@ -173,20 +173,24 @@ function TeacherTable({ data }: { data: typeof userAppTeachers }) {
           <TableHeader>
             <TableRow className="bg-muted/30">
               <TableHead className="pl-6 font-semibold">Teacher Name</TableHead>
-              <TableHead className="text-right font-semibold">App Usage</TableHead>
-              <TableHead className="text-right font-semibold">Content Usage</TableHead>
-              <TableHead className="text-right pr-6 font-semibold">Total Usage</TableHead>
+              <TableHead className="text-right font-semibold">Lesson Plan</TableHead>
+              <TableHead className="text-right font-semibold">Learning Resource</TableHead>
+              <TableHead className="text-right font-semibold">Items</TableHead>
+              <TableHead className="text-right font-semibold">Tests</TableHead>
+              <TableHead className="text-right pr-6 font-semibold">Ebook</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.map((t, i) => (
               <TableRow key={i} className="hover:bg-muted/20 transition-colors">
                 <TableCell className="pl-6 font-medium">{t.name}</TableCell>
-                <TableCell className="text-right">{t.appUsage}</TableCell>
-                <TableCell className="text-right">{t.contentUsage}</TableCell>
+                <TableCell className="text-right">{t.lessonPlan}</TableCell>
+                <TableCell className="text-right">{t.learningResource}</TableCell>
+                <TableCell className="text-right">{t.items}</TableCell>
+                <TableCell className="text-right">{t.tests}</TableCell>
                 <TableCell className="text-right pr-6">
                   <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
-                    {t.totalUsage}
+                    {t.ebook}
                   </span>
                 </TableCell>
               </TableRow>
