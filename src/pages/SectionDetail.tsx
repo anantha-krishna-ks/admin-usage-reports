@@ -65,39 +65,6 @@ const roleDataByDevice: Record<string, RoleData[]> = {
   ],
 };
 
-const teacherDataByGrade: Record<string, { name: string; appUsage: string; contentUsage: string; totalUsage: string }[]> = {
-  "Grade 8": [
-    { name: "Ms. Priya Sharma", appUsage: "12.30", contentUsage: "28.50", totalUsage: "40.80" },
-    { name: "Mr. Rajesh Kumar", appUsage: "10.42", contentUsage: "24.18", totalUsage: "34.60" },
-    { name: "Ms. Anitha Devi", appUsage: "14.20", contentUsage: "32.45", totalUsage: "46.65" },
-    { name: "Mr. Karthik Rajan", appUsage: "8.10", contentUsage: "18.90", totalUsage: "27.00" },
-    { name: "Ms. Lakshmi Narayanan", appUsage: "7.12", contentUsage: "16.32", totalUsage: "23.44" },
-  ],
-  "Grade 9": [
-    { name: "Ms. Priya Sharma", appUsage: "18.50", contentUsage: "42.10", totalUsage: "60.60" },
-    { name: "Mr. Rajesh Kumar", appUsage: "15.20", contentUsage: "38.72", totalUsage: "53.92" },
-    { name: "Ms. Anitha Devi", appUsage: "20.08", contentUsage: "55.30", totalUsage: "75.38" },
-    { name: "Mr. Karthik Rajan", appUsage: "12.60", contentUsage: "30.14", totalUsage: "42.74" },
-    { name: "Ms. Lakshmi Narayanan", appUsage: "9.40", contentUsage: "22.80", totalUsage: "32.20" },
-    { name: "Mr. Suresh Menon", appUsage: "3.80", contentUsage: "10.15", totalUsage: "13.95" },
-    { name: "Ms. Deepa Iyer", appUsage: "2.10", contentUsage: "5.85", totalUsage: "7.95" },
-    { name: "Mr. Ganesh Pillai", appUsage: "1.40", contentUsage: "4.30", totalUsage: "5.70" },
-  ],
-  "Grade 10": [
-    { name: "Ms. Priya Sharma", appUsage: "20.10", contentUsage: "45.30", totalUsage: "65.40" },
-    { name: "Mr. Rajesh Kumar", appUsage: "18.40", contentUsage: "40.60", totalUsage: "59.00" },
-    { name: "Ms. Anitha Devi", appUsage: "22.50", contentUsage: "52.80", totalUsage: "75.30" },
-    { name: "Mr. Karthik Rajan", appUsage: "11.30", contentUsage: "23.40", totalUsage: "34.70" },
-  ],
-  "Grade 11": [
-    { name: "Ms. Priya Sharma", appUsage: "22.40", contentUsage: "16.20", totalUsage: "38.60" },
-    { name: "Mr. Rajesh Kumar", appUsage: "18.90", contentUsage: "12.80", totalUsage: "31.70" },
-    { name: "Ms. Anitha Devi", appUsage: "24.10", contentUsage: "18.50", totalUsage: "42.60" },
-    { name: "Mr. Karthik Rajan", appUsage: "10.20", contentUsage: "8.40", totalUsage: "18.60" },
-    { name: "Ms. Lakshmi Narayanan", appUsage: "9.30", contentUsage: "7.28", totalUsage: "16.58" },
-  ],
-};
-
 export default function SectionDetail() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -406,38 +373,6 @@ export default function SectionDetail() {
                         <TableCell className="text-right pr-6">
                           <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
                             {row.timeSpent} Hours
-                          </span>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-            {/* Teacher Usage Table */}
-            <Card className="shadow-sm">
-              <CardHeader className="pb-3">
-                <CardTitle>Teacher Usage Details</CardTitle>
-              </CardHeader>
-              <CardContent className="px-0 pb-0">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-muted/30 border-t">
-                      <TableHead className="font-semibold pl-6">Teacher Name</TableHead>
-                      <TableHead className="font-semibold text-right">App Usage (hrs)</TableHead>
-                      <TableHead className="font-semibold text-right">Content Usage (hrs)</TableHead>
-                      <TableHead className="font-semibold text-right pr-6">Total Usage (hrs)</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {(teacherDataByGrade[grade] || teacherDataByGrade["Grade 8"]).map((t, i) => (
-                      <TableRow key={i} className="hover:bg-muted/20 transition-colors">
-                        <TableCell className="pl-6 font-medium">{t.name}</TableCell>
-                        <TableCell className="text-right tabular-nums">{t.appUsage}</TableCell>
-                        <TableCell className="text-right tabular-nums">{t.contentUsage}</TableCell>
-                        <TableCell className="text-right pr-6">
-                          <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
-                            {t.totalUsage}
                           </span>
                         </TableCell>
                       </TableRow>
