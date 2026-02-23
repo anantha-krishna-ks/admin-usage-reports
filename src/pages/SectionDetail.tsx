@@ -98,11 +98,44 @@ const teacherDataByGrade: Record<string, { name: string; appUsage: string; conte
   ],
 };
 
+const studentDataByGrade: Record<string, { name: string; section: string; appUsage: string; contentUsage: string; totalUsage: string }[]> = {
+  "Grade 8": [
+    { name: "Aarav Mehta", section: "A", appUsage: "5.20", contentUsage: "12.40", totalUsage: "17.60" },
+    { name: "Diya Nair", section: "A", appUsage: "4.80", contentUsage: "10.90", totalUsage: "15.70" },
+    { name: "Rohan Gupta", section: "B", appUsage: "6.10", contentUsage: "14.30", totalUsage: "20.40" },
+    { name: "Sneha Patel", section: "B", appUsage: "3.50", contentUsage: "8.60", totalUsage: "12.10" },
+    { name: "Vikram Singh", section: "C", appUsage: "4.00", contentUsage: "9.80", totalUsage: "13.80" },
+  ],
+  "Grade 9": [
+    { name: "Ananya Rao", section: "A", appUsage: "7.30", contentUsage: "15.20", totalUsage: "22.50" },
+    { name: "Ishaan Verma", section: "A", appUsage: "5.90", contentUsage: "13.40", totalUsage: "19.30" },
+    { name: "Kavya Joshi", section: "B", appUsage: "8.10", contentUsage: "18.60", totalUsage: "26.70" },
+    { name: "Nikhil Reddy", section: "B", appUsage: "4.50", contentUsage: "11.20", totalUsage: "15.70" },
+    { name: "Pooja Iyer", section: "C", appUsage: "6.40", contentUsage: "14.80", totalUsage: "21.20" },
+    { name: "Rahul Mishra", section: "C", appUsage: "3.20", contentUsage: "7.90", totalUsage: "11.10" },
+  ],
+  "Grade 10": [
+    { name: "Aditya Kapoor", section: "A", appUsage: "9.10", contentUsage: "20.30", totalUsage: "29.40" },
+    { name: "Meera Shankar", section: "A", appUsage: "7.80", contentUsage: "17.50", totalUsage: "25.30" },
+    { name: "Siddharth Das", section: "B", appUsage: "6.50", contentUsage: "15.10", totalUsage: "21.60" },
+    { name: "Tanvi Kulkarni", section: "B", appUsage: "5.40", contentUsage: "12.80", totalUsage: "18.20" },
+  ],
+  "Grade 11": [
+    { name: "Arjun Nambiar", section: "A", appUsage: "8.40", contentUsage: "6.20", totalUsage: "14.60" },
+    { name: "Divya Menon", section: "A", appUsage: "7.10", contentUsage: "5.30", totalUsage: "12.40" },
+    { name: "Harsh Trivedi", section: "B", appUsage: "9.20", contentUsage: "7.80", totalUsage: "17.00" },
+    { name: "Lakshmi Pillai", section: "B", appUsage: "5.60", contentUsage: "4.10", totalUsage: "9.70" },
+    { name: "Manish Agarwal", section: "C", appUsage: "6.30", contentUsage: "5.50", totalUsage: "11.80" },
+  ],
+};
+
 export default function SectionDetail() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const grade = searchParams.get("grade") || "";
+  const role = searchParams.get("role") || "";
   const section = searchParams.get("section") || "";
+  const isStudentRole = role === "Students";
   const fromParam = searchParams.get("from");
   const toParam = searchParams.get("to");
 
@@ -319,34 +352,49 @@ export default function SectionDetail() {
           </>
         ) : (
           <>
-            {/* Teacher Usage Table */}
+            {/* Usage Table */}
             <Card className="shadow-sm">
               <CardHeader className="pb-3">
-                <CardTitle>Teacher Usage Details</CardTitle>
+                <CardTitle>{isStudentRole ? "Student Usage Details" : "Teacher Usage Details"}</CardTitle>
               </CardHeader>
               <CardContent className="px-0 pb-0">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/30 border-t">
-                      <TableHead className="font-semibold pl-6">Teacher Name</TableHead>
+                      <TableHead className="font-semibold pl-6">{isStudentRole ? "Student Name" : "Teacher Name"}</TableHead>
+                      {isStudentRole && <TableHead className="font-semibold">Section</TableHead>}
                       <TableHead className="font-semibold text-right">App Usage (hrs)</TableHead>
                       <TableHead className="font-semibold text-right">Content Usage (hrs)</TableHead>
                       <TableHead className="font-semibold text-right pr-6">Total Usage (hrs)</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {(teacherDataByGrade[grade] || teacherDataByGrade["Grade 8"]).map((t, i) => (
-                      <TableRow key={i} className="hover:bg-muted/20 transition-colors">
-                        <TableCell className="pl-6 font-medium">{t.name}</TableCell>
-                        <TableCell className="text-right tabular-nums">{t.appUsage}</TableCell>
-                        <TableCell className="text-right tabular-nums">{t.contentUsage}</TableCell>
-                        <TableCell className="text-right pr-6">
-                          <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
-                            {t.totalUsage}
-                          </span>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    {isStudentRole
+                      ? (studentDataByGrade[grade] || studentDataByGrade["Grade 8"]).map((s, i) => (
+                          <TableRow key={i} className="hover:bg-muted/20 transition-colors">
+                            <TableCell className="pl-6 font-medium">{s.name}</TableCell>
+                            <TableCell>{s.section}</TableCell>
+                            <TableCell className="text-right tabular-nums">{s.appUsage}</TableCell>
+                            <TableCell className="text-right tabular-nums">{s.contentUsage}</TableCell>
+                            <TableCell className="text-right pr-6">
+                              <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
+                                {s.totalUsage}
+                              </span>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      : (teacherDataByGrade[grade] || teacherDataByGrade["Grade 8"]).map((t, i) => (
+                          <TableRow key={i} className="hover:bg-muted/20 transition-colors">
+                            <TableCell className="pl-6 font-medium">{t.name}</TableCell>
+                            <TableCell className="text-right tabular-nums">{t.appUsage}</TableCell>
+                            <TableCell className="text-right tabular-nums">{t.contentUsage}</TableCell>
+                            <TableCell className="text-right pr-6">
+                              <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
+                                {t.totalUsage}
+                              </span>
+                            </TableCell>
+                          </TableRow>
+                        ))}
                   </TableBody>
                 </Table>
               </CardContent>
