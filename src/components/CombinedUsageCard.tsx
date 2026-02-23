@@ -13,7 +13,7 @@ export const CombinedUsageCard = () => {
             <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1">Total Platform Usage</p>
             <div className="flex items-baseline gap-2">
               <span className="text-4xl font-semibold tracking-tight">{totalUsage}</span>
-              <span className="text-sm text-muted-foreground">hours this month</span>
+              <span className="text-sm text-muted-foreground">mins this month</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
