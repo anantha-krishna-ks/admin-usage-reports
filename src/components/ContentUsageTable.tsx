@@ -132,11 +132,11 @@ export const ContentUsageTable = () => {
                <TableHeader>
                  <TableRow>
                    <TableHead className="w-[150px]">Role</TableHead>
-                   <TableHead>Lesson Plan</TableHead>
-                   <TableHead>Learning Resource</TableHead>
-                   <TableHead>Items</TableHead>
-                   <TableHead>Tests</TableHead>
-                   <TableHead>Ebook</TableHead>
+                    <TableHead>Lesson Plan (mins)</TableHead>
+                    <TableHead>Learning Resource (mins)</TableHead>
+                    <TableHead>Items (mins)</TableHead>
+                    <TableHead>Tests (mins)</TableHead>
+                    <TableHead>Ebook (mins)</TableHead>
                    <TableHead className="w-[100px]">Preview</TableHead>
                  </TableRow>
                </TableHeader>
@@ -186,11 +186,11 @@ export const ContentUsageTable = () => {
                <TableHeader>
                  <TableRow className="bg-muted/50">
                    <TableHead className="font-semibold">Class</TableHead>
-                   <TableHead className="font-semibold">Lesson Plan</TableHead>
-                   <TableHead className="font-semibold">Learning Resource</TableHead>
-                   <TableHead className="font-semibold">Items</TableHead>
-                   <TableHead className="font-semibold">Tests</TableHead>
-                   <TableHead className="font-semibold">Ebook</TableHead>
+                    <TableHead className="font-semibold">Lesson Plan (mins)</TableHead>
+                    <TableHead className="font-semibold">Learning Resource (mins)</TableHead>
+                    <TableHead className="font-semibold">Items (mins)</TableHead>
+                    <TableHead className="font-semibold">Tests (mins)</TableHead>
+                    <TableHead className="font-semibold">Ebook (mins)</TableHead>
                     {selectedRole === "Teacher" && (
                       <TableHead className="font-semibold w-[100px]">Preview</TableHead>
                     )}
@@ -242,11 +242,11 @@ export const ContentUsageTable = () => {
                 <TableHeader>
                   <TableRow className="bg-muted/50">
                     <TableHead className="font-semibold">Student Name</TableHead>
-                    <TableHead className="font-semibold">Lesson Plan</TableHead>
-                    <TableHead className="font-semibold">Learning Resource</TableHead>
-                    <TableHead className="font-semibold">Items</TableHead>
-                    <TableHead className="font-semibold">Tests</TableHead>
-                    <TableHead className="font-semibold">Ebook</TableHead>
+                     <TableHead className="font-semibold">Lesson Plan (mins)</TableHead>
+                     <TableHead className="font-semibold">Learning Resource (mins)</TableHead>
+                     <TableHead className="font-semibold">Items (mins)</TableHead>
+                     <TableHead className="font-semibold">Tests (mins)</TableHead>
+                     <TableHead className="font-semibold">Ebook (mins)</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
