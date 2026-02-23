@@ -18,6 +18,34 @@ const classOptions = [
   "Level 1-2025", "Level 2-2025", "Level 3-2025",
 ];
 
+// ── Section options (for Student role) ──
+const sectionOptions = ["Section A", "Section B", "Section C", "Section D"];
+
+// ── Student table data per tab ──
+const userAppStudents = [
+  { name: "Aarav Patel", learningResource: 45, ebook: 12, test: 8, lbq: 5, pt: 2 },
+  { name: "Diya Krishnan", learningResource: 62, ebook: 18, test: 14, lbq: 9, pt: 3 },
+  { name: "Ishaan Reddy", learningResource: 38, ebook: 8, test: 6, lbq: 3, pt: 1 },
+  { name: "Meera Sundaram", learningResource: 55, ebook: 15, test: 11, lbq: 7, pt: 4 },
+  { name: "Rohan Gupta", learningResource: 41, ebook: 10, test: 9, lbq: 4, pt: 2 },
+];
+
+const mobileAppStudents = [
+  { name: "Aarav Patel", learningResource: 22, ebook: 6, test: 4, lbq: 3, pt: 1 },
+  { name: "Diya Krishnan", learningResource: 30, ebook: 9, test: 7, lbq: 5, pt: 2 },
+  { name: "Ishaan Reddy", learningResource: 18, ebook: 4, test: 3, lbq: 1, pt: 0 },
+  { name: "Meera Sundaram", learningResource: 28, ebook: 8, test: 5, lbq: 4, pt: 2 },
+  { name: "Rohan Gupta", learningResource: 20, ebook: 5, test: 4, lbq: 2, pt: 1 },
+];
+
+const schoolAppStudents = [
+  { name: "Aarav Patel", learningResource: 10, ebook: 3, test: 2, lbq: 1, pt: 0 },
+  { name: "Diya Krishnan", learningResource: 15, ebook: 5, test: 3, lbq: 2, pt: 1 },
+  { name: "Ishaan Reddy", learningResource: 8, ebook: 2, test: 1, lbq: 0, pt: 0 },
+  { name: "Meera Sundaram", learningResource: 12, ebook: 4, test: 2, lbq: 2, pt: 1 },
+  { name: "Rohan Gupta", learningResource: 9, ebook: 3, test: 2, lbq: 1, pt: 0 },
+];
+
 // ── Teacher table data per tab ──
 const userAppTeachers = [
   { name: "Ms. Priya Sharma", lessonPlan: 42, learningResource: 85, items: 120, tests: 15, ebook: 8 },
@@ -149,6 +177,44 @@ function TeacherTable({ data }: { data: typeof userAppTeachers }) {
   );
 }
 
+// ── Student Table Component ──
+function StudentTable({ data }: { data: typeof userAppStudents }) {
+  return (
+    <Card className="shadow-sm">
+      <CardContent className="px-0 pb-0 pt-0">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-muted/30">
+              <TableHead className="pl-6 font-semibold">Student Name</TableHead>
+              <TableHead className="text-right font-semibold">Learning Resource</TableHead>
+              <TableHead className="text-right font-semibold">Ebook</TableHead>
+              <TableHead className="text-right font-semibold">Test</TableHead>
+              <TableHead className="text-right font-semibold">LBQ</TableHead>
+              <TableHead className="text-right pr-6 font-semibold">PT</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.map((s, i) => (
+              <TableRow key={i} className="hover:bg-muted/20 transition-colors">
+                <TableCell className="pl-6 font-medium">{s.name}</TableCell>
+                <TableCell className="text-right">{s.learningResource}</TableCell>
+                <TableCell className="text-right">{s.ebook}</TableCell>
+                <TableCell className="text-right">{s.test}</TableCell>
+                <TableCell className="text-right">{s.lbq}</TableCell>
+                <TableCell className="text-right pr-6">
+                  <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
+                    {s.pt}
+                  </span>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  );
+}
+
 // ── Report Section Component ──
 interface AnalyticsSectionProps {
   title: string;
@@ -222,10 +288,12 @@ export default function ContentUsageDetail() {
   const role = searchParams.get("role") || "Teacher";
 
   const [selectedClass, setSelectedClass] = useState<string>("");
+  const [selectedSection, setSelectedSection] = useState<string>("");
   const [showReports, setShowReports] = useState(false);
+  const isStudent = role === "Student";
 
-  // Step 1: Class not selected → show dropdown
-  if (!selectedClass) {
+  // Step 1: Class (and section for Student) not selected → show dropdown
+  if (!selectedClass || (isStudent && !selectedSection)) {
     return (
       <div className="min-h-screen bg-background">
         <div className="border-b border-border bg-card">
@@ -242,18 +310,32 @@ export default function ContentUsageDetail() {
         <div className="max-w-md mx-auto px-6 py-16 space-y-6">
           <Card className="shadow-md">
             <CardContent className="pt-6 space-y-4">
-              <h2 className="text-lg font-semibold text-foreground">Choose a Class</h2>
+              <h2 className="text-lg font-semibold text-foreground">{isStudent ? "Choose Class & Section" : "Choose a Class"}</h2>
               <p className="text-sm text-muted-foreground">Select the class you want to analyse usage for.</p>
-              <Select onValueChange={(v) => setSelectedClass(v)}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select class…" />
-                </SelectTrigger>
-                <SelectContent className="bg-popover z-50">
-                  {classOptions.map((c) => (
-                    <SelectItem key={c} value={c}>{c}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="space-y-3">
+                <Select onValueChange={(v) => { setSelectedClass(v); if (!isStudent) setSelectedSection(""); }}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select class…" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-popover z-50">
+                    {classOptions.map((c) => (
+                      <SelectItem key={c} value={c}>{c}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {isStudent && selectedClass && (
+                  <Select onValueChange={(v) => setSelectedSection(v)}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select section…" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover z-50">
+                      {sectionOptions.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -266,23 +348,39 @@ export default function ContentUsageDetail() {
     <div className="min-h-screen bg-background">
       <div className="border-b border-border bg-card">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => { setSelectedClass(""); setShowReports(false); }} className="shrink-0">
+          <Button variant="ghost" size="icon" onClick={() => { setSelectedClass(""); setSelectedSection(""); setShowReports(false); }} className="shrink-0">
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div className="flex-1">
             <h1 className="text-xl font-semibold text-foreground">Content Usage — {role}</h1>
-            <p className="text-sm text-muted-foreground">Class: {selectedClass}</p>
+            <p className="text-sm text-muted-foreground">
+              Class: {selectedClass}{isStudent && selectedSection ? ` — ${selectedSection}` : ""}
+            </p>
           </div>
-          <Select value={selectedClass} onValueChange={(v) => { setSelectedClass(v); setShowReports(false); }}>
-            <SelectTrigger className="w-44">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="bg-popover z-50">
-              {classOptions.map((c) => (
-                <SelectItem key={c} value={c}>{c}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex items-center gap-2">
+            <Select value={selectedClass} onValueChange={(v) => { setSelectedClass(v); setShowReports(false); }}>
+              <SelectTrigger className="w-36">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-popover z-50">
+                {classOptions.map((c) => (
+                  <SelectItem key={c} value={c}>{c}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {isStudent && (
+              <Select value={selectedSection} onValueChange={(v) => setSelectedSection(v)}>
+                <SelectTrigger className="w-36">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-popover z-50">
+                  {sectionOptions.map((s) => (
+                    <SelectItem key={s} value={s}>{s}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          </div>
         </div>
       </div>
 
@@ -295,13 +393,13 @@ export default function ContentUsageDetail() {
           </TabsList>
 
           <TabsContent value="user" className="space-y-6">
-            <TeacherTable data={userAppTeachers} />
+            {isStudent ? <StudentTable data={userAppStudents} /> : <TeacherTable data={userAppTeachers} />}
           </TabsContent>
           <TabsContent value="mobile" className="space-y-6">
-            <TeacherTable data={mobileAppTeachers} />
+            {isStudent ? <StudentTable data={mobileAppStudents} /> : <TeacherTable data={mobileAppTeachers} />}
           </TabsContent>
           <TabsContent value="school" className="space-y-6">
-            <TeacherTable data={schoolAppTeachers} />
+            {isStudent ? <StudentTable data={schoolAppStudents} /> : <TeacherTable data={schoolAppTeachers} />}
           </TabsContent>
         </Tabs>
 
