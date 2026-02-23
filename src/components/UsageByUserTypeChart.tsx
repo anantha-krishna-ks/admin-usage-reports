@@ -29,9 +29,9 @@ export const UsageByUserTypeChart = () => {
               }}
             />
             <Legend />
-            <Bar yAxisId="left" dataKey="totalUsage" name="Total Usage (hrs)" fill="hsl(var(--primary))" radius={[8, 8, 0, 0]} />
-            <Line yAxisId="right" type="monotone" dataKey="appUsage" name="App Usage (hrs)" stroke="hsl(var(--chart-2))" strokeWidth={2} dot={{ r: 4 }} />
-            <Line yAxisId="right" type="monotone" dataKey="contentUsage" name="Content Usage (hrs)" stroke="hsl(var(--chart-4))" strokeWidth={2} dot={{ r: 4 }} />
+            <Bar yAxisId="left" dataKey="totalUsage" name="Total Usage (mins)" fill="hsl(var(--primary))" radius={[8, 8, 0, 0]} />
+            <Line yAxisId="right" type="monotone" dataKey="appUsage" name="App Usage (mins)" stroke="hsl(var(--chart-2))" strokeWidth={2} dot={{ r: 4 }} />
+            <Line yAxisId="right" type="monotone" dataKey="contentUsage" name="Content Usage (mins)" stroke="hsl(var(--chart-4))" strokeWidth={2} dot={{ r: 4 }} />
           </ComposedChart>
         </ResponsiveContainer>
       </CardContent>

@@ -340,7 +340,7 @@ export default function SectionDetail() {
                         </TableCell>
                         <TableCell className="text-right pr-6">
                           <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
-                            {row.timeSpent} Hours
+                            {row.timeSpent} Mins
                           </span>
                         </TableCell>
                       </TableRow>
@@ -363,9 +363,9 @@ export default function SectionDetail() {
                     <TableRow className="bg-muted/30 border-t">
                       <TableHead className="font-semibold pl-6">{isStudentRole ? "Student Name" : "Teacher Name"}</TableHead>
                       {isStudentRole && <TableHead className="font-semibold">Section</TableHead>}
-                      <TableHead className="font-semibold text-right">App Usage (hrs)</TableHead>
-                      <TableHead className="font-semibold text-right">Content Usage (hrs)</TableHead>
-                      <TableHead className="font-semibold text-right pr-6">Total Usage (hrs)</TableHead>
+                      <TableHead className="font-semibold text-right">App Usage (mins)</TableHead>
+                      <TableHead className="font-semibold text-right">Content Usage (mins)</TableHead>
+                      <TableHead className="font-semibold text-right pr-6">Total Usage (mins)</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>

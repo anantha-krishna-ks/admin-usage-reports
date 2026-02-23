@@ -98,24 +98,24 @@ const schoolAppTeachers = [
 
 // ── Report data (existing) ──
 const deviceData = [
-  { name: "Mobile", visits: 3769, timeSpent: "1,785:45:11 Hours", minutes: 107145 },
-  { name: "Web", visits: 550, timeSpent: "539:42:50 Hours", minutes: 32382 },
+  { name: "Mobile", visits: 3769, timeSpent: "1,785:45:11 Mins", minutes: 107145 },
+  { name: "Web", visits: 550, timeSpent: "539:42:50 Mins", minutes: 32382 },
 ];
 const deviceColors = ["hsl(var(--chart-1))", "hsl(var(--chart-3))"];
 
 const roleData = [
-  { name: "Student", visits: 8861, timeSpent: "1,571:49:28 Hours", minutes: 94309 },
-  { name: "Teacher", visits: 538, timeSpent: "510:48:13 Hours", minutes: 30648 },
+  { name: "Student", visits: 8861, timeSpent: "1,571:49:28 Mins", minutes: 94309 },
+  { name: "Teacher", visits: 538, timeSpent: "510:48:13 Mins", minutes: 30648 },
 ];
 const roleColors = ["hsl(var(--chart-2))", "hsl(var(--chart-4))"];
 
 const contentTypeData = [
-  { name: "Ebook", visits: 481, timeSpent: "273:40:05 Hours", minutes: 16420 },
-  { name: "Learning Resources", visits: 3065, timeSpent: "395:34:56 Hours", minutes: 23734 },
-  { name: "Test", visits: 43, timeSpent: "15:46:36 Hours", minutes: 946 },
-  { name: "Question Bank", visits: 17, timeSpent: "01:33:54 Hours", minutes: 93 },
-  { name: "Lesson / Weekly / Concept Plans", visits: 132, timeSpent: "22:02:16 Hours", minutes: 1322 },
-  { name: "Answer Key", visits: 1, timeSpent: "00:00:30 Hours", minutes: 0 },
+  { name: "Ebook", visits: 481, timeSpent: "273:40:05 Mins", minutes: 16420 },
+  { name: "Learning Resources", visits: 3065, timeSpent: "395:34:56 Mins", minutes: 23734 },
+  { name: "Test", visits: 43, timeSpent: "15:46:36 Mins", minutes: 946 },
+  { name: "Question Bank", visits: 17, timeSpent: "01:33:54 Mins", minutes: 93 },
+  { name: "Lesson / Weekly / Concept Plans", visits: 132, timeSpent: "22:02:16 Mins", minutes: 1322 },
+  { name: "Answer Key", visits: 1, timeSpent: "00:00:30 Mins", minutes: 0 },
 ];
 const contentColors = [
   "hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))",
@@ -123,39 +123,39 @@ const contentColors = [
 ];
 
 const classSubjectData = [
-  { name: "I-2024 - Embracing Harmony", visits: 10, timeSpent: "00:01:48 Hours" },
-  { name: "I-2024 - English", visits: 1095, timeSpent: "445:09:19 Hours" },
-  { name: "I-2024 - Mathematics", visits: 506, timeSpent: "53:06:35 Hours" },
-  { name: "I-2024 - Magizhchi", visits: 8, timeSpent: "00:02:16 Hours" },
-  { name: "I-2024 - My Art Palette", visits: 15, timeSpent: "00:06:16 Hours" },
-  { name: "I-2024 - World Around Us", visits: 579, timeSpent: "34:48:11 Hours" },
-  { name: "II-2024 - Embracing Harmony", visits: 10, timeSpent: "00:00:43 Hours" },
-  { name: "II-2024 - English", visits: 233, timeSpent: "08:49:52 Hours" },
-  { name: "II-2024 - Mathematics", visits: 250, timeSpent: "15:14:17 Hours" },
-  { name: "II-2024 - Magizhchi", visits: 6, timeSpent: "00:02:27 Hours" },
-  { name: "II-2024 - My Art Palette", visits: 4, timeSpent: "00:16:42 Hours" },
-  { name: "II-2024 - World Around Us", visits: 489, timeSpent: "29:47:34 Hours" },
-  { name: "III-2025 - English", visits: 86, timeSpent: "04:38:55 Hours" },
-  { name: "III-2025 - Mathematics", visits: 25, timeSpent: "02:59:01 Hours" },
-  { name: "III-2025 - Science", visits: 129, timeSpent: "10:42:43 Hours" },
-  { name: "III-2025 - Social Studies", visits: 121, timeSpent: "09:55:22 Hours" },
-  { name: "IV-2025 - Embracing Harmony", visits: 6, timeSpent: "00:02:52 Hours" },
-  { name: "IV-2025 - English", visits: 26, timeSpent: "01:16:38 Hours" },
-  { name: "IV-2025 - Mathematics", visits: 8, timeSpent: "01:08:05 Hours" },
-  { name: "IV-2025 - My Art Palette", visits: 2, timeSpent: "00:04:34 Hours" },
-  { name: "IV-2025 - Science", visits: 106, timeSpent: "04:49:19 Hours" },
-  { name: "IV-2025 - Social Studies", visits: 48, timeSpent: "02:20:30 Hours" },
-  { name: "Level 1-2025 - English", visits: 129, timeSpent: "38:51:56 Hours" },
-  { name: "Level 1-2025 - General Awareness", visits: 21, timeSpent: "02:49:07 Hours" },
-  { name: "Level 1-2025 - Mathematics", visits: 3, timeSpent: "00:40:22 Hours" },
-  { name: "Level 2-2025 - English", visits: 72, timeSpent: "13:52:27 Hours" },
-  { name: "Level 2-2025 - General Awareness", visits: 46, timeSpent: "08:24:51 Hours" },
-  { name: "Level 3-2025 - Mathematics", visits: 13, timeSpent: "05:32:56 Hours" },
-  { name: "V-2025 - English", visits: 16, timeSpent: "02:23:15 Hours" },
-  { name: "V-2025 - Mathematics", visits: 28, timeSpent: "04:27:31 Hours" },
-  { name: "V-2025 - My Art Palette", visits: 19, timeSpent: "00:55:32 Hours" },
-  { name: "V-2025 - Science", visits: 10, timeSpent: "01:07:14 Hours" },
-  { name: "V-2025 - Social Studies", visits: 115, timeSpent: "03:26:43 Hours" },
+  { name: "I-2024 - Embracing Harmony", visits: 10, timeSpent: "00:01:48 Mins" },
+  { name: "I-2024 - English", visits: 1095, timeSpent: "445:09:19 Mins" },
+  { name: "I-2024 - Mathematics", visits: 506, timeSpent: "53:06:35 Mins" },
+  { name: "I-2024 - Magizhchi", visits: 8, timeSpent: "00:02:16 Mins" },
+  { name: "I-2024 - My Art Palette", visits: 15, timeSpent: "00:06:16 Mins" },
+  { name: "I-2024 - World Around Us", visits: 579, timeSpent: "34:48:11 Mins" },
+  { name: "II-2024 - Embracing Harmony", visits: 10, timeSpent: "00:00:43 Mins" },
+  { name: "II-2024 - English", visits: 233, timeSpent: "08:49:52 Mins" },
+  { name: "II-2024 - Mathematics", visits: 250, timeSpent: "15:14:17 Mins" },
+  { name: "II-2024 - Magizhchi", visits: 6, timeSpent: "00:02:27 Mins" },
+  { name: "II-2024 - My Art Palette", visits: 4, timeSpent: "00:16:42 Mins" },
+  { name: "II-2024 - World Around Us", visits: 489, timeSpent: "29:47:34 Mins" },
+  { name: "III-2025 - English", visits: 86, timeSpent: "04:38:55 Mins" },
+  { name: "III-2025 - Mathematics", visits: 25, timeSpent: "02:59:01 Mins" },
+  { name: "III-2025 - Science", visits: 129, timeSpent: "10:42:43 Mins" },
+  { name: "III-2025 - Social Studies", visits: 121, timeSpent: "09:55:22 Mins" },
+  { name: "IV-2025 - Embracing Harmony", visits: 6, timeSpent: "00:02:52 Mins" },
+  { name: "IV-2025 - English", visits: 26, timeSpent: "01:16:38 Mins" },
+  { name: "IV-2025 - Mathematics", visits: 8, timeSpent: "01:08:05 Mins" },
+  { name: "IV-2025 - My Art Palette", visits: 2, timeSpent: "00:04:34 Mins" },
+  { name: "IV-2025 - Science", visits: 106, timeSpent: "04:49:19 Mins" },
+  { name: "IV-2025 - Social Studies", visits: 48, timeSpent: "02:20:30 Mins" },
+  { name: "Level 1-2025 - English", visits: 129, timeSpent: "38:51:56 Mins" },
+  { name: "Level 1-2025 - General Awareness", visits: 21, timeSpent: "02:49:07 Mins" },
+  { name: "Level 1-2025 - Mathematics", visits: 3, timeSpent: "00:40:22 Mins" },
+  { name: "Level 2-2025 - English", visits: 72, timeSpent: "13:52:27 Mins" },
+  { name: "Level 2-2025 - General Awareness", visits: 46, timeSpent: "08:24:51 Mins" },
+  { name: "Level 3-2025 - Mathematics", visits: 13, timeSpent: "05:32:56 Mins" },
+  { name: "V-2025 - English", visits: 16, timeSpent: "02:23:15 Mins" },
+  { name: "V-2025 - Mathematics", visits: 28, timeSpent: "04:27:31 Mins" },
+  { name: "V-2025 - My Art Palette", visits: 19, timeSpent: "00:55:32 Mins" },
+  { name: "V-2025 - Science", visits: 10, timeSpent: "01:07:14 Mins" },
+  { name: "V-2025 - Social Studies", visits: 115, timeSpent: "03:26:43 Mins" },
 ];
 
 const classSubjectChartData = classSubjectData.map((d) => ({
