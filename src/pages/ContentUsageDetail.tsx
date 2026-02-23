@@ -1,29 +1,61 @@
+import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
 } from "recharts";
 
-// ── Devices / Environment ──
+// ── Class options ──
+const classOptions = [
+  "I-2024", "II-2024", "III-2025", "IV-2025", "V-2025",
+  "Level 1-2025", "Level 2-2025", "Level 3-2025",
+];
+
+// ── Teacher table data per tab ──
+const userAppTeachers = [
+  { name: "Ms. Priya Sharma", lessonPlan: 42, learningResource: 85, items: 120, tests: 15, ebook: 8 },
+  { name: "Mr. Rajesh Kumar", lessonPlan: 38, learningResource: 72, items: 95, tests: 12, ebook: 5 },
+  { name: "Ms. Anitha Devi", lessonPlan: 55, learningResource: 110, items: 140, tests: 20, ebook: 12 },
+  { name: "Mr. Karthik Rajan", lessonPlan: 30, learningResource: 60, items: 78, tests: 8, ebook: 3 },
+  { name: "Ms. Lakshmi Narayanan", lessonPlan: 48, learningResource: 92, items: 115, tests: 18, ebook: 10 },
+];
+
+const mobileAppTeachers = [
+  { name: "Ms. Priya Sharma", lessonPlan: 20, learningResource: 45, items: 60, tests: 8, ebook: 4 },
+  { name: "Mr. Rajesh Kumar", lessonPlan: 15, learningResource: 38, items: 50, tests: 5, ebook: 2 },
+  { name: "Ms. Anitha Devi", lessonPlan: 28, learningResource: 55, items: 70, tests: 10, ebook: 6 },
+  { name: "Mr. Karthik Rajan", lessonPlan: 12, learningResource: 30, items: 40, tests: 4, ebook: 1 },
+  { name: "Ms. Lakshmi Narayanan", lessonPlan: 22, learningResource: 48, items: 58, tests: 9, ebook: 5 },
+];
+
+const schoolAppTeachers = [
+  { name: "Ms. Priya Sharma", lessonPlan: 10, learningResource: 22, items: 30, tests: 4, ebook: 2 },
+  { name: "Mr. Rajesh Kumar", lessonPlan: 8, learningResource: 18, items: 25, tests: 3, ebook: 1 },
+  { name: "Ms. Anitha Devi", lessonPlan: 14, learningResource: 28, items: 35, tests: 5, ebook: 3 },
+  { name: "Mr. Karthik Rajan", lessonPlan: 6, learningResource: 15, items: 20, tests: 2, ebook: 0 },
+  { name: "Ms. Lakshmi Narayanan", lessonPlan: 11, learningResource: 24, items: 29, tests: 4, ebook: 2 },
+];
+
+// ── Report data (existing) ──
 const deviceData = [
   { name: "Mobile", visits: 3769, timeSpent: "1,785:45:11 Hours", minutes: 107145 },
   { name: "Web", visits: 550, timeSpent: "539:42:50 Hours", minutes: 32382 },
 ];
-
 const deviceColors = ["hsl(var(--chart-1))", "hsl(var(--chart-3))"];
 
-// ── Roles ──
 const roleData = [
   { name: "Student", visits: 8861, timeSpent: "1,571:49:28 Hours", minutes: 94309 },
   { name: "Teacher", visits: 538, timeSpent: "510:48:13 Hours", minutes: 30648 },
 ];
-
 const roleColors = ["hsl(var(--chart-2))", "hsl(var(--chart-4))"];
 
-// ── Content Type ──
 const contentTypeData = [
   { name: "Ebook", visits: 481, timeSpent: "273:40:05 Hours", minutes: 16420 },
   { name: "Learning Resources", visits: 3065, timeSpent: "395:34:56 Hours", minutes: 23734 },
@@ -32,17 +64,11 @@ const contentTypeData = [
   { name: "Lesson / Weekly / Concept Plans", visits: 132, timeSpent: "22:02:16 Hours", minutes: 1322 },
   { name: "Answer Key", visits: 1, timeSpent: "00:00:30 Hours", minutes: 0 },
 ];
-
 const contentColors = [
-  "hsl(var(--chart-1))",
-  "hsl(var(--chart-2))",
-  "hsl(var(--chart-3))",
-  "hsl(var(--chart-4))",
-  "hsl(var(--chart-5))",
-  "hsl(var(--primary))",
+  "hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))", "hsl(var(--chart-5))", "hsl(var(--primary))",
 ];
 
-// ── Class - Subject ──
 const classSubjectData = [
   { name: "I-2024 - Embracing Harmony", visits: 10, timeSpent: "00:01:48 Hours" },
   { name: "I-2024 - English", visits: 1095, timeSpent: "445:09:19 Hours" },
@@ -85,7 +111,45 @@ const classSubjectChartData = classSubjectData.map((d) => ({
   visits: d.visits,
 }));
 
-// ── Shared Section Component ──
+// ── Teacher Table Component ──
+function TeacherTable({ data }: { data: typeof userAppTeachers }) {
+  return (
+    <Card className="shadow-sm">
+      <CardContent className="px-0 pb-0 pt-0">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-muted/30">
+              <TableHead className="pl-6 font-semibold">Teacher Name</TableHead>
+              <TableHead className="text-right font-semibold">Lesson Plan</TableHead>
+              <TableHead className="text-right font-semibold">Learning Resource</TableHead>
+              <TableHead className="text-right font-semibold">Items</TableHead>
+              <TableHead className="text-right font-semibold">Tests</TableHead>
+              <TableHead className="text-right pr-6 font-semibold">Ebook</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.map((t, i) => (
+              <TableRow key={i} className="hover:bg-muted/20 transition-colors">
+                <TableCell className="pl-6 font-medium">{t.name}</TableCell>
+                <TableCell className="text-right">{t.lessonPlan}</TableCell>
+                <TableCell className="text-right">{t.learningResource}</TableCell>
+                <TableCell className="text-right">{t.items}</TableCell>
+                <TableCell className="text-right">{t.tests}</TableCell>
+                <TableCell className="text-right pr-6">
+                  <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
+                    {t.ebook}
+                  </span>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  );
+}
+
+// ── Report Section Component ──
 interface AnalyticsSectionProps {
   title: string;
   chartData: { name: string; [key: string]: any }[];
@@ -109,29 +173,9 @@ const AnalyticsSection = ({
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} margin={{ top: 10, right: 30, left: 10, bottom: 40 }} barSize={barSize}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
-              <XAxis
-                dataKey="name"
-                tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
-                axisLine={{ stroke: "hsl(var(--border))" }}
-                tickLine={false}
-                angle={-30}
-                textAnchor="end"
-                interval={0}
-              />
-              <YAxis
-                tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-                axisLine={false}
-                tickLine={false}
-                label={{ value: yLabel, angle: -90, position: "insideLeft", style: { fill: "hsl(var(--muted-foreground))", fontSize: 12 } }}
-              />
-              <Tooltip
-                contentStyle={{
-                  background: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: "var(--radius)",
-                  fontSize: 13,
-                }}
-              />
+              <XAxis dataKey="name" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} axisLine={{ stroke: "hsl(var(--border))" }} tickLine={false} angle={-30} textAnchor="end" interval={0} />
+              <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }} axisLine={false} tickLine={false} label={{ value: yLabel, angle: -90, position: "insideLeft", style: { fill: "hsl(var(--muted-foreground))", fontSize: 12 } }} />
+              <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "var(--radius)", fontSize: 13 }} />
               <Bar dataKey={dataKey} radius={[6, 6, 0, 0]}>
                 {chartData.map((_, i) => (
                   <Cell key={i} fill={colors[i % colors.length]} />
@@ -142,16 +186,13 @@ const AnalyticsSection = ({
         </div>
       </CardContent>
     </Card>
-
     <Card className="shadow-sm">
       <CardContent className="px-0 pb-0 pt-0">
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/30 border-t">
               {tableHeaders.map((h) => (
-                <TableHead key={h} className={`font-semibold ${h !== tableHeaders[0] ? "text-right" : "pl-6"} ${h === tableHeaders[tableHeaders.length - 1] ? "pr-6" : ""}`}>
-                  {h}
-                </TableHead>
+                <TableHead key={h} className={`font-semibold ${h !== tableHeaders[0] ? "text-right" : "pl-6"} ${h === tableHeaders[tableHeaders.length - 1] ? "pr-6" : ""}`}>{h}</TableHead>
               ))}
             </TableRow>
           </TableHeader>
@@ -159,15 +200,9 @@ const AnalyticsSection = ({
             {tableRows.map((row, i) => (
               <TableRow key={i} className="hover:bg-muted/20 transition-colors">
                 {row.cells.map((cell, j) => (
-                  <TableCell
-                    key={j}
-                    className={`${j === 0 ? "pl-6 font-medium" : "text-right"} ${j === row.cells.length - 1 ? "pr-6" : ""}`}
-                    style={j === 0 ? { color: colors[i % colors.length] } : undefined}
-                  >
+                  <TableCell key={j} className={`${j === 0 ? "pl-6 font-medium" : "text-right"} ${j === row.cells.length - 1 ? "pr-6" : ""}`} style={j === 0 ? { color: colors[i % colors.length] } : undefined}>
                     {j === row.cells.length - 1 ? (
-                      <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
-                        {cell}
-                      </span>
+                      <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">{cell}</span>
                     ) : typeof cell === "number" ? cell.toLocaleString() : cell}
                   </TableCell>
                 ))}
@@ -180,77 +215,118 @@ const AnalyticsSection = ({
   </div>
 );
 
+// ── Main Page ──
 export default function ContentUsageDetail() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const role = searchParams.get("role") || "Teacher";
 
+  const [selectedClass, setSelectedClass] = useState<string>("");
+  const [showReports, setShowReports] = useState(false);
+
+  // Step 1: Class not selected → show dropdown
+  if (!selectedClass) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="border-b border-border bg-card">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
+            <Button variant="ghost" size="icon" onClick={() => navigate("/")} className="shrink-0">
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+            <div>
+              <h1 className="text-xl font-semibold text-foreground">Content Usage — {role}</h1>
+              <p className="text-sm text-muted-foreground">Select a class to view detailed reports</p>
+            </div>
+          </div>
+        </div>
+        <div className="max-w-md mx-auto px-6 py-16 space-y-6">
+          <Card className="shadow-md">
+            <CardContent className="pt-6 space-y-4">
+              <h2 className="text-lg font-semibold text-foreground">Choose a Class</h2>
+              <p className="text-sm text-muted-foreground">Select the class you want to analyse usage for.</p>
+              <Select onValueChange={(v) => setSelectedClass(v)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select class…" />
+                </SelectTrigger>
+                <SelectContent className="bg-popover z-50">
+                  {classOptions.map((c) => (
+                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  // Step 2+: Class selected → tabs + table + optional reports
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <div className="border-b border-border bg-card">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => navigate("/")} className="shrink-0">
+          <Button variant="ghost" size="icon" onClick={() => { setSelectedClass(""); setShowReports(false); }} className="shrink-0">
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <div>
-            <h1 className="text-xl font-semibold text-foreground">Content Usage Reports — {role}</h1>
-            <p className="text-sm text-muted-foreground">Environment, roles, content types &amp; class-subject analytics</p>
+          <div className="flex-1">
+            <h1 className="text-xl font-semibold text-foreground">Content Usage — {role}</h1>
+            <p className="text-sm text-muted-foreground">Class: {selectedClass}</p>
           </div>
+          <Select value={selectedClass} onValueChange={(v) => { setSelectedClass(v); setShowReports(false); }}>
+            <SelectTrigger className="w-44">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="bg-popover z-50">
+              {classOptions.map((c) => (
+                <SelectItem key={c} value={c}>{c}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8 space-y-12">
-        {/* Environment / Devices */}
-        <AnalyticsSection
-          title="Environment"
-          chartData={deviceData.map((d) => ({ name: d.name, visits: d.minutes }))}
-          dataKey="visits"
-          yLabel="Time (Min)"
-          colors={deviceColors}
-          tableHeaders={["Devices", "No. of Visits", "Time Spent"]}
-          tableRows={deviceData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))}
-        />
+      <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+        <Tabs defaultValue="user" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="user">User Application</TabsTrigger>
+            <TabsTrigger value="mobile">Mobile Application</TabsTrigger>
+            <TabsTrigger value="school">School Application</TabsTrigger>
+          </TabsList>
 
-        {/* Roles */}
-        <AnalyticsSection
-          title="Roles"
-          chartData={roleData.map((d) => ({ name: d.name, visits: d.minutes }))}
-          dataKey="visits"
-          yLabel="Time (Min)"
-          colors={roleColors}
-          tableHeaders={["Roles", "No. of Visits", "Time Spent"]}
-          tableRows={roleData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))}
-        />
+          <TabsContent value="user" className="space-y-6">
+            <TeacherTable data={userAppTeachers} />
+          </TabsContent>
+          <TabsContent value="mobile" className="space-y-6">
+            <TeacherTable data={mobileAppTeachers} />
+          </TabsContent>
+          <TabsContent value="school" className="space-y-6">
+            <TeacherTable data={schoolAppTeachers} />
+          </TabsContent>
+        </Tabs>
 
-        {/* Content Type */}
-        <AnalyticsSection
-          title="Content Type"
-          chartData={contentTypeData.map((d) => ({ name: d.name.length > 14 ? d.name.slice(0, 14) + "…" : d.name, visits: d.minutes }))}
-          dataKey="visits"
-          yLabel="Time (Min)"
-          colors={contentColors}
-          tableHeaders={["Content Type", "No. of Visits", "Time Spent"]}
-          tableRows={contentTypeData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))}
-          chartHeight={320}
-          barSize={40}
-        />
+        {/* View More Details toggle */}
+        {!showReports ? (
+          <div className="flex justify-center">
+            <Button variant="outline" className="gap-2" onClick={() => setShowReports(true)}>
+              <Eye className="h-4 w-4" />
+              View More Details
+            </Button>
+          </div>
+        ) : (
+          <div className="space-y-12">
+            <div className="flex justify-center">
+              <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={() => setShowReports(false)}>
+                Hide Details
+              </Button>
+            </div>
 
-        {/* Class - Subject */}
-        <AnalyticsSection
-          title="Class - Subject"
-          chartData={classSubjectChartData}
-          dataKey="visits"
-          yLabel="Visits"
-          colors={[
-            "hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))",
-            "hsl(var(--chart-4))", "hsl(var(--chart-5))", "hsl(var(--primary))",
-          ]}
-          tableHeaders={["Class - Subject", "No. of Visits", "Time Spent"]}
-          tableRows={classSubjectData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))}
-          chartHeight={360}
-          barSize={16}
-        />
+            <AnalyticsSection title="Environment" chartData={deviceData.map((d) => ({ name: d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={deviceColors} tableHeaders={["Devices", "No. of Visits", "Time Spent"]} tableRows={deviceData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} />
+            <AnalyticsSection title="Roles" chartData={roleData.map((d) => ({ name: d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={roleColors} tableHeaders={["Roles", "No. of Visits", "Time Spent"]} tableRows={roleData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} />
+            <AnalyticsSection title="Content Type" chartData={contentTypeData.map((d) => ({ name: d.name.length > 14 ? d.name.slice(0, 14) + "…" : d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={contentColors} tableHeaders={["Content Type", "No. of Visits", "Time Spent"]} tableRows={contentTypeData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} chartHeight={320} barSize={40} />
+            <AnalyticsSection title="Class - Subject" chartData={classSubjectChartData} dataKey="visits" yLabel="Visits" colors={["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))", "hsl(var(--chart-4))", "hsl(var(--chart-5))", "hsl(var(--primary))"]} tableHeaders={["Class - Subject", "No. of Visits", "Time Spent"]} tableRows={classSubjectData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} chartHeight={360} barSize={16} />
+          </div>
+        )}
       </div>
     </div>
   );
