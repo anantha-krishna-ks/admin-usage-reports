@@ -8,6 +8,7 @@ import { DetailedAnalytics } from "@/components/DetailedAnalytics";
 import { SectionDrillDown } from "@/components/SectionDrillDown";
 import { ContentUsageTable } from "@/components/ContentUsageTable";
 import { DateRangeFilter } from "@/components/DateRangeFilter";
+import { ExportButton } from "@/components/proctoring/ExportButton";
 import type { DateRange } from "react-day-picker";
 import {
   Select,
@@ -31,7 +32,7 @@ const Index = () => {
               Comprehensive usage analytics across schools and sections
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <DateRangeFilter date={date} onDateChange={setDate} />
             <Select defaultValue="riverside">
               <SelectTrigger className="w-[250px]">
@@ -43,6 +44,7 @@ const Index = () => {
                 <SelectItem value="mountain">Mountain View School</SelectItem>
               </SelectContent>
             </Select>
+            <ExportButton />
           </div>
         </div>
 
