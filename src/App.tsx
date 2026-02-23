@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import ProctorAnalytics from "./pages/ProctorAnalytics";
 import SectionDetail from "./pages/SectionDetail";
 import ContentUsageDetail from "./pages/ContentUsageDetail";
+import CustomContentDetail from "./pages/CustomContentDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/proctor-analytics" element={<ProctorAnalytics />} />
           <Route path="/section-detail" element={<SectionDetail />} />
           <Route path="/content-usage-detail" element={<ContentUsageDetail />} />
+          <Route path="/custom-content-detail" element={<CustomContentDetail />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

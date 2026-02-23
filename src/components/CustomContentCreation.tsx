@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,8 @@ const teacherContentData: TeacherContentData[] = [
 ];
 
 export const CustomContentCreation = () => {
+  const navigate = useNavigate();
+
   return (
     <Card>
       <CardHeader>
@@ -48,7 +51,12 @@ export const CustomContentCreation = () => {
                   <TableCell>{row.questions}</TableCell>
                   <TableCell>{row.tests}</TableCell>
                   <TableCell>
-                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                      onClick={() => navigate(`/custom-content-detail?teacher=${encodeURIComponent(row.teacherName)}`)}
+                    >
                       <Eye className="h-4 w-4" />
                     </Button>
                   </TableCell>
