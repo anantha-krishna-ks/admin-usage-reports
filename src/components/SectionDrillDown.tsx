@@ -131,7 +131,7 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
                     <TableCell>{grade.contentUsage}</TableCell>
                     <TableCell className="font-semibold">{grade.totalUsage}</TableCell>
                     <TableCell>
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={(e) => { e.stopPropagation(); handlePreview(grade.grade, "Teacher"); }}>
+                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={(e) => { e.stopPropagation(); navigate(`/teacher-usage-detail?grade=${encodeURIComponent(grade.grade)}`); }}>
                         <Eye className="h-4 w-4" />
                       </Button>
                     </TableCell>
