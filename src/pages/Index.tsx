@@ -7,6 +7,7 @@ import { UsageDistributionChart } from "@/components/UsageDistributionChart";
 import { DetailedAnalytics } from "@/components/DetailedAnalytics";
 import { SectionDrillDown } from "@/components/SectionDrillDown";
 import { ContentUsageTable } from "@/components/ContentUsageTable";
+import { CustomContentCreation } from "@/components/CustomContentCreation";
 import { DateRangeFilter } from "@/components/DateRangeFilter";
 import { ExportButton } from "@/components/proctoring/ExportButton";
 import type { DateRange } from "react-day-picker";
@@ -79,6 +80,9 @@ const Index = () => {
 
         {/* Content Usage */}
         <ContentUsageTable />
+
+        {/* Custom Content Creation */}
+        <CustomContentCreation />
       </div>
     </div>
   );
