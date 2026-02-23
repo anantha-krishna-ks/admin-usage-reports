@@ -359,7 +359,7 @@ export default function ContentUsageDetail() {
     <div className="min-h-screen bg-background">
       <div className="border-b border-border bg-card">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => { setSelectedClass(""); setSelectedSection(""); setShowReports(false); }} className="shrink-0">
+          <Button variant="ghost" size="icon" onClick={() => navigate("/")} className="shrink-0">
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div className="flex-1">
