@@ -46,6 +46,31 @@ const schoolAppStudents = [
   { name: "Rohan Gupta", learningResource: 9, ebook: 3, test: 2, lbq: 1, pt: 0 },
 ];
 
+// ── Parent table data per tab ──
+const userAppParents = [
+  { name: "Mr. Venkat Patel", learningResource: 30, ebook: 8, test: 5 },
+  { name: "Mrs. Sudha Krishnan", learningResource: 42, ebook: 14, test: 10 },
+  { name: "Mr. Arjun Reddy", learningResource: 25, ebook: 6, test: 3 },
+  { name: "Mrs. Kavitha Sundaram", learningResource: 38, ebook: 11, test: 7 },
+  { name: "Mr. Ramesh Gupta", learningResource: 28, ebook: 7, test: 4 },
+];
+
+const mobileAppParents = [
+  { name: "Mr. Venkat Patel", learningResource: 15, ebook: 4, test: 2 },
+  { name: "Mrs. Sudha Krishnan", learningResource: 20, ebook: 7, test: 5 },
+  { name: "Mr. Arjun Reddy", learningResource: 12, ebook: 3, test: 1 },
+  { name: "Mrs. Kavitha Sundaram", learningResource: 18, ebook: 5, test: 3 },
+  { name: "Mr. Ramesh Gupta", learningResource: 14, ebook: 4, test: 2 },
+];
+
+const schoolAppParents = [
+  { name: "Mr. Venkat Patel", learningResource: 8, ebook: 2, test: 1 },
+  { name: "Mrs. Sudha Krishnan", learningResource: 10, ebook: 3, test: 2 },
+  { name: "Mr. Arjun Reddy", learningResource: 6, ebook: 1, test: 0 },
+  { name: "Mrs. Kavitha Sundaram", learningResource: 9, ebook: 3, test: 1 },
+  { name: "Mr. Ramesh Gupta", learningResource: 7, ebook: 2, test: 1 },
+];
+
 // ── Teacher table data per tab ──
 const userAppTeachers = [
   { name: "Ms. Priya Sharma", lessonPlan: 42, learningResource: 85, items: 120, tests: 15, ebook: 8 },
@@ -215,6 +240,40 @@ function StudentTable({ data }: { data: typeof userAppStudents }) {
   );
 }
 
+// ── Parent Table Component ──
+function ParentTable({ data }: { data: typeof userAppParents }) {
+  return (
+    <Card className="shadow-sm">
+      <CardContent className="px-0 pb-0 pt-0">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-muted/30">
+              <TableHead className="pl-6 font-semibold">Parent Name</TableHead>
+              <TableHead className="text-right font-semibold">Learning Resource</TableHead>
+              <TableHead className="text-right font-semibold">Ebook</TableHead>
+              <TableHead className="text-right pr-6 font-semibold">Test</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.map((p, i) => (
+              <TableRow key={i} className="hover:bg-muted/20 transition-colors">
+                <TableCell className="pl-6 font-medium">{p.name}</TableCell>
+                <TableCell className="text-right">{p.learningResource}</TableCell>
+                <TableCell className="text-right">{p.ebook}</TableCell>
+                <TableCell className="text-right pr-6">
+                  <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
+                    {p.test}
+                  </span>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  );
+}
+
 // ── Report Section Component ──
 interface AnalyticsSectionProps {
   title: string;
@@ -291,9 +350,11 @@ export default function ContentUsageDetail() {
   const [selectedSection, setSelectedSection] = useState<string>("");
   const [showReports, setShowReports] = useState(false);
   const isStudent = role === "Student";
+  const isParent = role === "Parent";
+  const needsSection = isStudent || isParent;
 
-  // Step 1: Class (and section for Student) not selected → show dropdown
-  if (!selectedClass || (isStudent && !selectedSection)) {
+  // Step 1: Class (and section for Student/Parent) not selected → show dropdown
+  if (!selectedClass || (needsSection && !selectedSection)) {
     return (
       <div className="min-h-screen bg-background">
         <div className="border-b border-border bg-card">
@@ -310,12 +371,12 @@ export default function ContentUsageDetail() {
         <div className="max-w-md mx-auto px-6 py-16 space-y-6">
           <Card className="shadow-md">
             <CardContent className="pt-6 space-y-4">
-              <h2 className="text-lg font-semibold text-foreground">{isStudent ? "Choose Class & Section" : "Choose a Class"}</h2>
+              <h2 className="text-lg font-semibold text-foreground">{needsSection ? "Choose Class & Section" : "Choose a Class"}</h2>
               <p className="text-sm text-muted-foreground">Select the class you want to analyse usage for.</p>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-muted-foreground">Class</label>
-                  <Select onValueChange={(v) => { setSelectedClass(v); if (!isStudent) setSelectedSection(""); }}>
+                  <Select onValueChange={(v) => { setSelectedClass(v); if (!needsSection) setSelectedSection(""); }}>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select class…" />
                     </SelectTrigger>
@@ -326,7 +387,7 @@ export default function ContentUsageDetail() {
                     </SelectContent>
                   </Select>
                 </div>
-                {isStudent && (
+                {needsSection && (
                   <div className="space-y-1.5">
                     <label className="text-sm font-medium text-muted-foreground">Section</label>
                     <Select onValueChange={(v) => setSelectedSection(v)}>
@@ -374,7 +435,7 @@ export default function ContentUsageDetail() {
                 ))}
               </SelectContent>
             </Select>
-            {isStudent && (
+            {needsSection && (
               <Select value={selectedSection} onValueChange={(v) => setSelectedSection(v)}>
                 <SelectTrigger className="w-36">
                   <SelectValue />
@@ -399,13 +460,13 @@ export default function ContentUsageDetail() {
           </TabsList>
 
           <TabsContent value="user" className="space-y-6">
-            {isStudent ? <StudentTable data={userAppStudents} /> : <TeacherTable data={userAppTeachers} />}
+            {isStudent ? <StudentTable data={userAppStudents} /> : isParent ? <ParentTable data={userAppParents} /> : <TeacherTable data={userAppTeachers} />}
           </TabsContent>
           <TabsContent value="mobile" className="space-y-6">
-            {isStudent ? <StudentTable data={mobileAppStudents} /> : <TeacherTable data={mobileAppTeachers} />}
+            {isStudent ? <StudentTable data={mobileAppStudents} /> : isParent ? <ParentTable data={mobileAppParents} /> : <TeacherTable data={mobileAppTeachers} />}
           </TabsContent>
           <TabsContent value="school" className="space-y-6">
-            {isStudent ? <StudentTable data={schoolAppStudents} /> : <TeacherTable data={schoolAppTeachers} />}
+            {isStudent ? <StudentTable data={schoolAppStudents} /> : isParent ? <ParentTable data={schoolAppParents} /> : <TeacherTable data={schoolAppTeachers} />}
           </TabsContent>
         </Tabs>
 
