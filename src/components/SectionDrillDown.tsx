@@ -130,7 +130,11 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
                     <TableCell>{grade.appUsage}</TableCell>
                     <TableCell>{grade.contentUsage}</TableCell>
                     <TableCell className="font-semibold">{grade.totalUsage}</TableCell>
-                    <TableCell />
+                    <TableCell>
+                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={(e) => { e.stopPropagation(); handlePreview(grade.grade, "Teacher"); }}>
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
                   </TableRow>
 
                   {expandedGrades.has(grade.grade) &&
