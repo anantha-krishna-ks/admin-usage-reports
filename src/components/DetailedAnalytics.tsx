@@ -4,25 +4,25 @@ import { Monitor, Smartphone, Building2, FileText, Library, BookOpen } from "luc
 
 const userTypeData = {
   teachers: {
-    applicationUsage: "980 hrs",
-    applicationBreakdown: { web: "490 hrs", mobile: "350 hrs", school: "140 hrs" },
-    contentUsage: "1,470 hrs",
-    contentBreakdown: { lessonPlans: "590 hrs", learningResources: "520 hrs", ebooks: "360 hrs" },
-    totalUsage: "2,450 hrs",
+    applicationUsage: "980 mins",
+    applicationBreakdown: { web: "490 mins", mobile: "350 mins", school: "140 mins" },
+    contentUsage: "1,470 mins",
+    contentBreakdown: { lessonPlans: "590 mins", learningResources: "520 mins", ebooks: "360 mins" },
+    totalUsage: "2,450 mins",
   },
   students: {
-    applicationUsage: "6,890 hrs",
-    applicationBreakdown: { web: "3,100 hrs", mobile: "2,650 hrs", school: "1,140 hrs" },
-    contentUsage: "9,280 hrs",
-    contentBreakdown: { lessonPlans: "3,200 hrs", learningResources: "3,850 hrs", ebooks: "2,230 hrs" },
-    totalUsage: "16,170 hrs",
+    applicationUsage: "6,890 mins",
+    applicationBreakdown: { web: "3,100 mins", mobile: "2,650 mins", school: "1,140 mins" },
+    contentUsage: "9,280 mins",
+    contentBreakdown: { lessonPlans: "3,200 mins", learningResources: "3,850 mins", ebooks: "2,230 mins" },
+    totalUsage: "16,170 mins",
   },
   parents: {
-    applicationUsage: "630 hrs",
-    applicationBreakdown: { web: "340 hrs", mobile: "210 hrs", school: "80 hrs" },
-    contentUsage: "2,000 hrs",
-    contentBreakdown: { lessonPlans: "800 hrs", learningResources: "780 hrs", ebooks: "420 hrs" },
-    totalUsage: "2,630 hrs",
+    applicationUsage: "630 mins",
+    applicationBreakdown: { web: "340 mins", mobile: "210 mins", school: "80 mins" },
+    contentUsage: "2,000 mins",
+    contentBreakdown: { lessonPlans: "800 mins", learningResources: "780 mins", ebooks: "420 mins" },
+    totalUsage: "2,630 mins",
   },
 };
 
