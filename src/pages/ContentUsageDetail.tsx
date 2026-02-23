@@ -312,28 +312,34 @@ export default function ContentUsageDetail() {
             <CardContent className="pt-6 space-y-4">
               <h2 className="text-lg font-semibold text-foreground">{isStudent ? "Choose Class & Section" : "Choose a Class"}</h2>
               <p className="text-sm text-muted-foreground">Select the class you want to analyse usage for.</p>
-              <div className="space-y-3">
-                <Select onValueChange={(v) => { setSelectedClass(v); if (!isStudent) setSelectedSection(""); }}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select class…" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-popover z-50">
-                    {classOptions.map((c) => (
-                      <SelectItem key={c} value={c}>{c}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {isStudent && selectedClass && (
-                  <Select onValueChange={(v) => setSelectedSection(v)}>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label className="text-sm font-medium text-muted-foreground">Class</label>
+                  <Select onValueChange={(v) => { setSelectedClass(v); if (!isStudent) setSelectedSection(""); }}>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select section…" />
+                      <SelectValue placeholder="Select class…" />
                     </SelectTrigger>
                     <SelectContent className="bg-popover z-50">
-                      {sectionOptions.map((s) => (
-                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      {classOptions.map((c) => (
+                        <SelectItem key={c} value={c}>{c}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
+                </div>
+                {isStudent && (
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-muted-foreground">Section</label>
+                    <Select onValueChange={(v) => setSelectedSection(v)}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select section…" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-popover z-50">
+                        {sectionOptions.map((s) => (
+                          <SelectItem key={s} value={s}>{s}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 )}
               </div>
             </CardContent>
