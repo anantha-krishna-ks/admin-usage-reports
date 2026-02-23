@@ -173,11 +173,11 @@ function TeacherTable({ data }: { data: typeof userAppTeachers }) {
           <TableHeader>
             <TableRow className="bg-muted/30">
               <TableHead className="pl-6 font-semibold">Teacher Name</TableHead>
-              <TableHead className="text-right font-semibold">Lesson Plan</TableHead>
-              <TableHead className="text-right font-semibold">Learning Resource</TableHead>
-              <TableHead className="text-right font-semibold">Items</TableHead>
-              <TableHead className="text-right font-semibold">Tests</TableHead>
-              <TableHead className="text-right pr-6 font-semibold">Ebook</TableHead>
+               <TableHead className="text-right font-semibold">Lesson Plan (mins)</TableHead>
+               <TableHead className="text-right font-semibold">Learning Resource (mins)</TableHead>
+               <TableHead className="text-right font-semibold">Items (mins)</TableHead>
+               <TableHead className="text-right font-semibold">Tests (mins)</TableHead>
+               <TableHead className="text-right pr-6 font-semibold">Ebook (mins)</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -211,11 +211,11 @@ function StudentTable({ data }: { data: typeof userAppStudents }) {
           <TableHeader>
             <TableRow className="bg-muted/30">
               <TableHead className="pl-6 font-semibold">Student Name</TableHead>
-              <TableHead className="text-right font-semibold">Learning Resource</TableHead>
-              <TableHead className="text-right font-semibold">Ebook</TableHead>
-              <TableHead className="text-right font-semibold">Test</TableHead>
-              <TableHead className="text-right font-semibold">LBQ</TableHead>
-              <TableHead className="text-right pr-6 font-semibold">PT</TableHead>
+               <TableHead className="text-right font-semibold">Learning Resource (mins)</TableHead>
+               <TableHead className="text-right font-semibold">Ebook (mins)</TableHead>
+               <TableHead className="text-right font-semibold">Test (mins)</TableHead>
+               <TableHead className="text-right font-semibold">LBQ (mins)</TableHead>
+               <TableHead className="text-right pr-6 font-semibold">PT (mins)</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -249,9 +249,9 @@ function ParentTable({ data }: { data: typeof userAppParents }) {
           <TableHeader>
             <TableRow className="bg-muted/30">
               <TableHead className="pl-6 font-semibold">Parent Name</TableHead>
-              <TableHead className="text-right font-semibold">Learning Resource</TableHead>
-              <TableHead className="text-right font-semibold">Ebook</TableHead>
-              <TableHead className="text-right pr-6 font-semibold">Test</TableHead>
+               <TableHead className="text-right font-semibold">Learning Resource (mins)</TableHead>
+               <TableHead className="text-right font-semibold">Ebook (mins)</TableHead>
+               <TableHead className="text-right pr-6 font-semibold">Test (mins)</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -430,10 +430,10 @@ export default function ContentUsageDetail() {
               </Button>
             </div>
 
-            <AnalyticsSection title="Environment" chartData={deviceData.map((d) => ({ name: d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={deviceColors} tableHeaders={["Devices", "No. of Visits", "Time Spent"]} tableRows={deviceData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} />
-            <AnalyticsSection title="Roles" chartData={roleData.map((d) => ({ name: d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={roleColors} tableHeaders={["Roles", "No. of Visits", "Time Spent"]} tableRows={roleData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} />
-            <AnalyticsSection title="Content Type" chartData={contentTypeData.map((d) => ({ name: d.name.length > 14 ? d.name.slice(0, 14) + "…" : d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={contentColors} tableHeaders={["Content Type", "No. of Visits", "Time Spent"]} tableRows={contentTypeData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} chartHeight={320} barSize={40} />
-            <AnalyticsSection title="Class - Subject" chartData={classSubjectChartData} dataKey="visits" yLabel="Visits" colors={["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))", "hsl(var(--chart-4))", "hsl(var(--chart-5))", "hsl(var(--primary))"]} tableHeaders={["Class - Subject", "No. of Visits", "Time Spent"]} tableRows={classSubjectData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} chartHeight={360} barSize={16} />
+             <AnalyticsSection title="Environment" chartData={deviceData.map((d) => ({ name: d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={deviceColors} tableHeaders={["Devices", "No. of Visits", "Time Spent (mins)"]} tableRows={deviceData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} />
+             <AnalyticsSection title="Roles" chartData={roleData.map((d) => ({ name: d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={roleColors} tableHeaders={["Roles", "No. of Visits", "Time Spent (mins)"]} tableRows={roleData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} />
+             <AnalyticsSection title="Content Type" chartData={contentTypeData.map((d) => ({ name: d.name.length > 14 ? d.name.slice(0, 14) + "…" : d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={contentColors} tableHeaders={["Content Type", "No. of Visits", "Time Spent (mins)"]} tableRows={contentTypeData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} chartHeight={320} barSize={40} />
+             <AnalyticsSection title="Class - Subject" chartData={classSubjectChartData} dataKey="visits" yLabel="Visits" colors={["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))", "hsl(var(--chart-4))", "hsl(var(--chart-5))", "hsl(var(--primary))"]} tableHeaders={["Class - Subject", "No. of Visits", "Time Spent (mins)"]} tableRows={classSubjectData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} chartHeight={360} barSize={16} />
           </div>
         )}
       </div>
