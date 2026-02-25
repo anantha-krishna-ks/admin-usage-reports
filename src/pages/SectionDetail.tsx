@@ -378,19 +378,18 @@ export default function SectionDetail() {
 
        <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
         {/* Breadcrumb Navigation */}
-        <nav className="flex items-center gap-0 text-sm animate-fade-in rounded-lg border border-border bg-card shadow-sm overflow-hidden">
-          {/* Dashboard */}
-          <button
-            onClick={() => navigate("/")}
-            className="flex items-center gap-2 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
-          >
-            <LayoutDashboard className="h-3.5 w-3.5" />
-            Dashboard
-          </button>
+        <div className="animate-fade-in">
+          <nav className="flex items-center gap-2 text-sm">
+            <button
+              onClick={() => navigate("/")}
+              className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors group"
+            >
+              <LayoutDashboard className="h-4 w-4 group-hover:scale-110 transition-transform" />
+              <span>Dashboard</span>
+            </button>
 
-          {/* Grade */}
-          <div className="flex items-center">
-            <ChevronRight className="h-3.5 w-3.5 text-border shrink-0" />
+            <span className="text-muted-foreground/40">/</span>
+
             <button
               onClick={() => {
                 setSelectedDeviceDetail(null);
@@ -398,46 +397,42 @@ export default function SectionDetail() {
                 setSelectedDevice(null);
               }}
               className={cn(
-                "px-4 py-2.5 transition-colors",
+                "rounded-md px-2.5 py-1 transition-all",
                 !selectedPerson && !selectedDevice
                   ? "bg-primary/10 text-primary font-medium"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
               )}
             >
-              {grade}{section ? ` — ${section}` : ""} · {role}
+              {grade}{section ? ` · ${section}` : ""} — {role}
             </button>
-          </div>
 
-          {/* Person */}
-          {selectedPerson && (
-            <div className="flex items-center">
-              <ChevronRight className="h-3.5 w-3.5 text-border shrink-0" />
-              <button
-                onClick={() => {
-                  setSelectedDeviceDetail(null);
-                }}
-                className={cn(
-                  "px-4 py-2.5 transition-colors",
-                  !selectedDeviceDetail
-                    ? "bg-primary/10 text-primary font-medium"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                )}
-              >
-                {selectedPerson}
-              </button>
-            </div>
-          )}
+            {selectedPerson && (
+              <>
+                <span className="text-muted-foreground/40">/</span>
+                <button
+                  onClick={() => setSelectedDeviceDetail(null)}
+                  className={cn(
+                    "rounded-md px-2.5 py-1 transition-all",
+                    !selectedDeviceDetail
+                      ? "bg-primary/10 text-primary font-medium"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                  )}
+                >
+                  {selectedPerson}
+                </button>
+              </>
+            )}
 
-          {/* Device Detail */}
-          {selectedDeviceDetail && (
-            <div className="flex items-center">
-              <ChevronRight className="h-3.5 w-3.5 text-border shrink-0" />
-              <span className="px-4 py-2.5 bg-primary/10 text-primary font-medium">
-                {selectedDeviceDetail}
-              </span>
-            </div>
-          )}
-        </nav>
+            {selectedDeviceDetail && (
+              <>
+                <span className="text-muted-foreground/40">/</span>
+                <span className="rounded-md px-2.5 py-1 bg-primary/10 text-primary font-medium">
+                  {selectedDeviceDetail}
+                </span>
+              </>
+            )}
+          </nav>
+        </div>
 
         {selectedDeviceDetail ? (
           <div className="animate-fade-in space-y-8">
