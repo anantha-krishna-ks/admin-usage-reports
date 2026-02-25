@@ -510,10 +510,7 @@ export default function SectionDetail() {
                         </TableCell>
                         <TableCell className="text-right pr-6">
                           <span
-                            className={cn(
-                              "inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium tabular-nums text-primary-foreground w-[200px] justify-center",
-                              row.device === "Web" ? "bg-chart-2" : row.device === "Mobile" ? "bg-chart-1" : "bg-chart-3"
-                            )}
+                            className="inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium tabular-nums w-[200px] justify-center bg-muted text-muted-foreground"
                           >
                             {row.timeSpent} Hours
                           </span>
