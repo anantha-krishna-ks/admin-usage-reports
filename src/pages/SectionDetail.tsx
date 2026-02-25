@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { ArrowLeft, CalendarIcon, Search, Eye } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Search, Eye, ChevronDown, ChevronUp, Globe, Smartphone, School } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -25,6 +25,27 @@ interface PersonDeviceData {
   visits: number;
   timeSpent: string;
 }
+
+interface DeviceDetailData {
+  lessonPlans: number;
+  learningResources: number;
+  ebooks: number;
+  avgSessionDuration: string;
+  totalSessions: number;
+  lastActive: string;
+}
+
+const deviceDetailData: Record<string, DeviceDetailData> = {
+  Web: { lessonPlans: 42, learningResources: 38, ebooks: 15, avgSessionDuration: "18:30", totalSessions: 245, lastActive: "2 hours ago" },
+  Mobile: { lessonPlans: 28, learningResources: 22, ebooks: 8, avgSessionDuration: "12:15", totalSessions: 180, lastActive: "30 mins ago" },
+  School: { lessonPlans: 12, learningResources: 10, ebooks: 4, avgSessionDuration: "25:00", totalSessions: 65, lastActive: "1 day ago" },
+};
+
+const deviceIcons: Record<string, typeof Globe> = {
+  Web: Globe,
+  Mobile: Smartphone,
+  School: School,
+};
 
 const teacherDeviceData: Record<string, PersonDeviceData[]> = {
   "Ms. Priya Sharma": [
@@ -307,6 +328,7 @@ export default function SectionDetail() {
   const [endDate, setEndDate] = useState<Date | undefined>(toParam ? new Date(toParam) : undefined);
   const [selectedDevice, setSelectedDevice] = useState<string | null>(null);
   const [selectedPerson, setSelectedPerson] = useState<string | null>(null);
+  const [expandedDevice, setExpandedDevice] = useState<string | null>(null);
 
   const activeRoleData = selectedDevice ? roleDataByDevice[selectedDevice] || [] : [];
   const activePersonDevices = selectedPerson
