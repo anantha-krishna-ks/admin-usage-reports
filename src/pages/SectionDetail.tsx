@@ -35,17 +35,54 @@ interface DeviceDetailData {
   lastActive: string;
 }
 
-const deviceDetailData: Record<string, DeviceDetailData> = {
-  Web: { lessonPlans: 42, learningResources: 38, ebooks: 15, avgSessionDuration: "18:30", totalSessions: 245, lastActive: "2 hours ago" },
-  Mobile: { lessonPlans: 28, learningResources: 22, ebooks: 8, avgSessionDuration: "12:15", totalSessions: 180, lastActive: "30 mins ago" },
-  School: { lessonPlans: 12, learningResources: 10, ebooks: 4, avgSessionDuration: "25:00", totalSessions: 65, lastActive: "1 day ago" },
+interface SectionUsageData {
+  sectionName: string;
+  visits: number;
+  timeSpent: string;
+  minutes: number;
+}
+
+const sectionUsageByDevice: Record<string, SectionUsageData[]> = {
+  Web: [
+    { sectionName: "View notifications", visits: 24, timeSpent: "01:24:30", minutes: 84 },
+    { sectionName: "Group management", visits: 2, timeSpent: "00:00:13", minutes: 1 },
+    { sectionName: "Dashboard", visits: 41, timeSpent: "01:35:34", minutes: 95 },
+    { sectionName: "Test evaluation", visits: 25, timeSpent: "01:03:59", minutes: 64 },
+    { sectionName: "Digital Repository", visits: 21, timeSpent: "01:30:41", minutes: 90 },
+    { sectionName: "Resource preview", visits: 2, timeSpent: "00:44:34", minutes: 44 },
+    { sectionName: "Assessment reports", visits: 1, timeSpent: "00:00:06", minutes: 1 },
+    { sectionName: "BookMark", visits: 1, timeSpent: "00:00:02", minutes: 1 },
+    { sectionName: "Ebook Preview", visits: 4, timeSpent: "01:48:07", minutes: 108 },
+    { sectionName: "Leaderboard Quiz Lists", visits: 1, timeSpent: "00:00:04", minutes: 1 },
+  ],
+  Mobile: [
+    { sectionName: "Dashboard", visits: 38, timeSpent: "00:52:10", minutes: 52 },
+    { sectionName: "Notifications", visits: 15, timeSpent: "00:18:45", minutes: 18 },
+    { sectionName: "Digital Repository", visits: 12, timeSpent: "00:35:20", minutes: 35 },
+    { sectionName: "Test evaluation", visits: 8, timeSpent: "00:28:15", minutes: 28 },
+    { sectionName: "Ebook Preview", visits: 6, timeSpent: "00:42:30", minutes: 42 },
+    { sectionName: "Resource preview", visits: 3, timeSpent: "00:15:00", minutes: 15 },
+  ],
+  School: [
+    { sectionName: "Dashboard", visits: 10, timeSpent: "00:22:15", minutes: 22 },
+    { sectionName: "Digital Repository", visits: 5, timeSpent: "00:18:40", minutes: 18 },
+    { sectionName: "Test evaluation", visits: 3, timeSpent: "00:12:05", minutes: 12 },
+    { sectionName: "Ebook Preview", visits: 2, timeSpent: "00:08:30", minutes: 8 },
+  ],
 };
 
-const deviceIcons: Record<string, typeof Globe> = {
-  Web: Globe,
-  Mobile: Smartphone,
-  School: School,
-};
+const sectionBarColors = [
+  "hsl(var(--chart-1))",
+  "hsl(var(--chart-2))",
+  "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))",
+  "hsl(var(--chart-5))",
+  "hsl(210, 60%, 50%)",
+  "hsl(160, 50%, 45%)",
+  "hsl(30, 60%, 50%)",
+  "hsl(280, 40%, 55%)",
+  "hsl(0, 40%, 55%)",
+];
 
 const teacherDeviceData: Record<string, PersonDeviceData[]> = {
   "Ms. Priya Sharma": [
@@ -329,6 +366,7 @@ export default function SectionDetail() {
   const [selectedDevice, setSelectedDevice] = useState<string | null>(null);
   const [selectedPerson, setSelectedPerson] = useState<string | null>(null);
   const [expandedDevice, setExpandedDevice] = useState<string | null>(null);
+  const [selectedDeviceDetail, setSelectedDeviceDetail] = useState<string | null>(null);
 
   const activeRoleData = selectedDevice ? roleDataByDevice[selectedDevice] || [] : [];
   const activePersonDevices = selectedPerson
@@ -345,7 +383,9 @@ export default function SectionDetail() {
               variant="ghost"
               size="icon"
               onClick={() => {
-                if (selectedPerson) {
+                if (selectedDeviceDetail) {
+                  setSelectedDeviceDetail(null);
+                } else if (selectedPerson) {
                   setSelectedPerson(null);
                 } else if (selectedDevice) {
                   setSelectedDevice(null);
@@ -435,7 +475,122 @@ export default function SectionDetail() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
-        {selectedPerson ? (
+        {selectedDeviceDetail ? (
+          <div className="animate-fade-in space-y-8">
+            {/* Section usage header */}
+            <div className="flex items-center gap-3">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setSelectedDeviceDetail(null)}
+                className="shrink-0 h-8 w-8"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+              <div>
+                <h2 className="text-lg font-semibold text-foreground">
+                  {selectedPerson} — {selectedDeviceDetail}
+                </h2>
+                <p className="text-sm text-muted-foreground">Section-wise usage breakdown</p>
+              </div>
+            </div>
+
+            {/* Section Usage Chart */}
+            <Card className="shadow-sm">
+              <CardHeader>
+                <CardTitle>Usage by Section — {selectedDeviceDetail}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-[360px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={sectionUsageByDevice[selectedDeviceDetail] || []}
+                      margin={{ top: 10, right: 30, left: 10, bottom: 60 }}
+                      barSize={40}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
+                      <XAxis
+                        dataKey="sectionName"
+                        tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
+                        axisLine={{ stroke: "hsl(var(--border))" }}
+                        tickLine={false}
+                        angle={-35}
+                        textAnchor="end"
+                        interval={0}
+                      />
+                      <YAxis
+                        tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
+                        axisLine={false}
+                        tickLine={false}
+                        label={{
+                          value: "Time (Min)",
+                          angle: -90,
+                          position: "insideLeft",
+                          style: { fill: "hsl(var(--muted-foreground))", fontSize: 12 },
+                        }}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          background: "hsl(var(--card))",
+                          border: "1px solid hsl(var(--border))",
+                          borderRadius: "var(--radius)",
+                          fontSize: 13,
+                        }}
+                        formatter={(value: number, _name: string, props: any) => [
+                          `${value} min`,
+                          props.payload.sectionName,
+                        ]}
+                        labelFormatter={() => ""}
+                      />
+                      <Bar dataKey="minutes" radius={[6, 6, 0, 0]}>
+                        {(sectionUsageByDevice[selectedDeviceDetail] || []).map((_entry, index) => (
+                          <Cell key={index} fill={sectionBarColors[index % sectionBarColors.length]} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Section Usage Table */}
+            <Card className="shadow-sm">
+              <CardHeader className="pb-3">
+                <CardTitle>Section Details</CardTitle>
+              </CardHeader>
+              <CardContent className="px-0 pb-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/30 border-t">
+                      <TableHead className="font-semibold pl-6">Section Names</TableHead>
+                      <TableHead className="font-semibold text-center">No. of Visits</TableHead>
+                      <TableHead className="font-semibold text-right pr-6">Time Spent</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {(sectionUsageByDevice[selectedDeviceDetail] || []).map((row, i) => (
+                      <TableRow key={row.sectionName} className="hover:bg-muted/20 transition-colors">
+                        <TableCell className="pl-6">
+                          <span className="font-medium" style={{ color: sectionBarColors[i % sectionBarColors.length] }}>
+                            {row.sectionName}
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-center tabular-nums">
+                          {row.visits.toLocaleString()}
+                        </TableCell>
+                        <TableCell className="text-right pr-6">
+                          <span className="inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium tabular-nums w-[200px] justify-center bg-muted text-muted-foreground">
+                            {row.timeSpent} Hours
+                          </span>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </div>
+        ) : selectedPerson ? (
           <div className="animate-fade-in space-y-8">
             {/* Person device breakdown header */}
             <div className="flex items-center gap-3">
@@ -516,7 +671,8 @@ export default function SectionDetail() {
                     <TableRow className="bg-muted/30 border-t">
                       <TableHead className="font-semibold pl-6">Devices</TableHead>
                       <TableHead className="font-semibold text-center">No. of Visits</TableHead>
-                      <TableHead className="font-semibold text-right pr-6">Time Spent</TableHead>
+                      <TableHead className="font-semibold text-right">Time Spent</TableHead>
+                      <TableHead className="font-semibold text-center pr-6">View Details</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -530,12 +686,21 @@ export default function SectionDetail() {
                         <TableCell className="text-center tabular-nums">
                           {row.visits.toLocaleString()}
                         </TableCell>
-                        <TableCell className="text-right pr-6">
-                          <span
-                            className="inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium tabular-nums w-[200px] justify-center bg-muted text-muted-foreground"
-                          >
+                        <TableCell className="text-right">
+                          <span className="inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium tabular-nums w-[200px] justify-center bg-muted text-muted-foreground">
                             {row.timeSpent} Hours
                           </span>
+                        </TableCell>
+                        <TableCell className="text-center pr-6">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 gap-1.5 text-xs border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+                            onClick={() => setSelectedDeviceDetail(row.device)}
+                          >
+                            <Eye className="h-3.5 w-3.5" />
+                            View Details
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))}
