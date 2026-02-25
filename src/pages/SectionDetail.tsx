@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { ArrowLeft, CalendarIcon, Search, Eye, ChevronDown, ChevronUp, Globe, Smartphone, School } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Search, Eye, ChevronDown, ChevronUp, Globe, Smartphone, School, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -474,7 +474,54 @@ export default function SectionDetail() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+       <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+        {/* Breadcrumb Navigation */}
+        <nav className="flex items-center gap-1.5 text-sm animate-fade-in">
+          <button
+            onClick={() => {
+              setSelectedDeviceDetail(null);
+              setSelectedPerson(null);
+              setSelectedDevice(null);
+            }}
+            className={cn(
+              "transition-colors",
+              !selectedPerson && !selectedDevice
+                ? "text-foreground font-medium"
+                : "text-muted-foreground hover:text-foreground cursor-pointer"
+            )}
+          >
+            {grade}{section ? ` — ${section}` : ""} ({role})
+          </button>
+
+          {selectedPerson && (
+            <>
+              <ChevronRight className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+              <button
+                onClick={() => {
+                  setSelectedDeviceDetail(null);
+                }}
+                className={cn(
+                  "transition-colors",
+                  !selectedDeviceDetail
+                    ? "text-foreground font-medium"
+                    : "text-muted-foreground hover:text-foreground cursor-pointer"
+                )}
+              >
+                {selectedPerson}
+              </button>
+            </>
+          )}
+
+          {selectedDeviceDetail && (
+            <>
+              <ChevronRight className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+              <span className="text-foreground font-medium">
+                {selectedDeviceDetail}
+              </span>
+            </>
+          )}
+        </nav>
+
         {selectedDeviceDetail ? (
           <div className="animate-fade-in space-y-8">
             {/* Section usage header */}
