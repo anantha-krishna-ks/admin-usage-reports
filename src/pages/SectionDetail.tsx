@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { ArrowLeft, CalendarIcon, Search } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Search, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -19,6 +19,170 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
+
+interface PersonDeviceData {
+  device: string;
+  visits: number;
+  timeSpent: string;
+}
+
+const teacherDeviceData: Record<string, PersonDeviceData[]> = {
+  "Ms. Priya Sharma": [
+    { device: "Web", visits: 1842, timeSpent: "214:30:00" },
+    { device: "Mobile", visits: 956, timeSpent: "48:12:15" },
+    { device: "School", visits: 320, timeSpent: "18:45:00" },
+  ],
+  "Mr. Rajesh Kumar": [
+    { device: "Web", visits: 1523, timeSpent: "180:20:00" },
+    { device: "Mobile", visits: 812, timeSpent: "35:45:30" },
+    { device: "School", visits: 0, timeSpent: "00:00:00" },
+  ],
+  "Ms. Anitha Devi": [
+    { device: "Web", visits: 2105, timeSpent: "245:10:00" },
+    { device: "Mobile", visits: 1230, timeSpent: "62:18:45" },
+    { device: "School", visits: 185, timeSpent: "10:30:00" },
+  ],
+  "Mr. Karthik Rajan": [
+    { device: "Web", visits: 980, timeSpent: "112:05:00" },
+    { device: "Mobile", visits: 540, timeSpent: "28:40:20" },
+    { device: "School", visits: 0, timeSpent: "00:00:00" },
+  ],
+  "Ms. Lakshmi Narayanan": [
+    { device: "Web", visits: 870, timeSpent: "98:15:00" },
+    { device: "Mobile", visits: 420, timeSpent: "22:10:30" },
+    { device: "School", visits: 110, timeSpent: "6:20:00" },
+  ],
+  "Mr. Suresh Menon": [
+    { device: "Web", visits: 310, timeSpent: "35:40:00" },
+    { device: "Mobile", visits: 180, timeSpent: "9:25:10" },
+    { device: "School", visits: 0, timeSpent: "00:00:00" },
+  ],
+  "Ms. Deepa Iyer": [
+    { device: "Web", visits: 190, timeSpent: "22:10:00" },
+    { device: "Mobile", visits: 95, timeSpent: "5:15:00" },
+    { device: "School", visits: 0, timeSpent: "00:00:00" },
+  ],
+  "Mr. Ganesh Pillai": [
+    { device: "Web", visits: 120, timeSpent: "14:30:00" },
+    { device: "Mobile", visits: 65, timeSpent: "3:45:00" },
+    { device: "School", visits: 0, timeSpent: "00:00:00" },
+  ],
+};
+
+const studentDeviceData: Record<string, PersonDeviceData[]> = {
+  "Aarav Mehta": [
+    { device: "Web", visits: 420, timeSpent: "45:20:00" },
+    { device: "Mobile", visits: 680, timeSpent: "32:10:15" },
+    { device: "School", visits: 150, timeSpent: "8:30:00" },
+  ],
+  "Diya Nair": [
+    { device: "Web", visits: 380, timeSpent: "38:50:00" },
+    { device: "Mobile", visits: 520, timeSpent: "28:05:30" },
+    { device: "School", visits: 95, timeSpent: "5:15:00" },
+  ],
+  "Rohan Gupta": [
+    { device: "Web", visits: 510, timeSpent: "52:40:00" },
+    { device: "Mobile", visits: 740, timeSpent: "38:25:10" },
+    { device: "School", visits: 210, timeSpent: "12:00:00" },
+  ],
+  "Sneha Patel": [
+    { device: "Web", visits: 280, timeSpent: "28:10:00" },
+    { device: "Mobile", visits: 390, timeSpent: "18:45:20" },
+    { device: "School", visits: 0, timeSpent: "00:00:00" },
+  ],
+  "Vikram Singh": [
+    { device: "Web", visits: 350, timeSpent: "34:00:00" },
+    { device: "Mobile", visits: 480, timeSpent: "24:30:00" },
+    { device: "School", visits: 120, timeSpent: "7:10:00" },
+  ],
+  "Ananya Rao": [
+    { device: "Web", visits: 560, timeSpent: "58:30:00" },
+    { device: "Mobile", visits: 820, timeSpent: "42:15:00" },
+    { device: "School", visits: 180, timeSpent: "10:20:00" },
+  ],
+  "Ishaan Verma": [
+    { device: "Web", visits: 440, timeSpent: "46:10:00" },
+    { device: "Mobile", visits: 610, timeSpent: "30:50:00" },
+    { device: "School", visits: 0, timeSpent: "00:00:00" },
+  ],
+  "Kavya Joshi": [
+    { device: "Web", visits: 620, timeSpent: "65:20:00" },
+    { device: "Mobile", visits: 890, timeSpent: "48:40:00" },
+    { device: "School", visits: 250, timeSpent: "14:00:00" },
+  ],
+  "Nikhil Reddy": [
+    { device: "Web", visits: 320, timeSpent: "32:00:00" },
+    { device: "Mobile", visits: 460, timeSpent: "22:15:00" },
+    { device: "School", visits: 0, timeSpent: "00:00:00" },
+  ],
+  "Pooja Iyer": [
+    { device: "Web", visits: 480, timeSpent: "50:10:00" },
+    { device: "Mobile", visits: 680, timeSpent: "35:25:00" },
+    { device: "School", visits: 140, timeSpent: "8:00:00" },
+  ],
+  "Rahul Mishra": [
+    { device: "Web", visits: 210, timeSpent: "20:30:00" },
+    { device: "Mobile", visits: 340, timeSpent: "16:10:00" },
+    { device: "School", visits: 0, timeSpent: "00:00:00" },
+  ],
+  "Aditya Kapoor": [
+    { device: "Web", visits: 680, timeSpent: "72:00:00" },
+    { device: "Mobile", visits: 920, timeSpent: "50:30:00" },
+    { device: "School", visits: 300, timeSpent: "16:40:00" },
+  ],
+  "Meera Shankar": [
+    { device: "Web", visits: 580, timeSpent: "60:20:00" },
+    { device: "Mobile", visits: 780, timeSpent: "42:00:00" },
+    { device: "School", visits: 220, timeSpent: "12:30:00" },
+  ],
+  "Siddharth Das": [
+    { device: "Web", visits: 450, timeSpent: "46:40:00" },
+    { device: "Mobile", visits: 620, timeSpent: "32:15:00" },
+    { device: "School", visits: 0, timeSpent: "00:00:00" },
+  ],
+  "Tanvi Kulkarni": [
+    { device: "Web", visits: 380, timeSpent: "38:00:00" },
+    { device: "Mobile", visits: 510, timeSpent: "26:45:00" },
+    { device: "School", visits: 160, timeSpent: "9:10:00" },
+  ],
+  "Arjun Nambiar": [
+    { device: "Web", visits: 520, timeSpent: "54:30:00" },
+    { device: "Mobile", visits: 710, timeSpent: "38:00:00" },
+    { device: "School", visits: 190, timeSpent: "10:50:00" },
+  ],
+  "Divya Menon": [
+    { device: "Web", visits: 440, timeSpent: "45:10:00" },
+    { device: "Mobile", visits: 590, timeSpent: "30:20:00" },
+    { device: "School", visits: 0, timeSpent: "00:00:00" },
+  ],
+  "Harsh Trivedi": [
+    { device: "Web", visits: 600, timeSpent: "62:40:00" },
+    { device: "Mobile", visits: 830, timeSpent: "44:15:00" },
+    { device: "School", visits: 270, timeSpent: "15:00:00" },
+  ],
+  "Lakshmi Pillai": [
+    { device: "Web", visits: 340, timeSpent: "34:20:00" },
+    { device: "Mobile", visits: 470, timeSpent: "24:00:00" },
+    { device: "School", visits: 0, timeSpent: "00:00:00" },
+  ],
+  "Manish Agarwal": [
+    { device: "Web", visits: 400, timeSpent: "40:30:00" },
+    { device: "Mobile", visits: 560, timeSpent: "28:45:00" },
+    { device: "School", visits: 130, timeSpent: "7:30:00" },
+  ],
+};
+
+const deviceColors: Record<string, string> = {
+  Web: "hsl(var(--chart-2))",
+  Mobile: "hsl(var(--chart-1))",
+  School: "hsl(var(--chart-3))",
+};
+
+const deviceBgColors: Record<string, string> = {
+  Web: "bg-chart-2",
+  Mobile: "bg-chart-1",
+  School: "bg-chart-3",
+};
 
 const deviceData = [
   { device: "Desktop", visits: 0, timeSpent: "00:00:00", minutes: 0 },
@@ -142,8 +306,12 @@ export default function SectionDetail() {
   const [startDate, setStartDate] = useState<Date | undefined>(fromParam ? new Date(fromParam) : undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(toParam ? new Date(toParam) : undefined);
   const [selectedDevice, setSelectedDevice] = useState<string | null>(null);
+  const [selectedPerson, setSelectedPerson] = useState<string | null>(null);
 
   const activeRoleData = selectedDevice ? roleDataByDevice[selectedDevice] || [] : [];
+  const activePersonDevices = selectedPerson
+    ? (isStudentRole ? studentDeviceData[selectedPerson] : teacherDeviceData[selectedPerson]) || []
+    : [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -155,7 +323,9 @@ export default function SectionDetail() {
               variant="ghost"
               size="icon"
               onClick={() => {
-                if (selectedDevice) {
+                if (selectedPerson) {
+                  setSelectedPerson(null);
+                } else if (selectedDevice) {
                   setSelectedDevice(null);
                 } else {
                   navigate("/");
@@ -243,10 +413,122 @@ export default function SectionDetail() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
-        {selectedDevice ? (
+        {selectedPerson ? (
+          <div className="animate-fade-in space-y-8">
+            {/* Person device breakdown header */}
+            <div className="flex items-center gap-3">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setSelectedPerson(null)}
+                className="shrink-0 h-8 w-8"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+              <h2 className="text-lg font-semibold text-foreground">{selectedPerson}</h2>
+            </div>
+
+            {/* Device Chart for Person */}
+            <Card className="shadow-sm">
+              <CardHeader>
+                <CardTitle>Device Usage — {selectedPerson}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-[340px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={activePersonDevices}
+                      margin={{ top: 10, right: 30, left: 10, bottom: 10 }}
+                      barSize={56}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
+                      <XAxis
+                        dataKey="device"
+                        tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 13 }}
+                        axisLine={{ stroke: "hsl(var(--border))" }}
+                        tickLine={false}
+                      />
+                      <YAxis
+                        tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
+                        axisLine={false}
+                        tickLine={false}
+                        label={{
+                          value: "No. of Visits",
+                          angle: -90,
+                          position: "insideLeft",
+                          style: { fill: "hsl(var(--muted-foreground))", fontSize: 12 },
+                        }}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          background: "hsl(var(--card))",
+                          border: "1px solid hsl(var(--border))",
+                          borderRadius: "var(--radius)",
+                          fontSize: 13,
+                        }}
+                        formatter={(value: number, _name: string, props: any) => [
+                          `${value.toLocaleString()}`,
+                          props.payload.device,
+                        ]}
+                        labelFormatter={() => ""}
+                      />
+                      <Bar dataKey="visits" radius={[6, 6, 0, 0]}>
+                        {activePersonDevices.map((entry, index) => (
+                          <Cell key={index} fill={deviceColors[entry.device] || "hsl(var(--chart-4))"} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Device Table for Person */}
+            <Card className="shadow-sm">
+              <CardHeader className="pb-3">
+                <CardTitle>Device Breakdown</CardTitle>
+              </CardHeader>
+              <CardContent className="px-0 pb-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/30 border-t">
+                      <TableHead className="font-semibold pl-6">Devices</TableHead>
+                      <TableHead className="font-semibold text-center">No. of Visits</TableHead>
+                      <TableHead className="font-semibold text-right pr-6">Time Spent</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {activePersonDevices.map((row) => (
+                      <TableRow key={row.device} className="hover:bg-muted/20 transition-colors">
+                        <TableCell className="pl-6">
+                          <span className="font-medium" style={{ color: deviceColors[row.device] }}>
+                            {row.device}
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-center tabular-nums">
+                          {row.visits.toLocaleString()}
+                        </TableCell>
+                        <TableCell className="text-right pr-6">
+                          <span
+                            className={cn(
+                              "inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium tabular-nums text-primary-foreground w-[200px] justify-center",
+                              row.device === "Web" ? "bg-chart-2" : row.device === "Mobile" ? "bg-chart-1" : "bg-chart-3"
+                            )}
+                          >
+                            {row.timeSpent} Hours
+                          </span>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </div>
+        ) : selectedDevice ? (
           <>
             {/* Role drill-down header */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 animate-fade-in">
               <Button
                 variant="ghost"
                 size="icon"
@@ -259,7 +541,7 @@ export default function SectionDetail() {
             </div>
 
             {/* Role Chart */}
-            <Card className="shadow-sm">
+            <Card className="shadow-sm animate-fade-in">
               <CardHeader>
                 <CardTitle>Usage by Role — {selectedDevice}</CardTitle>
               </CardHeader>
@@ -314,7 +596,7 @@ export default function SectionDetail() {
             </Card>
 
             {/* Role Table */}
-            <Card className="shadow-sm">
+            <Card className="shadow-sm animate-fade-in">
               <CardHeader className="pb-3">
                 <CardTitle>Role Breakdown</CardTitle>
               </CardHeader>
@@ -353,7 +635,7 @@ export default function SectionDetail() {
         ) : (
           <>
             {/* Usage Table */}
-            <Card className="shadow-sm">
+            <Card className="shadow-sm animate-fade-in">
               <CardHeader className="pb-3">
                 <CardTitle>{isStudentRole ? "Student Usage Details" : "Teacher Usage Details"}</CardTitle>
               </CardHeader>
@@ -365,7 +647,8 @@ export default function SectionDetail() {
                       {isStudentRole && <TableHead className="font-semibold">Section</TableHead>}
                       <TableHead className="font-semibold text-right">App Usage (mins)</TableHead>
                       <TableHead className="font-semibold text-right">Content Usage (mins)</TableHead>
-                      <TableHead className="font-semibold text-right pr-6">Total Usage (mins)</TableHead>
+                      <TableHead className="font-semibold text-right">Total Usage (mins)</TableHead>
+                      <TableHead className="font-semibold text-center pr-6">Preview</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -376,10 +659,20 @@ export default function SectionDetail() {
                             <TableCell>{s.section}</TableCell>
                             <TableCell className="text-right tabular-nums">{s.appUsage}</TableCell>
                             <TableCell className="text-right tabular-nums">{s.contentUsage}</TableCell>
-                            <TableCell className="text-right pr-6">
+                            <TableCell className="text-right">
                               <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
                                 {s.totalUsage}
                               </span>
+                            </TableCell>
+                            <TableCell className="text-center pr-6">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-8 w-8 p-0"
+                                onClick={() => setSelectedPerson(s.name)}
+                              >
+                                <Eye className="h-4 w-4" />
+                              </Button>
                             </TableCell>
                           </TableRow>
                         ))
@@ -388,10 +681,20 @@ export default function SectionDetail() {
                             <TableCell className="pl-6 font-medium">{t.name}</TableCell>
                             <TableCell className="text-right tabular-nums">{t.appUsage}</TableCell>
                             <TableCell className="text-right tabular-nums">{t.contentUsage}</TableCell>
-                            <TableCell className="text-right pr-6">
+                            <TableCell className="text-right">
                               <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
                                 {t.totalUsage}
                               </span>
+                            </TableCell>
+                            <TableCell className="text-center pr-6">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-8 w-8 p-0"
+                                onClick={() => setSelectedPerson(t.name)}
+                              >
+                                <Eye className="h-4 w-4" />
+                              </Button>
                             </TableCell>
                           </TableRow>
                         ))}
