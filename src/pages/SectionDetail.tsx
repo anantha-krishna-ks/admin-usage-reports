@@ -617,13 +617,12 @@ export default function SectionDetail() {
                         </TableCell>
                         <TableCell className="text-center pr-6">
                           <Button
-                            variant="outline"
+                            variant="ghost"
                             size="sm"
-                            className="h-8 gap-1.5 text-xs border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+                            className="h-8 w-8 p-0"
                             onClick={() => setSheetSection(row.sectionName)}
                           >
-                            <Eye className="h-3.5 w-3.5" />
-                            View Details
+                            <Eye className="h-4 w-4" />
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -770,7 +769,7 @@ export default function SectionDetail() {
                       <TableHead className="font-semibold pl-6">Devices</TableHead>
                       <TableHead className="font-semibold text-center">No. of Visits</TableHead>
                       <TableHead className="font-semibold text-right">Time Spent</TableHead>
-                      <TableHead className="font-semibold text-center pr-6">View Details</TableHead>
+                      <TableHead className="font-semibold text-center pr-6 w-[100px]">Preview</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -791,13 +790,12 @@ export default function SectionDetail() {
                         </TableCell>
                         <TableCell className="text-center pr-6">
                           <Button
-                            variant="outline"
+                            variant="ghost"
                             size="sm"
-                            className="h-8 gap-1.5 text-xs border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+                            className="h-8 w-8 p-0"
                             onClick={() => setSelectedDeviceDetail(row.device)}
                           >
-                            <Eye className="h-3.5 w-3.5" />
-                            View Details
+                            <Eye className="h-4 w-4" />
                           </Button>
                         </TableCell>
                       </TableRow>
