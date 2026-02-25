@@ -1,7 +1,11 @@
+import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { LayoutDashboard } from "lucide-react";
+import { LayoutDashboard, Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
@@ -79,6 +83,66 @@ const barColors = [
   "hsl(15, 65%, 55%)", "hsl(240, 45%, 55%)", "hsl(60, 55%, 45%)",
 ];
 
+// Drill-down items per content type
+const contentDrillDown: Record<string, { name: string; visits: number; timeSpent: string }[]> = {
+  Animation: [
+    { name: "English – Animation 1.1", visits: 12, timeSpent: "02:15:00 Hours" },
+    { name: "English – Animation 1.2", visits: 8, timeSpent: "01:30:00 Hours" },
+    { name: "English – Animation 2.1", visits: 15, timeSpent: "03:10:00 Hours" },
+    { name: "Mathematics – Animation 1.1", visits: 10, timeSpent: "02:00:00 Hours" },
+    { name: "Science – Animation 3.1", visits: 20, timeSpent: "05:20:00 Hours" },
+  ],
+  Ebook: [
+    { name: "English – Ebook 1.1", visits: 45, timeSpent: "30:10:00 Hours" },
+    { name: "English – Ebook 2.1", visits: 38, timeSpent: "25:40:00 Hours" },
+    { name: "Mathematics – Ebook 1.1", visits: 52, timeSpent: "35:00:00 Hours" },
+    { name: "Science – Ebook 1.1", visits: 60, timeSpent: "42:15:00 Hours" },
+    { name: "Social Studies – Ebook 1.1", visits: 30, timeSpent: "20:30:00 Hours" },
+  ],
+  "Lesson / Weekly / Concept Plans": [
+    { name: "English – Lesson Plan 1.1", visits: 1, timeSpent: "00:00:00 Hours" },
+    { name: "English – Lesson Plan 1.1", visits: 1, timeSpent: "00:00:00 Hours" },
+    { name: "English – Lesson Plan 1.2", visits: 1, timeSpent: "00:00:00 Hours" },
+    { name: "English – Lesson Plan 10.1", visits: 1, timeSpent: "00:00:00 Hours" },
+    { name: "English – Lesson Plan 10.1", visits: 2, timeSpent: "00:40:49 Hours" },
+    { name: "English – Lesson Plan 10.2", visits: 1, timeSpent: "00:00:00 Hours" },
+    { name: "English – Lesson Plan 10.3", visits: 1, timeSpent: "00:00:00 Hours" },
+    { name: "English – Lesson Plan 10.4", visits: 1, timeSpent: "00:00:00 Hours" },
+    { name: "English – Lesson Plan 10.5", visits: 2, timeSpent: "00:40:16 Hours" },
+    { name: "English – Lesson Plan 10.6", visits: 1, timeSpent: "00:00:00 Hours" },
+  ],
+  Interactivity: [
+    { name: "English – Interactivity 1.1", visits: 5, timeSpent: "08:20:00 Hours" },
+    { name: "English – Interactivity 2.3", visits: 8, timeSpent: "12:15:00 Hours" },
+    { name: "Mathematics – Interactivity 1.1", visits: 3, timeSpent: "05:00:00 Hours" },
+    { name: "Science – Interactivity 4.2", visits: 10, timeSpent: "18:30:00 Hours" },
+  ],
+  "Learning Resources": [
+    { name: "English – Learning Resource 1.1", visits: 120, timeSpent: "45:10:00 Hours" },
+    { name: "English – Learning Resource 2.1", visits: 95, timeSpent: "35:20:00 Hours" },
+    { name: "Mathematics – Learning Resource 1.1", visits: 80, timeSpent: "28:00:00 Hours" },
+    { name: "Science – Learning Resource 1.1", visits: 110, timeSpent: "40:15:00 Hours" },
+  ],
+  Audio: [
+    { name: "English – Audio 1.1", visits: 8, timeSpent: "01:30:00 Hours" },
+    { name: "English – Audio 2.1", visits: 12, timeSpent: "02:15:00 Hours" },
+    { name: "Science – Audio 1.1", visits: 6, timeSpent: "01:10:00 Hours" },
+  ],
+  "Concept Animation": [
+    { name: "Science – Concept Animation 1.1", visits: 10, timeSpent: "03:00:00 Hours" },
+    { name: "Science – Concept Animation 2.1", visits: 8, timeSpent: "02:10:00 Hours" },
+  ],
+  Game: [
+    { name: "English – Game 1.1", visits: 10, timeSpent: "02:30:00 Hours" },
+    { name: "Mathematics – Game 1.1", visits: 9, timeSpent: "02:15:00 Hours" },
+    { name: "Mathematics – Game 2.1", visits: 8, timeSpent: "02:21:15 Hours" },
+  ],
+  Video: [
+    { name: "English – Video 1.1", visits: 4, timeSpent: "00:35:00 Hours" },
+    { name: "Science – Video 2.1", visits: 5, timeSpent: "00:46:07 Hours" },
+  ],
+};
+
 export default function EnvironmentDetail() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -86,7 +150,10 @@ export default function EnvironmentDetail() {
   const personName = searchParams.get("name") || "";
   const role = searchParams.get("role") || "Teacher";
 
+  const [selectedContentType, setSelectedContentType] = useState<string | null>(null);
+
   const data = contentTypesByEnv[env] || contentTypesByEnv["Web"];
+  const drillData = selectedContentType ? contentDrillDown[selectedContentType] || [] : [];
   const chartData = data.map(d => ({
     name: d.name.length > 12 ? d.name.slice(0, 12) + "…" : d.name,
     value: d.minutes,
@@ -146,16 +213,22 @@ export default function EnvironmentDetail() {
                 <TableRow className="bg-muted/30">
                   <TableHead className="pl-6 font-semibold">Content Type</TableHead>
                   <TableHead className="text-right font-semibold">No. of Visits</TableHead>
-                  <TableHead className="text-right pr-6 font-semibold">Time Spent</TableHead>
+                  <TableHead className="text-right font-semibold">Time Spent</TableHead>
+                  <TableHead className="text-center pr-6 font-semibold w-[80px]">Preview</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {data.map((row, i) => (
-                  <TableRow key={i} className="hover:bg-muted/20 transition-colors">
+                  <TableRow key={i} className={cn("hover:bg-muted/20 transition-colors", selectedContentType === row.name && "bg-primary/5")}>
                     <TableCell className="pl-6 font-medium" style={{ color: barColors[i % barColors.length] }}>{row.name}</TableCell>
                     <TableCell className="text-right">{row.visits.toLocaleString()}</TableCell>
-                    <TableCell className="text-right pr-6">
+                    <TableCell className="text-right">
                       <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">{row.timeSpent}</span>
+                    </TableCell>
+                    <TableCell className="text-center pr-6">
+                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => setSelectedContentType(row.name)}>
+                        <Eye className="h-4 w-4" />
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -164,6 +237,42 @@ export default function EnvironmentDetail() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Drill-down Sheet */}
+      <Sheet open={!!selectedContentType} onOpenChange={(open) => !open && setSelectedContentType(null)}>
+        <SheetContent className="sm:max-w-xl">
+          <SheetHeader className="mb-4">
+            <SheetTitle className="text-lg">{env} &gt; {selectedContentType}</SheetTitle>
+            <SheetDescription>{drillData.length} items found</SheetDescription>
+          </SheetHeader>
+          <ScrollArea className="h-[calc(100vh-120px)]">
+            <Card className="shadow-sm">
+              <CardContent className="px-0 pb-0 pt-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/30">
+                      <TableHead className="pl-4 font-semibold">Content Type</TableHead>
+                      <TableHead className="text-right font-semibold">No. of Visits</TableHead>
+                      <TableHead className="text-right pr-4 font-semibold">Time Spent</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {drillData.map((item, i) => (
+                      <TableRow key={i} className="hover:bg-muted/20 transition-colors">
+                        <TableCell className="pl-4 font-medium text-foreground">{item.name}</TableCell>
+                        <TableCell className="text-right">{item.visits}</TableCell>
+                        <TableCell className="text-right pr-4">
+                          <span className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-sm font-medium tabular-nums text-muted-foreground">{item.timeSpent}</span>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </ScrollArea>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }
