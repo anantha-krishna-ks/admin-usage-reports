@@ -165,7 +165,7 @@ const classSubjectChartData = classSubjectData.map((d) => ({
 }));
 
 // ── Teacher Table Component ──
-function TeacherTable({ data }: { data: typeof userAppTeachers }) {
+function TeacherTable({ data, onPreview }: { data: typeof userAppTeachers; onPreview?: (name: string) => void }) {
   return (
     <Card className="shadow-sm">
       <CardContent className="px-0 pb-0 pt-0">
@@ -177,7 +177,8 @@ function TeacherTable({ data }: { data: typeof userAppTeachers }) {
                <TableHead className="text-right font-semibold">Learning Resource (mins)</TableHead>
                <TableHead className="text-right font-semibold">Items (mins)</TableHead>
                <TableHead className="text-right font-semibold">Tests (mins)</TableHead>
-               <TableHead className="text-right pr-6 font-semibold">Ebook (mins)</TableHead>
+               <TableHead className="text-right font-semibold">Ebook (mins)</TableHead>
+               <TableHead className="text-center pr-6 font-semibold w-[80px]">Preview</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -188,10 +189,15 @@ function TeacherTable({ data }: { data: typeof userAppTeachers }) {
                 <TableCell className="text-right">{t.learningResource}</TableCell>
                 <TableCell className="text-right">{t.items}</TableCell>
                 <TableCell className="text-right">{t.tests}</TableCell>
-                <TableCell className="text-right pr-6">
+                <TableCell className="text-right">
                   <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
                     {t.ebook}
                   </span>
+                </TableCell>
+                <TableCell className="text-center pr-6">
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => onPreview?.(t.name)}>
+                    <Eye className="h-4 w-4" />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -203,7 +209,7 @@ function TeacherTable({ data }: { data: typeof userAppTeachers }) {
 }
 
 // ── Student Table Component ──
-function StudentTable({ data }: { data: typeof userAppStudents }) {
+function StudentTable({ data, onPreview }: { data: typeof userAppStudents; onPreview?: (name: string) => void }) {
   return (
     <Card className="shadow-sm">
       <CardContent className="px-0 pb-0 pt-0">
@@ -215,7 +221,8 @@ function StudentTable({ data }: { data: typeof userAppStudents }) {
                <TableHead className="text-right font-semibold">Ebook (mins)</TableHead>
                <TableHead className="text-right font-semibold">Test (mins)</TableHead>
                <TableHead className="text-right font-semibold">LBQ (mins)</TableHead>
-               <TableHead className="text-right pr-6 font-semibold">PT (mins)</TableHead>
+               <TableHead className="text-right font-semibold">PT (mins)</TableHead>
+               <TableHead className="text-center pr-6 font-semibold w-[80px]">Preview</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -226,10 +233,15 @@ function StudentTable({ data }: { data: typeof userAppStudents }) {
                 <TableCell className="text-right">{s.ebook}</TableCell>
                 <TableCell className="text-right">{s.test}</TableCell>
                 <TableCell className="text-right">{s.lbq}</TableCell>
-                <TableCell className="text-right pr-6">
+                <TableCell className="text-right">
                   <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
                     {s.pt}
                   </span>
+                </TableCell>
+                <TableCell className="text-center pr-6">
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => onPreview?.(s.name)}>
+                    <Eye className="h-4 w-4" />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -241,7 +253,7 @@ function StudentTable({ data }: { data: typeof userAppStudents }) {
 }
 
 // ── Parent Table Component ──
-function ParentTable({ data }: { data: typeof userAppParents }) {
+function ParentTable({ data, onPreview }: { data: typeof userAppParents; onPreview?: (name: string) => void }) {
   return (
     <Card className="shadow-sm">
       <CardContent className="px-0 pb-0 pt-0">
@@ -251,7 +263,8 @@ function ParentTable({ data }: { data: typeof userAppParents }) {
               <TableHead className="pl-6 font-semibold">Parent Name</TableHead>
                <TableHead className="text-right font-semibold">Learning Resource (mins)</TableHead>
                <TableHead className="text-right font-semibold">Ebook (mins)</TableHead>
-               <TableHead className="text-right pr-6 font-semibold">Test (mins)</TableHead>
+               <TableHead className="text-right font-semibold">Test (mins)</TableHead>
+               <TableHead className="text-center pr-6 font-semibold w-[80px]">Preview</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -260,10 +273,15 @@ function ParentTable({ data }: { data: typeof userAppParents }) {
                 <TableCell className="pl-6 font-medium">{p.name}</TableCell>
                 <TableCell className="text-right">{p.learningResource}</TableCell>
                 <TableCell className="text-right">{p.ebook}</TableCell>
-                <TableCell className="text-right pr-6">
+                <TableCell className="text-right">
                   <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium tabular-nums text-primary">
                     {p.test}
                   </span>
+                </TableCell>
+                <TableCell className="text-center pr-6">
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => onPreview?.(p.name)}>
+                    <Eye className="h-4 w-4" />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -354,6 +372,10 @@ export default function ContentUsageDetail() {
   const [selectedSection, setSelectedSection] = useState<string>(needsSection ? sectionOptions[0] : "");
   const [showReports, setShowReports] = useState(false);
 
+  const handlePreview = (name: string) => {
+    navigate(`/person-usage-detail?name=${encodeURIComponent(name)}&role=${role}&class=${encodeURIComponent(selectedClass)}`);
+  };
+
   // Main view with dropdowns in header
   return (
     <div className="min-h-screen bg-background">
@@ -404,13 +426,13 @@ export default function ContentUsageDetail() {
           </TabsList>
 
           <TabsContent value="user" className="space-y-6">
-            {isStudent ? <StudentTable data={userAppStudents} /> : isParent ? <ParentTable data={userAppParents} /> : <TeacherTable data={userAppTeachers} />}
+            {isStudent ? <StudentTable data={userAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={userAppParents} onPreview={handlePreview} /> : <TeacherTable data={userAppTeachers} onPreview={handlePreview} />}
           </TabsContent>
           <TabsContent value="mobile" className="space-y-6">
-            {isStudent ? <StudentTable data={mobileAppStudents} /> : isParent ? <ParentTable data={mobileAppParents} /> : <TeacherTable data={mobileAppTeachers} />}
+            {isStudent ? <StudentTable data={mobileAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={mobileAppParents} onPreview={handlePreview} /> : <TeacherTable data={mobileAppTeachers} onPreview={handlePreview} />}
           </TabsContent>
           <TabsContent value="school" className="space-y-6">
-            {isStudent ? <StudentTable data={schoolAppStudents} /> : isParent ? <ParentTable data={schoolAppParents} /> : <TeacherTable data={schoolAppTeachers} />}
+            {isStudent ? <StudentTable data={schoolAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={schoolAppParents} onPreview={handlePreview} /> : <TeacherTable data={schoolAppTeachers} onPreview={handlePreview} />}
           </TabsContent>
         </Tabs>
 
