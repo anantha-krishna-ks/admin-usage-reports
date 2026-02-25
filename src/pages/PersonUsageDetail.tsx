@@ -275,7 +275,6 @@ export default function PersonUsageDetail() {
   const role = searchParams.get("role") || "Teacher";
   const className = searchParams.get("class") || "";
 
-  const [envDrill, setEnvDrill] = useState<string | null>(null);
   const [contentDrill, setContentDrill] = useState<string | null>(null);
 
   // Breadcrumb segments
@@ -285,7 +284,6 @@ export default function PersonUsageDetail() {
     { label: personName, onClick: undefined },
   ];
 
-  const envDrillData = envDrill ? envDrillDown[envDrill] || [] : [];
   const contentDrillData = contentDrill ? contentDrillDown[contentDrill] || [] : [];
 
   return (
@@ -322,8 +320,7 @@ export default function PersonUsageDetail() {
           colors={envColors}
           tableHeaders={["Devices", "No. of Visits", "Time Spent"]}
           tableRows={environmentData.map(d => ({ cells: [d.name, d.visits, d.timeSpent], key: d.name }))}
-          onRowClick={(key) => setEnvDrill(key)}
-          selectedKey={envDrill}
+          onRowClick={(key) => navigate(`/environment-detail?env=${encodeURIComponent(key)}&name=${encodeURIComponent(personName)}&role=${role}`)}
         />
 
         {/* Content Type */}
@@ -351,15 +348,7 @@ export default function PersonUsageDetail() {
         />
       </div>
 
-      {/* Drill-down sheets */}
-      <DrillDownSheet
-        open={!!envDrill}
-        onClose={() => setEnvDrill(null)}
-        title={envDrill || ""}
-        headers={["Content Type", "No. of Visits", "Time Spent"]}
-        rows={envDrillData.map(d => ({ cells: [d.contentType, d.visits, d.timeSpent] }))}
-        colors={contentColors}
-      />
+      {/* Drill-down sheet */}
       <DrillDownSheet
         open={!!contentDrill}
         onClose={() => setContentDrill(null)}
