@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { ArrowLeft, CalendarIcon, Search, Eye, ChevronDown, ChevronUp, Globe, Smartphone, School, ChevronRight, Home, LayoutDashboard } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Search, Eye, ChevronDown, ChevronUp, Globe, Smartphone, School, ChevronRight, Home, LayoutDashboard, Clock, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import {
   BarChart,
@@ -83,6 +85,75 @@ const sectionBarColors = [
   "hsl(280, 40%, 55%)",
   "hsl(0, 40%, 55%)",
 ];
+
+interface SessionData {
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
+  timeSpent: string;
+}
+
+const sessionDataBySection: Record<string, SessionData[]> = {
+  "View notifications": [
+    { startDate: "24 Feb 2026", endDate: "24 Feb 2026", startTime: "09:58 AM", endTime: "10:37 AM", timeSpent: "00:38:40" },
+    { startDate: "24 Feb 2026", endDate: "24 Feb 2026", startTime: "09:57 AM", endTime: "09:58 AM", timeSpent: "00:01:31" },
+    { startDate: "24 Feb 2026", endDate: "24 Feb 2026", startTime: "09:53 AM", endTime: "09:55 AM", timeSpent: "00:01:57" },
+    { startDate: "21 Feb 2026", endDate: "21 Feb 2026", startTime: "11:04 AM", endTime: "11:04 AM", timeSpent: "00:00:02" },
+    { startDate: "16 Feb 2026", endDate: "16 Feb 2026", startTime: "08:54 AM", endTime: "08:57 AM", timeSpent: "00:02:58" },
+    { startDate: "05 Feb 2026", endDate: "05 Feb 2026", startTime: "07:48 PM", endTime: "07:48 PM", timeSpent: "00:00:25" },
+  ],
+  "Dashboard": [
+    { startDate: "24 Feb 2026", endDate: "24 Feb 2026", startTime: "10:00 AM", endTime: "10:15 AM", timeSpent: "00:15:00" },
+    { startDate: "23 Feb 2026", endDate: "23 Feb 2026", startTime: "01:05 PM", endTime: "01:05 PM", timeSpent: "00:00:47" },
+    { startDate: "21 Feb 2026", endDate: "21 Feb 2026", startTime: "10:35 AM", endTime: "10:36 AM", timeSpent: "00:00:35" },
+    { startDate: "21 Feb 2026", endDate: "21 Feb 2026", startTime: "10:34 AM", endTime: "10:35 AM", timeSpent: "00:00:42" },
+    { startDate: "10 Feb 2026", endDate: "10 Feb 2026", startTime: "06:17 PM", endTime: "06:17 PM", timeSpent: "00:00:06" },
+    { startDate: "05 Feb 2026", endDate: "05 Feb 2026", startTime: "07:46 PM", endTime: "07:47 PM", timeSpent: "00:01:50" },
+    { startDate: "05 Feb 2026", endDate: "05 Feb 2026", startTime: "07:41 PM", endTime: "07:45 PM", timeSpent: "00:03:59" },
+    { startDate: "04 Feb 2026", endDate: "04 Feb 2026", startTime: "10:00 AM", endTime: "10:01 AM", timeSpent: "00:00:41" },
+    { startDate: "02 Feb 2026", endDate: "02 Feb 2026", startTime: "02:20 PM", endTime: "02:22 PM", timeSpent: "00:02:19" },
+  ],
+  "Digital Repository": [
+    { startDate: "24 Feb 2026", endDate: "24 Feb 2026", startTime: "09:30 AM", endTime: "09:52 AM", timeSpent: "00:22:10" },
+    { startDate: "21 Feb 2026", endDate: "21 Feb 2026", startTime: "02:15 PM", endTime: "02:28 PM", timeSpent: "00:13:00" },
+    { startDate: "16 Feb 2026", endDate: "16 Feb 2026", startTime: "09:10 AM", endTime: "09:35 AM", timeSpent: "00:25:00" },
+    { startDate: "02 Feb 2026", endDate: "02 Feb 2026", startTime: "07:02 PM", endTime: "07:11 PM", timeSpent: "00:09:14" },
+    { startDate: "01 Feb 2026", endDate: "01 Feb 2026", startTime: "06:17 PM", endTime: "06:20 PM", timeSpent: "00:02:37" },
+  ],
+  "Test evaluation": [
+    { startDate: "23 Feb 2026", endDate: "23 Feb 2026", startTime: "02:10 PM", endTime: "02:32 PM", timeSpent: "00:22:00" },
+    { startDate: "21 Feb 2026", endDate: "21 Feb 2026", startTime: "03:00 PM", endTime: "03:18 PM", timeSpent: "00:18:00" },
+    { startDate: "10 Feb 2026", endDate: "10 Feb 2026", startTime: "04:20 PM", endTime: "04:44 PM", timeSpent: "00:24:00" },
+  ],
+  "Ebook Preview": [
+    { startDate: "24 Feb 2026", endDate: "24 Feb 2026", startTime: "11:00 AM", endTime: "11:42 AM", timeSpent: "00:42:00" },
+    { startDate: "16 Feb 2026", endDate: "16 Feb 2026", startTime: "10:05 AM", endTime: "10:38 AM", timeSpent: "00:33:00" },
+    { startDate: "02 Feb 2026", endDate: "02 Feb 2026", startTime: "07:17 PM", endTime: "07:18 PM", timeSpent: "00:00:08" },
+    { startDate: "01 Feb 2026", endDate: "01 Feb 2026", startTime: "06:23 PM", endTime: "06:24 PM", timeSpent: "00:00:31" },
+  ],
+  "Group management": [
+    { startDate: "02 Feb 2026", endDate: "02 Feb 2026", startTime: "07:23 PM", endTime: "07:23 PM", timeSpent: "00:00:03" },
+    { startDate: "02 Feb 2026", endDate: "02 Feb 2026", startTime: "07:22 PM", endTime: "07:22 PM", timeSpent: "00:00:06" },
+  ],
+  "Resource preview": [
+    { startDate: "02 Feb 2026", endDate: "02 Feb 2026", startTime: "07:18 PM", endTime: "07:22 PM", timeSpent: "00:04:50" },
+    { startDate: "02 Feb 2026", endDate: "02 Feb 2026", startTime: "07:17 PM", endTime: "07:18 PM", timeSpent: "00:00:08" },
+  ],
+  "Assessment reports": [
+    { startDate: "02 Feb 2026", endDate: "02 Feb 2026", startTime: "07:22 PM", endTime: "07:22 PM", timeSpent: "00:00:06" },
+  ],
+  "BookMark": [
+    { startDate: "02 Feb 2026", endDate: "02 Feb 2026", startTime: "07:22 PM", endTime: "07:22 PM", timeSpent: "00:00:02" },
+  ],
+  "Leaderboard Quiz Lists": [
+    { startDate: "02 Feb 2026", endDate: "02 Feb 2026", startTime: "07:22 PM", endTime: "07:22 PM", timeSpent: "00:00:04" },
+  ],
+  "Notifications": [
+    { startDate: "23 Feb 2026", endDate: "23 Feb 2026", startTime: "08:15 AM", endTime: "08:18 AM", timeSpent: "00:03:00" },
+    { startDate: "21 Feb 2026", endDate: "21 Feb 2026", startTime: "09:00 AM", endTime: "09:02 AM", timeSpent: "00:02:00" },
+  ],
+};
 
 const teacherDeviceData: Record<string, PersonDeviceData[]> = {
   "Ms. Priya Sharma": [
@@ -367,6 +438,7 @@ export default function SectionDetail() {
   const [selectedPerson, setSelectedPerson] = useState<string | null>(null);
   const [expandedDevice, setExpandedDevice] = useState<string | null>(null);
   const [selectedDeviceDetail, setSelectedDeviceDetail] = useState<string | null>(null);
+  const [sheetSection, setSheetSection] = useState<string | null>(null);
 
   const activeRoleData = selectedDevice ? roleDataByDevice[selectedDevice] || [] : [];
   const activePersonDevices = selectedPerson
@@ -523,7 +595,8 @@ export default function SectionDetail() {
                     <TableRow className="bg-muted/30 border-t">
                       <TableHead className="font-semibold pl-6">Section Names</TableHead>
                       <TableHead className="font-semibold text-center">No. of Visits</TableHead>
-                      <TableHead className="font-semibold text-right pr-6">Time Spent</TableHead>
+                      <TableHead className="font-semibold text-right">Time Spent</TableHead>
+                      <TableHead className="font-semibold text-center pr-6">Details</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -537,10 +610,21 @@ export default function SectionDetail() {
                         <TableCell className="text-center tabular-nums">
                           {row.visits.toLocaleString()}
                         </TableCell>
-                        <TableCell className="text-right pr-6">
+                        <TableCell className="text-right">
                           <span className="inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium tabular-nums w-[200px] justify-center bg-muted text-muted-foreground">
                             {row.timeSpent} Hours
                           </span>
+                        </TableCell>
+                        <TableCell className="text-center pr-6">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 gap-1.5 text-xs border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+                            onClick={() => setSheetSection(row.sectionName)}
+                          >
+                            <Eye className="h-3.5 w-3.5" />
+                            View Details
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -548,6 +632,61 @@ export default function SectionDetail() {
                 </Table>
               </CardContent>
             </Card>
+
+            {/* Session Details Sheet */}
+            <Sheet open={!!sheetSection} onOpenChange={(open) => !open && setSheetSection(null)}>
+              <SheetContent className="sm:max-w-xl w-full p-0 flex flex-col">
+                <SheetHeader className="px-6 pt-6 pb-4 border-b border-border space-y-1">
+                  <SheetTitle className="text-lg">{sheetSection}</SheetTitle>
+                  <SheetDescription>
+                    Session-wise activity log · {selectedPerson} · {selectedDeviceDetail}
+                  </SheetDescription>
+                  <div className="flex items-center gap-4 pt-2">
+                    <div className="flex items-center gap-2 rounded-md bg-muted px-3 py-1.5">
+                      <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                      <span className="text-xs font-medium text-muted-foreground">
+                        {(sessionDataBySection[sheetSection || ""] || []).length} sessions
+                      </span>
+                    </div>
+                  </div>
+                </SheetHeader>
+                <ScrollArea className="flex-1 px-6 py-4">
+                  <div className="space-y-3">
+                    {(sessionDataBySection[sheetSection || ""] || []).map((session, idx) => (
+                      <div
+                        key={idx}
+                        className="rounded-lg border border-border bg-card p-4 space-y-3 hover:shadow-sm transition-shadow"
+                      >
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">Start Date</p>
+                            <p className="text-sm font-medium text-foreground">{session.startDate}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">End Date</p>
+                            <p className="text-sm font-medium text-foreground">{session.endDate}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">Start Time</p>
+                            <p className="text-sm font-medium text-foreground">{session.startTime}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">End Time</p>
+                            <p className="text-sm font-medium text-foreground">{session.endTime}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between pt-2 border-t border-border">
+                          <span className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">Time Spent</span>
+                          <span className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-sm font-medium tabular-nums text-muted-foreground">
+                            {session.timeSpent} Hours
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </SheetContent>
+            </Sheet>
           </div>
         ) : selectedPerson ? (
           <div className="animate-fade-in space-y-8">
