@@ -612,7 +612,7 @@ export default function SectionDetail() {
                         </TableCell>
                         <TableCell className="text-right">
                           <span className="inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium tabular-nums w-[200px] justify-center bg-muted text-muted-foreground">
-                            {row.timeSpent} Hours
+                            {row.timeSpent} Mins
                           </span>
                         </TableCell>
                         <TableCell className="text-center pr-6">
@@ -677,7 +677,7 @@ export default function SectionDetail() {
                         <div className="flex items-center justify-between pt-2 border-t border-border">
                           <span className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">Time Spent</span>
                           <span className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-sm font-medium tabular-nums text-muted-foreground">
-                            {session.timeSpent} Hours
+                            {session.timeSpent} Mins
                           </span>
                         </div>
                       </div>
@@ -785,7 +785,7 @@ export default function SectionDetail() {
                         </TableCell>
                         <TableCell className="text-right">
                           <span className="inline-flex items-center rounded-full px-4 py-1.5 text-sm font-medium tabular-nums w-[200px] justify-center bg-muted text-muted-foreground">
-                            {row.timeSpent} Hours
+                            {row.timeSpent} Mins
                           </span>
                         </TableCell>
                         <TableCell className="text-center pr-6">
