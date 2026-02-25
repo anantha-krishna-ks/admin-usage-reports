@@ -527,11 +527,31 @@ export default function SectionDetail() {
             </div>
 
             {/* Section Usage Chart */}
-            <Card className="shadow-sm">
-              <CardHeader>
-                <CardTitle>Usage by Section — {selectedDeviceDetail}</CardTitle>
-              </CardHeader>
-              <CardContent>
+            {(() => {
+              const deviceData = sectionUsageByDevice[selectedDeviceDetail] || [];
+              const totalVisits = deviceData.reduce((sum, d) => sum + d.visits, 0);
+              const totalMinutes = deviceData.reduce((sum, d) => sum + d.minutes, 0);
+              const hours = Math.floor(totalMinutes / 60);
+              const mins = totalMinutes % 60;
+              const totalTimeFormatted = `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")} Mins`;
+              return (
+                <Card className="shadow-sm">
+                  <CardHeader className="pb-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <CardTitle>Usage by Section — {selectedDeviceDetail}</CardTitle>
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 rounded-lg border border-border bg-muted/40 px-4 py-2">
+                          <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Visits</span>
+                          <span className="text-lg font-bold text-foreground">{totalVisits.toLocaleString()}</span>
+                        </div>
+                        <div className="flex items-center gap-2 rounded-lg border border-border bg-muted/40 px-4 py-2">
+                          <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Time Spent</span>
+                          <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-0.5 text-sm font-semibold tabular-nums text-primary">{totalTimeFormatted}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
                 <div className="h-[360px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart
@@ -583,6 +603,8 @@ export default function SectionDetail() {
                 </div>
               </CardContent>
             </Card>
+              );
+            })()}
 
             {/* Section Usage Table */}
             <Card className="shadow-sm">
