@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { ArrowLeft, CalendarIcon, Search, Eye, ChevronDown, ChevronUp, Globe, Smartphone, School, ChevronRight } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Search, Eye, ChevronDown, ChevronUp, Globe, Smartphone, School, ChevronRight, Home, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -378,56 +378,64 @@ export default function SectionDetail() {
 
        <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
         {/* Breadcrumb Navigation */}
-        <nav className="flex items-center gap-1.5 text-sm animate-fade-in">
+        <nav className="flex items-center gap-0 text-sm animate-fade-in rounded-lg border border-border bg-card shadow-sm overflow-hidden">
+          {/* Dashboard */}
           <button
             onClick={() => navigate("/")}
-            className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
+            className="flex items-center gap-2 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
           >
+            <LayoutDashboard className="h-3.5 w-3.5" />
             Dashboard
           </button>
-          <ChevronRight className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-          <button
-            onClick={() => {
-              setSelectedDeviceDetail(null);
-              setSelectedPerson(null);
-              setSelectedDevice(null);
-            }}
-            className={cn(
-              "transition-colors",
-              !selectedPerson && !selectedDevice
-                ? "text-foreground font-medium"
-                : "text-muted-foreground hover:text-foreground cursor-pointer"
-            )}
-          >
-            {grade}{section ? ` — ${section}` : ""} ({role})
-          </button>
 
+          {/* Grade */}
+          <div className="flex items-center">
+            <ChevronRight className="h-3.5 w-3.5 text-border shrink-0" />
+            <button
+              onClick={() => {
+                setSelectedDeviceDetail(null);
+                setSelectedPerson(null);
+                setSelectedDevice(null);
+              }}
+              className={cn(
+                "px-4 py-2.5 transition-colors",
+                !selectedPerson && !selectedDevice
+                  ? "bg-primary/10 text-primary font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              )}
+            >
+              {grade}{section ? ` — ${section}` : ""} · {role}
+            </button>
+          </div>
+
+          {/* Person */}
           {selectedPerson && (
-            <>
-              <ChevronRight className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+            <div className="flex items-center">
+              <ChevronRight className="h-3.5 w-3.5 text-border shrink-0" />
               <button
                 onClick={() => {
                   setSelectedDeviceDetail(null);
                 }}
                 className={cn(
-                  "transition-colors",
+                  "px-4 py-2.5 transition-colors",
                   !selectedDeviceDetail
-                    ? "text-foreground font-medium"
-                    : "text-muted-foreground hover:text-foreground cursor-pointer"
+                    ? "bg-primary/10 text-primary font-medium"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 )}
               >
                 {selectedPerson}
               </button>
-            </>
+            </div>
           )}
 
+          {/* Device Detail */}
           {selectedDeviceDetail && (
-            <>
-              <ChevronRight className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-              <span className="text-foreground font-medium">
+            <div className="flex items-center">
+              <ChevronRight className="h-3.5 w-3.5 text-border shrink-0" />
+              <span className="px-4 py-2.5 bg-primary/10 text-primary font-medium">
                 {selectedDeviceDetail}
               </span>
-            </>
+            </div>
           )}
         </nav>
 
