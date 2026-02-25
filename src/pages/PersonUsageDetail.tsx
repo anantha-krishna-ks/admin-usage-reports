@@ -15,6 +15,7 @@ import {
 const environmentData = [
   { name: "Mobile", visits: 36627, timeSpent: "1091:40:11 Hours", minutes: 65500 },
   { name: "Web", visits: 1126, timeSpent: "598:07:02 Hours", minutes: 35887 },
+  { name: "School", visits: 842, timeSpent: "312:25:18 Hours", minutes: 18745 },
 ];
 
 const contentTypeData = [
@@ -58,7 +59,7 @@ const classSubjectData = [
   { name: "V-2025 - Social Studies", visits: 1621, timeSpent: "73:49:03 Hours" },
 ];
 
-const envColors = ["hsl(var(--chart-1))", "hsl(var(--chart-3))"];
+const envColors = ["hsl(var(--chart-1))", "hsl(var(--chart-3))", "hsl(var(--chart-2))"];
 const contentColors = [
   "hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))",
   "hsl(var(--chart-4))", "hsl(var(--chart-5))",
@@ -83,6 +84,13 @@ const envDrillDown: Record<string, { contentType: string; visits: number; timeSp
     { contentType: "Lesson / Weekly / Concept Plans", visits: 56, timeSpent: "17:16:25 Hours" },
     { contentType: "Question Bank", visits: 48, timeSpent: "17:11:49 Hours" },
     { contentType: "Test", visits: 0, timeSpent: "00:10:15 Hours" },
+  ],
+  School: [
+    { contentType: "Ebook", visits: 1800, timeSpent: "120:05:00 Hours" },
+    { contentType: "Learning Resources", visits: 3200, timeSpent: "95:30:00 Hours" },
+    { contentType: "Lesson / Weekly / Concept Plans", visits: 42, timeSpent: "12:10:00 Hours" },
+    { contentType: "Question Bank", visits: 35, timeSpent: "10:45:00 Hours" },
+    { contentType: "Test", visits: 0, timeSpent: "00:05:18 Hours" },
   ],
 };
 
