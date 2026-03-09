@@ -512,6 +512,22 @@ export default function ContentUsageDetail() {
   const usersForRole = usersByRole[role] || [];
   const userActivity = selectedUser ? (userActivityData[selectedUser] || defaultActivity) : [];
 
+  const handlePreview = (name: string) => {
+    navigate(`/person-usage-detail?name=${encodeURIComponent(name)}&role=${role}&class=${encodeURIComponent(selectedClass)}`);
+  };
+
+  // When detailed mode is toggled, auto-select first user
+  const handleDetailedModeChange = (checked: boolean) => {
+    setDetailedMode(checked);
+    if (checked && usersForRole.length > 0 && !selectedUser) {
+      setSelectedUser(usersForRole[0]);
+    }
+    if (!checked) {
+      setSelectedUser("");
+      setActivityPlatformTab("All");
+    }
+  };
+
   // Main view with dropdowns in header
   return (
     <div className="min-h-screen bg-background">
@@ -554,45 +570,119 @@ export default function ContentUsageDetail() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
-        <Tabs defaultValue="user" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="user">User Application</TabsTrigger>
-            <TabsTrigger value="mobile">Mobile Application</TabsTrigger>
-            <TabsTrigger value="school">School Application</TabsTrigger>
-          </TabsList>
+        {/* Detailed User Mode Switch */}
+        <Card className="shadow-sm">
+          <CardContent className="py-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <Switch
+                  id="detailed-mode"
+                  checked={detailedMode}
+                  onCheckedChange={handleDetailedModeChange}
+                />
+                <Label htmlFor="detailed-mode" className="text-sm font-medium cursor-pointer">
+                  Detailed User View
+                </Label>
+              </div>
+              
+              {detailedMode && (
+                <div className="flex items-center gap-3">
+                  <User className="h-4 w-4 text-muted-foreground" />
+                  <Select value={selectedUser} onValueChange={setSelectedUser}>
+                    <SelectTrigger className="w-56">
+                      <SelectValue placeholder="Select a user" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover z-50">
+                      {usersForRole.map((u) => (
+                        <SelectItem key={u} value={u}>{u}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
-          <TabsContent value="user" className="space-y-6">
-            {isStudent ? <StudentTable data={userAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={userAppParents} onPreview={handlePreview} /> : <TeacherTable data={userAppTeachers} onPreview={handlePreview} />}
-          </TabsContent>
-          <TabsContent value="mobile" className="space-y-6">
-            {isStudent ? <StudentTable data={mobileAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={mobileAppParents} onPreview={handlePreview} /> : <TeacherTable data={mobileAppTeachers} onPreview={handlePreview} />}
-          </TabsContent>
-          <TabsContent value="school" className="space-y-6">
-            {isStudent ? <StudentTable data={schoolAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={schoolAppParents} onPreview={handlePreview} /> : <TeacherTable data={schoolAppTeachers} onPreview={handlePreview} />}
-          </TabsContent>
-        </Tabs>
+        {/* Detailed User Activity View */}
+        {detailedMode && selectedUser ? (
+          <div className="space-y-6">
+            <Card className="shadow-sm border-primary/20 bg-primary/5">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <User className="h-5 w-5 text-primary" />
+                  {selectedUser}
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">{role} — Detailed activity breakdown</p>
+              </CardHeader>
+            </Card>
 
-        {/* View More Details toggle */}
-        {!showReports ? (
-          <div className="flex justify-center">
-            <Button variant="outline" className="gap-2" onClick={() => setShowReports(true)}>
-              <Eye className="h-4 w-4" />
-              View More Details
-            </Button>
+            <Tabs value={activityPlatformTab} onValueChange={setActivityPlatformTab} className="w-full">
+              <TabsList className="grid w-full grid-cols-4">
+                <TabsTrigger value="All">All</TabsTrigger>
+                <TabsTrigger value="Web">Web</TabsTrigger>
+                <TabsTrigger value="Mobile">Mobile</TabsTrigger>
+                <TabsTrigger value="School">School</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="All" className="space-y-6 mt-4">
+                <UserActivityTable data={userActivity} platformFilter="All" />
+              </TabsContent>
+              <TabsContent value="Web" className="space-y-6 mt-4">
+                <UserActivityTable data={userActivity} platformFilter="Web" />
+              </TabsContent>
+              <TabsContent value="Mobile" className="space-y-6 mt-4">
+                <UserActivityTable data={userActivity} platformFilter="Mobile" />
+              </TabsContent>
+              <TabsContent value="School" className="space-y-6 mt-4">
+                <UserActivityTable data={userActivity} platformFilter="School" />
+              </TabsContent>
+            </Tabs>
           </div>
         ) : (
-          <div className="space-y-12">
-            <div className="flex justify-center">
-              <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={() => setShowReports(false)}>
-                Hide Details
-              </Button>
-            </div>
+          /* Original Table Views */
+          <>
+            <Tabs defaultValue="user" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="user">User Application</TabsTrigger>
+                <TabsTrigger value="mobile">Mobile Application</TabsTrigger>
+                <TabsTrigger value="school">School Application</TabsTrigger>
+              </TabsList>
 
-             <AnalyticsSection title="Environment" chartData={deviceData.map((d) => ({ name: d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={deviceColors} tableHeaders={["Devices", "No. of Visits", "Time Spent (mins)"]} tableRows={deviceData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} />
-             <AnalyticsSection title="Roles" chartData={roleData.map((d) => ({ name: d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={roleColors} tableHeaders={["Roles", "No. of Visits", "Time Spent (mins)"]} tableRows={roleData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} />
-             <AnalyticsSection title="Content Type" chartData={contentTypeData.map((d) => ({ name: d.name.length > 14 ? d.name.slice(0, 14) + "…" : d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={contentColors} tableHeaders={["Content Type", "No. of Visits", "Time Spent (mins)"]} tableRows={contentTypeData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} chartHeight={320} barSize={40} />
-             <AnalyticsSection title="Class - Subject" chartData={classSubjectChartData} dataKey="visits" yLabel="Visits" colors={["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))", "hsl(var(--chart-4))", "hsl(var(--chart-5))", "hsl(var(--primary))"]} tableHeaders={["Class - Subject", "No. of Visits", "Time Spent (mins)"]} tableRows={classSubjectData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} chartHeight={360} barSize={16} />
-          </div>
+              <TabsContent value="user" className="space-y-6">
+                {isStudent ? <StudentTable data={userAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={userAppParents} onPreview={handlePreview} /> : <TeacherTable data={userAppTeachers} onPreview={handlePreview} />}
+              </TabsContent>
+              <TabsContent value="mobile" className="space-y-6">
+                {isStudent ? <StudentTable data={mobileAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={mobileAppParents} onPreview={handlePreview} /> : <TeacherTable data={mobileAppTeachers} onPreview={handlePreview} />}
+              </TabsContent>
+              <TabsContent value="school" className="space-y-6">
+                {isStudent ? <StudentTable data={schoolAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={schoolAppParents} onPreview={handlePreview} /> : <TeacherTable data={schoolAppTeachers} onPreview={handlePreview} />}
+              </TabsContent>
+            </Tabs>
+
+            {/* View More Details toggle */}
+            {!showReports ? (
+              <div className="flex justify-center">
+                <Button variant="outline" className="gap-2" onClick={() => setShowReports(true)}>
+                  <Eye className="h-4 w-4" />
+                  View More Details
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-12">
+                <div className="flex justify-center">
+                  <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={() => setShowReports(false)}>
+                    Hide Details
+                  </Button>
+                </div>
+
+                <AnalyticsSection title="Environment" chartData={deviceData.map((d) => ({ name: d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={deviceColors} tableHeaders={["Devices", "No. of Visits", "Time Spent (mins)"]} tableRows={deviceData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} />
+                <AnalyticsSection title="Roles" chartData={roleData.map((d) => ({ name: d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={roleColors} tableHeaders={["Roles", "No. of Visits", "Time Spent (mins)"]} tableRows={roleData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} />
+                <AnalyticsSection title="Content Type" chartData={contentTypeData.map((d) => ({ name: d.name.length > 14 ? d.name.slice(0, 14) + "…" : d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={contentColors} tableHeaders={["Content Type", "No. of Visits", "Time Spent (mins)"]} tableRows={contentTypeData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} chartHeight={320} barSize={40} />
+                <AnalyticsSection title="Class - Subject" chartData={classSubjectChartData} dataKey="visits" yLabel="Visits" colors={["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))", "hsl(var(--chart-4))", "hsl(var(--chart-5))", "hsl(var(--primary))"]} tableHeaders={["Class - Subject", "No. of Visits", "Time Spent (mins)"]} tableRows={classSubjectData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} chartHeight={360} barSize={16} />
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
