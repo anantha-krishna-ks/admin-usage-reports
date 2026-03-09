@@ -503,10 +503,14 @@ export default function ContentUsageDetail() {
   const [selectedClass, setSelectedClass] = useState<string>(classOptions[0]);
   const [selectedSection, setSelectedSection] = useState<string>(needsSection ? sectionOptions[0] : "");
   const [showReports, setShowReports] = useState(false);
+  
+  // Detailed user drill-down state
+  const [detailedMode, setDetailedMode] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<string>("");
+  const [activityPlatformTab, setActivityPlatformTab] = useState<string>("All");
 
-  const handlePreview = (name: string) => {
-    navigate(`/person-usage-detail?name=${encodeURIComponent(name)}&role=${role}&class=${encodeURIComponent(selectedClass)}`);
-  };
+  const usersForRole = usersByRole[role] || [];
+  const userActivity = selectedUser ? (userActivityData[selectedUser] || defaultActivity) : [];
 
   // Main view with dropdowns in header
   return (
