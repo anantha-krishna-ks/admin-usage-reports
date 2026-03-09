@@ -167,6 +167,135 @@ const classSubjectChartData = classSubjectData.map((d) => ({
   visits: d.visits,
 }));
 
+// ── User lists by role for the detailed drill-down ──
+const usersByRole: Record<string, string[]> = {
+  Teacher: ["Ms. Priya Sharma", "Mr. Rajesh Kumar", "Ms. Anitha Devi", "Mr. Karthik Rajan", "Ms. Lakshmi Narayanan"],
+  Student: ["Aarav Patel", "Diya Krishnan", "Ishaan Reddy", "Meera Sundaram", "Rohan Gupta"],
+  Parent: ["Mr. Venkat Patel", "Mrs. Sudha Krishnan", "Mr. Arjun Reddy", "Mrs. Kavitha Sundaram", "Mr. Ramesh Gupta"],
+};
+
+interface UserActivityRow {
+  title: string;
+  contentType: string;
+  class: string;
+  subject: string;
+  duration: number; // in mins
+  platform: "Web" | "Mobile" | "School";
+}
+
+// ── Mock detailed activity data per user ──
+const userActivityData: Record<string, UserActivityRow[]> = {
+  "Ms. Priya Sharma": [
+    { title: "Introduction to Fractions", contentType: "Lesson Plan", class: "I-2024", subject: "Mathematics", duration: 18, platform: "Web" },
+    { title: "Photosynthesis Explained", contentType: "Learning Resource", class: "III-2025", subject: "Science", duration: 25, platform: "Web" },
+    { title: "English Grammar Basics", contentType: "Ebook", class: "I-2024", subject: "English", duration: 12, platform: "Mobile" },
+    { title: "Weekly Assessment - Math", contentType: "Test", class: "I-2024", subject: "Mathematics", duration: 30, platform: "School" },
+    { title: "Creative Writing Guide", contentType: "Learning Resource", class: "II-2024", subject: "English", duration: 22, platform: "Web" },
+    { title: "World Map Activity", contentType: "Items", class: "I-2024", subject: "World Around Us", duration: 15, platform: "Mobile" },
+    { title: "Number Patterns Worksheet", contentType: "Items", class: "III-2025", subject: "Mathematics", duration: 20, platform: "School" },
+    { title: "Science Lab Safety", contentType: "Lesson Plan", class: "III-2025", subject: "Science", duration: 14, platform: "Web" },
+  ],
+  "Mr. Rajesh Kumar": [
+    { title: "Algebra Fundamentals", contentType: "Lesson Plan", class: "IV-2025", subject: "Mathematics", duration: 22, platform: "Web" },
+    { title: "History of India", contentType: "Learning Resource", class: "IV-2025", subject: "Social Studies", duration: 18, platform: "Mobile" },
+    { title: "English Comprehension", contentType: "Ebook", class: "II-2024", subject: "English", duration: 15, platform: "Web" },
+    { title: "Mid-term Science Test", contentType: "Test", class: "IV-2025", subject: "Science", duration: 35, platform: "School" },
+    { title: "Art Appreciation", contentType: "Learning Resource", class: "IV-2025", subject: "My Art Palette", duration: 10, platform: "Web" },
+  ],
+  "Ms. Anitha Devi": [
+    { title: "Advanced Grammar", contentType: "Lesson Plan", class: "V-2025", subject: "English", duration: 28, platform: "Web" },
+    { title: "Geometry Shapes", contentType: "Learning Resource", class: "V-2025", subject: "Mathematics", duration: 20, platform: "Mobile" },
+    { title: "Environmental Science", contentType: "Ebook", class: "V-2025", subject: "Science", duration: 18, platform: "School" },
+    { title: "Social Studies Quiz", contentType: "Test", class: "V-2025", subject: "Social Studies", duration: 25, platform: "Web" },
+    { title: "Weekly Plan - English", contentType: "Lesson Plan", class: "III-2025", subject: "English", duration: 16, platform: "Web" },
+    { title: "Reading Comprehension Set", contentType: "Items", class: "III-2025", subject: "English", duration: 22, platform: "Mobile" },
+  ],
+  "Aarav Patel": [
+    { title: "Fraction Practice", contentType: "Learning Resource", class: "I-2024", subject: "Mathematics", duration: 15, platform: "Web" },
+    { title: "English Stories", contentType: "Ebook", class: "I-2024", subject: "English", duration: 12, platform: "Mobile" },
+    { title: "Math Quiz Chapter 3", contentType: "Test", class: "I-2024", subject: "Mathematics", duration: 20, platform: "School" },
+    { title: "Science Experiments", contentType: "Learning Resource", class: "I-2024", subject: "World Around Us", duration: 18, platform: "Web" },
+    { title: "Leader Board Quiz - Math", contentType: "Learning Resource", class: "I-2024", subject: "Mathematics", duration: 8, platform: "Mobile" },
+  ],
+  "Diya Krishnan": [
+    { title: "Poetry Collection", contentType: "Ebook", class: "II-2024", subject: "English", duration: 20, platform: "Web" },
+    { title: "Math Worksheets", contentType: "Learning Resource", class: "II-2024", subject: "Mathematics", duration: 25, platform: "Web" },
+    { title: "Science Chapter Test", contentType: "Test", class: "II-2024", subject: "World Around Us", duration: 30, platform: "School" },
+    { title: "Art Project Guide", contentType: "Learning Resource", class: "II-2024", subject: "My Art Palette", duration: 14, platform: "Mobile" },
+  ],
+  "Mr. Venkat Patel": [
+    { title: "Child Progress Report", contentType: "Learning Resource", class: "I-2024", subject: "Mathematics", duration: 10, platform: "Web" },
+    { title: "English Ebook Review", contentType: "Ebook", class: "I-2024", subject: "English", duration: 8, platform: "Mobile" },
+    { title: "Test Results Overview", contentType: "Test", class: "I-2024", subject: "Mathematics", duration: 5, platform: "Web" },
+  ],
+  "Mrs. Sudha Krishnan": [
+    { title: "Academic Calendar", contentType: "Learning Resource", class: "II-2024", subject: "English", duration: 12, platform: "Web" },
+    { title: "Science Curriculum", contentType: "Ebook", class: "II-2024", subject: "World Around Us", duration: 15, platform: "Mobile" },
+    { title: "Term Assessment Review", contentType: "Test", class: "II-2024", subject: "Mathematics", duration: 10, platform: "School" },
+    { title: "Parent Guide - Reading", contentType: "Learning Resource", class: "II-2024", subject: "English", duration: 8, platform: "Web" },
+  ],
+};
+
+// Fallback activity data for users without specific data
+const defaultActivity: UserActivityRow[] = [
+  { title: "General Resource Review", contentType: "Learning Resource", class: "I-2024", subject: "English", duration: 15, platform: "Web" },
+  { title: "Practice Test", contentType: "Test", class: "I-2024", subject: "Mathematics", duration: 20, platform: "School" },
+  { title: "Study Material", contentType: "Ebook", class: "II-2024", subject: "Science", duration: 12, platform: "Mobile" },
+];
+
+// ── Detailed User Activity Table ──
+function UserActivityTable({ data, platformFilter }: { data: UserActivityRow[]; platformFilter: string }) {
+  const filtered = platformFilter === "All" ? data : data.filter((r) => r.platform === platformFilter);
+  const contentTypeColors: Record<string, string> = {
+    "Lesson Plan": "bg-chart-1/15 text-chart-1 border-chart-1/30",
+    "Learning Resource": "bg-chart-2/15 text-chart-2 border-chart-2/30",
+    "Ebook": "bg-chart-3/15 text-chart-3 border-chart-3/30",
+    "Test": "bg-chart-4/15 text-chart-4 border-chart-4/30",
+    "Items": "bg-chart-5/15 text-chart-5 border-chart-5/30",
+  };
+
+  return (
+    <Card className="shadow-sm">
+      <CardContent className="px-0 pb-0 pt-0">
+        {filtered.length === 0 ? (
+          <div className="py-12 text-center text-muted-foreground">No activity found for this platform.</div>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-muted/30">
+                <TableHead className="pl-6 font-semibold">Title</TableHead>
+                <TableHead className="font-semibold">Content Type</TableHead>
+                <TableHead className="font-semibold">Class</TableHead>
+                <TableHead className="font-semibold">Subject</TableHead>
+                <TableHead className="text-right pr-6 font-semibold">Duration (mins)</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filtered.map((row, i) => (
+                <TableRow key={i} className="hover:bg-muted/20 transition-colors">
+                  <TableCell className="pl-6 font-medium">{row.title}</TableCell>
+                  <TableCell>
+                    <Badge variant="outline" className={`text-xs font-medium border ${contentTypeColors[row.contentType] || "bg-muted text-muted-foreground"}`}>
+                      {row.contentType}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">{row.class}</TableCell>
+                  <TableCell className="text-muted-foreground">{row.subject}</TableCell>
+                  <TableCell className="text-right pr-6">
+                    <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-0.5 text-sm font-semibold tabular-nums text-primary">
+                      {row.duration}
+                    </span>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
 // ── Teacher Table Component ──
 function TeacherTable({ data, onPreview }: { data: typeof userAppTeachers; onPreview?: (name: string) => void }) {
   return (
