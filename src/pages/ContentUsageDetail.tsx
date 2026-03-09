@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Eye } from "lucide-react";
+import { ArrowLeft, Eye, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
@@ -163,6 +166,135 @@ const classSubjectChartData = classSubjectData.map((d) => ({
   fullName: d.name,
   visits: d.visits,
 }));
+
+// ── User lists by role for the detailed drill-down ──
+const usersByRole: Record<string, string[]> = {
+  Teacher: ["Ms. Priya Sharma", "Mr. Rajesh Kumar", "Ms. Anitha Devi", "Mr. Karthik Rajan", "Ms. Lakshmi Narayanan"],
+  Student: ["Aarav Patel", "Diya Krishnan", "Ishaan Reddy", "Meera Sundaram", "Rohan Gupta"],
+  Parent: ["Mr. Venkat Patel", "Mrs. Sudha Krishnan", "Mr. Arjun Reddy", "Mrs. Kavitha Sundaram", "Mr. Ramesh Gupta"],
+};
+
+interface UserActivityRow {
+  title: string;
+  contentType: string;
+  class: string;
+  subject: string;
+  duration: number; // in mins
+  platform: "Web" | "Mobile" | "School";
+}
+
+// ── Mock detailed activity data per user ──
+const userActivityData: Record<string, UserActivityRow[]> = {
+  "Ms. Priya Sharma": [
+    { title: "Introduction to Fractions", contentType: "Lesson Plan", class: "I-2024", subject: "Mathematics", duration: 18, platform: "Web" },
+    { title: "Photosynthesis Explained", contentType: "Learning Resource", class: "III-2025", subject: "Science", duration: 25, platform: "Web" },
+    { title: "English Grammar Basics", contentType: "Ebook", class: "I-2024", subject: "English", duration: 12, platform: "Mobile" },
+    { title: "Weekly Assessment - Math", contentType: "Test", class: "I-2024", subject: "Mathematics", duration: 30, platform: "School" },
+    { title: "Creative Writing Guide", contentType: "Learning Resource", class: "II-2024", subject: "English", duration: 22, platform: "Web" },
+    { title: "World Map Activity", contentType: "Items", class: "I-2024", subject: "World Around Us", duration: 15, platform: "Mobile" },
+    { title: "Number Patterns Worksheet", contentType: "Items", class: "III-2025", subject: "Mathematics", duration: 20, platform: "School" },
+    { title: "Science Lab Safety", contentType: "Lesson Plan", class: "III-2025", subject: "Science", duration: 14, platform: "Web" },
+  ],
+  "Mr. Rajesh Kumar": [
+    { title: "Algebra Fundamentals", contentType: "Lesson Plan", class: "IV-2025", subject: "Mathematics", duration: 22, platform: "Web" },
+    { title: "History of India", contentType: "Learning Resource", class: "IV-2025", subject: "Social Studies", duration: 18, platform: "Mobile" },
+    { title: "English Comprehension", contentType: "Ebook", class: "II-2024", subject: "English", duration: 15, platform: "Web" },
+    { title: "Mid-term Science Test", contentType: "Test", class: "IV-2025", subject: "Science", duration: 35, platform: "School" },
+    { title: "Art Appreciation", contentType: "Learning Resource", class: "IV-2025", subject: "My Art Palette", duration: 10, platform: "Web" },
+  ],
+  "Ms. Anitha Devi": [
+    { title: "Advanced Grammar", contentType: "Lesson Plan", class: "V-2025", subject: "English", duration: 28, platform: "Web" },
+    { title: "Geometry Shapes", contentType: "Learning Resource", class: "V-2025", subject: "Mathematics", duration: 20, platform: "Mobile" },
+    { title: "Environmental Science", contentType: "Ebook", class: "V-2025", subject: "Science", duration: 18, platform: "School" },
+    { title: "Social Studies Quiz", contentType: "Test", class: "V-2025", subject: "Social Studies", duration: 25, platform: "Web" },
+    { title: "Weekly Plan - English", contentType: "Lesson Plan", class: "III-2025", subject: "English", duration: 16, platform: "Web" },
+    { title: "Reading Comprehension Set", contentType: "Items", class: "III-2025", subject: "English", duration: 22, platform: "Mobile" },
+  ],
+  "Aarav Patel": [
+    { title: "Fraction Practice", contentType: "Learning Resource", class: "I-2024", subject: "Mathematics", duration: 15, platform: "Web" },
+    { title: "English Stories", contentType: "Ebook", class: "I-2024", subject: "English", duration: 12, platform: "Mobile" },
+    { title: "Math Quiz Chapter 3", contentType: "Test", class: "I-2024", subject: "Mathematics", duration: 20, platform: "School" },
+    { title: "Science Experiments", contentType: "Learning Resource", class: "I-2024", subject: "World Around Us", duration: 18, platform: "Web" },
+    { title: "Leader Board Quiz - Math", contentType: "Learning Resource", class: "I-2024", subject: "Mathematics", duration: 8, platform: "Mobile" },
+  ],
+  "Diya Krishnan": [
+    { title: "Poetry Collection", contentType: "Ebook", class: "II-2024", subject: "English", duration: 20, platform: "Web" },
+    { title: "Math Worksheets", contentType: "Learning Resource", class: "II-2024", subject: "Mathematics", duration: 25, platform: "Web" },
+    { title: "Science Chapter Test", contentType: "Test", class: "II-2024", subject: "World Around Us", duration: 30, platform: "School" },
+    { title: "Art Project Guide", contentType: "Learning Resource", class: "II-2024", subject: "My Art Palette", duration: 14, platform: "Mobile" },
+  ],
+  "Mr. Venkat Patel": [
+    { title: "Child Progress Report", contentType: "Learning Resource", class: "I-2024", subject: "Mathematics", duration: 10, platform: "Web" },
+    { title: "English Ebook Review", contentType: "Ebook", class: "I-2024", subject: "English", duration: 8, platform: "Mobile" },
+    { title: "Test Results Overview", contentType: "Test", class: "I-2024", subject: "Mathematics", duration: 5, platform: "Web" },
+  ],
+  "Mrs. Sudha Krishnan": [
+    { title: "Academic Calendar", contentType: "Learning Resource", class: "II-2024", subject: "English", duration: 12, platform: "Web" },
+    { title: "Science Curriculum", contentType: "Ebook", class: "II-2024", subject: "World Around Us", duration: 15, platform: "Mobile" },
+    { title: "Term Assessment Review", contentType: "Test", class: "II-2024", subject: "Mathematics", duration: 10, platform: "School" },
+    { title: "Parent Guide - Reading", contentType: "Learning Resource", class: "II-2024", subject: "English", duration: 8, platform: "Web" },
+  ],
+};
+
+// Fallback activity data for users without specific data
+const defaultActivity: UserActivityRow[] = [
+  { title: "General Resource Review", contentType: "Learning Resource", class: "I-2024", subject: "English", duration: 15, platform: "Web" },
+  { title: "Practice Test", contentType: "Test", class: "I-2024", subject: "Mathematics", duration: 20, platform: "School" },
+  { title: "Study Material", contentType: "Ebook", class: "II-2024", subject: "Science", duration: 12, platform: "Mobile" },
+];
+
+// ── Detailed User Activity Table ──
+function UserActivityTable({ data, platformFilter }: { data: UserActivityRow[]; platformFilter: string }) {
+  const filtered = platformFilter === "All" ? data : data.filter((r) => r.platform === platformFilter);
+  const contentTypeColors: Record<string, string> = {
+    "Lesson Plan": "bg-chart-1/15 text-chart-1 border-chart-1/30",
+    "Learning Resource": "bg-chart-2/15 text-chart-2 border-chart-2/30",
+    "Ebook": "bg-chart-3/15 text-chart-3 border-chart-3/30",
+    "Test": "bg-chart-4/15 text-chart-4 border-chart-4/30",
+    "Items": "bg-chart-5/15 text-chart-5 border-chart-5/30",
+  };
+
+  return (
+    <Card className="shadow-sm">
+      <CardContent className="px-0 pb-0 pt-0">
+        {filtered.length === 0 ? (
+          <div className="py-12 text-center text-muted-foreground">No activity found for this platform.</div>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-muted/30">
+                <TableHead className="pl-6 font-semibold">Title</TableHead>
+                <TableHead className="font-semibold">Content Type</TableHead>
+                <TableHead className="font-semibold">Class</TableHead>
+                <TableHead className="font-semibold">Subject</TableHead>
+                <TableHead className="text-right pr-6 font-semibold">Duration (mins)</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filtered.map((row, i) => (
+                <TableRow key={i} className="hover:bg-muted/20 transition-colors">
+                  <TableCell className="pl-6 font-medium">{row.title}</TableCell>
+                  <TableCell>
+                    <Badge variant="outline" className={`text-xs font-medium border ${contentTypeColors[row.contentType] || "bg-muted text-muted-foreground"}`}>
+                      {row.contentType}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">{row.class}</TableCell>
+                  <TableCell className="text-muted-foreground">{row.subject}</TableCell>
+                  <TableCell className="text-right pr-6">
+                    <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-0.5 text-sm font-semibold tabular-nums text-primary">
+                      {row.duration}
+                    </span>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
 
 // ── Teacher Table Component ──
 function TeacherTable({ data, onPreview }: { data: typeof userAppTeachers; onPreview?: (name: string) => void }) {
@@ -371,9 +503,29 @@ export default function ContentUsageDetail() {
   const [selectedClass, setSelectedClass] = useState<string>(classOptions[0]);
   const [selectedSection, setSelectedSection] = useState<string>(needsSection ? sectionOptions[0] : "");
   const [showReports, setShowReports] = useState(false);
+  
+  // Detailed user drill-down state
+  const [detailedMode, setDetailedMode] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<string>("");
+  const [activityPlatformTab, setActivityPlatformTab] = useState<string>("All");
+
+  const usersForRole = usersByRole[role] || [];
+  const userActivity = selectedUser ? (userActivityData[selectedUser] || defaultActivity) : [];
 
   const handlePreview = (name: string) => {
     navigate(`/person-usage-detail?name=${encodeURIComponent(name)}&role=${role}&class=${encodeURIComponent(selectedClass)}`);
+  };
+
+  // When detailed mode is toggled, auto-select first user
+  const handleDetailedModeChange = (checked: boolean) => {
+    setDetailedMode(checked);
+    if (checked && usersForRole.length > 0 && !selectedUser) {
+      setSelectedUser(usersForRole[0]);
+    }
+    if (!checked) {
+      setSelectedUser("");
+      setActivityPlatformTab("All");
+    }
   };
 
   // Main view with dropdowns in header
@@ -418,45 +570,119 @@ export default function ContentUsageDetail() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
-        <Tabs defaultValue="user" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="user">User Application</TabsTrigger>
-            <TabsTrigger value="mobile">Mobile Application</TabsTrigger>
-            <TabsTrigger value="school">School Application</TabsTrigger>
-          </TabsList>
+        {/* Detailed User Mode Switch */}
+        <Card className="shadow-sm">
+          <CardContent className="py-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <Switch
+                  id="detailed-mode"
+                  checked={detailedMode}
+                  onCheckedChange={handleDetailedModeChange}
+                />
+                <Label htmlFor="detailed-mode" className="text-sm font-medium cursor-pointer">
+                  Detailed User View
+                </Label>
+              </div>
+              
+              {detailedMode && (
+                <div className="flex items-center gap-3">
+                  <User className="h-4 w-4 text-muted-foreground" />
+                  <Select value={selectedUser} onValueChange={setSelectedUser}>
+                    <SelectTrigger className="w-56">
+                      <SelectValue placeholder="Select a user" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover z-50">
+                      {usersForRole.map((u) => (
+                        <SelectItem key={u} value={u}>{u}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
-          <TabsContent value="user" className="space-y-6">
-            {isStudent ? <StudentTable data={userAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={userAppParents} onPreview={handlePreview} /> : <TeacherTable data={userAppTeachers} onPreview={handlePreview} />}
-          </TabsContent>
-          <TabsContent value="mobile" className="space-y-6">
-            {isStudent ? <StudentTable data={mobileAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={mobileAppParents} onPreview={handlePreview} /> : <TeacherTable data={mobileAppTeachers} onPreview={handlePreview} />}
-          </TabsContent>
-          <TabsContent value="school" className="space-y-6">
-            {isStudent ? <StudentTable data={schoolAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={schoolAppParents} onPreview={handlePreview} /> : <TeacherTable data={schoolAppTeachers} onPreview={handlePreview} />}
-          </TabsContent>
-        </Tabs>
+        {/* Detailed User Activity View */}
+        {detailedMode && selectedUser ? (
+          <div className="space-y-6">
+            <Card className="shadow-sm border-primary/20 bg-primary/5">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <User className="h-5 w-5 text-primary" />
+                  {selectedUser}
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">{role} — Detailed activity breakdown</p>
+              </CardHeader>
+            </Card>
 
-        {/* View More Details toggle */}
-        {!showReports ? (
-          <div className="flex justify-center">
-            <Button variant="outline" className="gap-2" onClick={() => setShowReports(true)}>
-              <Eye className="h-4 w-4" />
-              View More Details
-            </Button>
+            <Tabs value={activityPlatformTab} onValueChange={setActivityPlatformTab} className="w-full">
+              <TabsList className="grid w-full grid-cols-4">
+                <TabsTrigger value="All">All</TabsTrigger>
+                <TabsTrigger value="Web">Web</TabsTrigger>
+                <TabsTrigger value="Mobile">Mobile</TabsTrigger>
+                <TabsTrigger value="School">School</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="All" className="space-y-6 mt-4">
+                <UserActivityTable data={userActivity} platformFilter="All" />
+              </TabsContent>
+              <TabsContent value="Web" className="space-y-6 mt-4">
+                <UserActivityTable data={userActivity} platformFilter="Web" />
+              </TabsContent>
+              <TabsContent value="Mobile" className="space-y-6 mt-4">
+                <UserActivityTable data={userActivity} platformFilter="Mobile" />
+              </TabsContent>
+              <TabsContent value="School" className="space-y-6 mt-4">
+                <UserActivityTable data={userActivity} platformFilter="School" />
+              </TabsContent>
+            </Tabs>
           </div>
         ) : (
-          <div className="space-y-12">
-            <div className="flex justify-center">
-              <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={() => setShowReports(false)}>
-                Hide Details
-              </Button>
-            </div>
+          /* Original Table Views */
+          <>
+            <Tabs defaultValue="user" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="user">User Application</TabsTrigger>
+                <TabsTrigger value="mobile">Mobile Application</TabsTrigger>
+                <TabsTrigger value="school">School Application</TabsTrigger>
+              </TabsList>
 
-             <AnalyticsSection title="Environment" chartData={deviceData.map((d) => ({ name: d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={deviceColors} tableHeaders={["Devices", "No. of Visits", "Time Spent (mins)"]} tableRows={deviceData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} />
-             <AnalyticsSection title="Roles" chartData={roleData.map((d) => ({ name: d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={roleColors} tableHeaders={["Roles", "No. of Visits", "Time Spent (mins)"]} tableRows={roleData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} />
-             <AnalyticsSection title="Content Type" chartData={contentTypeData.map((d) => ({ name: d.name.length > 14 ? d.name.slice(0, 14) + "…" : d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={contentColors} tableHeaders={["Content Type", "No. of Visits", "Time Spent (mins)"]} tableRows={contentTypeData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} chartHeight={320} barSize={40} />
-             <AnalyticsSection title="Class - Subject" chartData={classSubjectChartData} dataKey="visits" yLabel="Visits" colors={["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))", "hsl(var(--chart-4))", "hsl(var(--chart-5))", "hsl(var(--primary))"]} tableHeaders={["Class - Subject", "No. of Visits", "Time Spent (mins)"]} tableRows={classSubjectData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} chartHeight={360} barSize={16} />
-          </div>
+              <TabsContent value="user" className="space-y-6">
+                {isStudent ? <StudentTable data={userAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={userAppParents} onPreview={handlePreview} /> : <TeacherTable data={userAppTeachers} onPreview={handlePreview} />}
+              </TabsContent>
+              <TabsContent value="mobile" className="space-y-6">
+                {isStudent ? <StudentTable data={mobileAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={mobileAppParents} onPreview={handlePreview} /> : <TeacherTable data={mobileAppTeachers} onPreview={handlePreview} />}
+              </TabsContent>
+              <TabsContent value="school" className="space-y-6">
+                {isStudent ? <StudentTable data={schoolAppStudents} onPreview={handlePreview} /> : isParent ? <ParentTable data={schoolAppParents} onPreview={handlePreview} /> : <TeacherTable data={schoolAppTeachers} onPreview={handlePreview} />}
+              </TabsContent>
+            </Tabs>
+
+            {/* View More Details toggle */}
+            {!showReports ? (
+              <div className="flex justify-center">
+                <Button variant="outline" className="gap-2" onClick={() => setShowReports(true)}>
+                  <Eye className="h-4 w-4" />
+                  View More Details
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-12">
+                <div className="flex justify-center">
+                  <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={() => setShowReports(false)}>
+                    Hide Details
+                  </Button>
+                </div>
+
+                <AnalyticsSection title="Environment" chartData={deviceData.map((d) => ({ name: d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={deviceColors} tableHeaders={["Devices", "No. of Visits", "Time Spent (mins)"]} tableRows={deviceData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} />
+                <AnalyticsSection title="Roles" chartData={roleData.map((d) => ({ name: d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={roleColors} tableHeaders={["Roles", "No. of Visits", "Time Spent (mins)"]} tableRows={roleData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} />
+                <AnalyticsSection title="Content Type" chartData={contentTypeData.map((d) => ({ name: d.name.length > 14 ? d.name.slice(0, 14) + "…" : d.name, visits: d.minutes }))} dataKey="visits" yLabel="Time (Min)" colors={contentColors} tableHeaders={["Content Type", "No. of Visits", "Time Spent (mins)"]} tableRows={contentTypeData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} chartHeight={320} barSize={40} />
+                <AnalyticsSection title="Class - Subject" chartData={classSubjectChartData} dataKey="visits" yLabel="Visits" colors={["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))", "hsl(var(--chart-4))", "hsl(var(--chart-5))", "hsl(var(--primary))"]} tableHeaders={["Class - Subject", "No. of Visits", "Time Spent (mins)"]} tableRows={classSubjectData.map((d) => ({ cells: [d.name, d.visits, d.timeSpent] }))} chartHeight={360} barSize={16} />
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
