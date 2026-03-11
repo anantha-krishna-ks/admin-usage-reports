@@ -570,10 +570,24 @@ export default function ContentUsageDetail() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
-        {/* Detailed User Mode Switch */}
+        {/* Summary View Toggle */}
         <Card className="shadow-sm">
           <CardContent className="py-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <User className="h-4 w-4 text-muted-foreground" />
+                <Select value={selectedUser} onValueChange={setSelectedUser}>
+                  <SelectTrigger className="w-56">
+                    <SelectValue placeholder="Select a user" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-popover z-50">
+                    {usersForRole.map((u) => (
+                      <SelectItem key={u} value={u}>{u}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
               <div className="flex items-center gap-3">
                 <Switch
                   id="detailed-mode"
@@ -581,31 +595,15 @@ export default function ContentUsageDetail() {
                   onCheckedChange={handleDetailedModeChange}
                 />
                 <Label htmlFor="detailed-mode" className="text-sm font-medium cursor-pointer">
-                  Detailed User View
+                  Summary View
                 </Label>
               </div>
-              
-              {detailedMode && (
-                <div className="flex items-center gap-3">
-                  <User className="h-4 w-4 text-muted-foreground" />
-                  <Select value={selectedUser} onValueChange={setSelectedUser}>
-                    <SelectTrigger className="w-56">
-                      <SelectValue placeholder="Select a user" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-popover z-50">
-                      {usersForRole.map((u) => (
-                        <SelectItem key={u} value={u}>{u}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
             </div>
           </CardContent>
         </Card>
 
-        {/* Detailed User Activity View */}
-        {detailedMode && selectedUser ? (
+        {/* Default: Detailed User Activity View */}
+        {!detailedMode && selectedUser ? (
           <div className="space-y-6">
             <Card className="shadow-sm border-primary/20 bg-primary/5">
               <CardHeader className="pb-2">
