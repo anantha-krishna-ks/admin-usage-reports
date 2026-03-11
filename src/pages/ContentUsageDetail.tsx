@@ -243,28 +243,35 @@ const defaultActivity: UserActivityRow[] = [
   { title: "Study Material", contentType: "Ebook", class: "II-2024", subject: "Science", duration: 12, platform: "Mobile" },
 ];
 
+// ── Content type filter options ──
+const contentTypeFilters = ["All", "Lesson Plan", "Learning Resources", "Question", "Test", "Ebook", "LBQ"];
+
 // ── Detailed User Activity Table ──
-function UserActivityTable({ data, platformFilter }: { data: UserActivityRow[]; platformFilter: string }) {
-  const filtered = platformFilter === "All" ? data : data.filter((r) => r.platform === platformFilter);
+function UserActivityTable({ data, contentTypeFilter }: { data: UserActivityRow[]; contentTypeFilter: string }) {
+  const filtered = contentTypeFilter === "All" ? data : data.filter((r) => r.contentType === contentTypeFilter);
+  const showContentType = contentTypeFilter === "All";
   const contentTypeColors: Record<string, string> = {
     "Lesson Plan": "bg-chart-1/15 text-chart-1 border-chart-1/30",
+    "Learning Resources": "bg-chart-2/15 text-chart-2 border-chart-2/30",
     "Learning Resource": "bg-chart-2/15 text-chart-2 border-chart-2/30",
     "Ebook": "bg-chart-3/15 text-chart-3 border-chart-3/30",
     "Test": "bg-chart-4/15 text-chart-4 border-chart-4/30",
     "Items": "bg-chart-5/15 text-chart-5 border-chart-5/30",
+    "Question": "bg-chart-5/15 text-chart-5 border-chart-5/30",
+    "LBQ": "bg-primary/15 text-primary border-primary/30",
   };
 
   return (
     <Card className="shadow-sm">
       <CardContent className="px-0 pb-0 pt-0">
         {filtered.length === 0 ? (
-          <div className="py-12 text-center text-muted-foreground">No activity found for this platform.</div>
+          <div className="py-12 text-center text-muted-foreground">No activity found for this content type.</div>
         ) : (
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/30">
                 <TableHead className="pl-6 font-semibold">Title</TableHead>
-                <TableHead className="font-semibold">Content Type</TableHead>
+                {showContentType && <TableHead className="font-semibold">Content Type</TableHead>}
                 <TableHead className="font-semibold">Class</TableHead>
                 <TableHead className="font-semibold">Subject</TableHead>
                 <TableHead className="text-right pr-6 font-semibold">Duration (mins)</TableHead>
@@ -274,11 +281,13 @@ function UserActivityTable({ data, platformFilter }: { data: UserActivityRow[]; 
               {filtered.map((row, i) => (
                 <TableRow key={i} className="hover:bg-muted/20 transition-colors">
                   <TableCell className="pl-6 font-medium">{row.title}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className={`text-xs font-medium border ${contentTypeColors[row.contentType] || "bg-muted text-muted-foreground"}`}>
-                      {row.contentType}
-                    </Badge>
-                  </TableCell>
+                  {showContentType && (
+                    <TableCell>
+                      <Badge variant="outline" className={`text-xs font-medium border ${contentTypeColors[row.contentType] || "bg-muted text-muted-foreground"}`}>
+                        {row.contentType}
+                      </Badge>
+                    </TableCell>
+                  )}
                   <TableCell className="text-muted-foreground">{row.class}</TableCell>
                   <TableCell className="text-muted-foreground">{row.subject}</TableCell>
                   <TableCell className="text-right pr-6">
@@ -612,27 +621,25 @@ export default function ContentUsageDetail() {
               </CardHeader>
             </Card>
 
-            <Tabs value={activityPlatformTab} onValueChange={setActivityPlatformTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="All">All</TabsTrigger>
-                <TabsTrigger value="Web">Web</TabsTrigger>
-                <TabsTrigger value="Mobile">Mobile</TabsTrigger>
-                <TabsTrigger value="School">School</TabsTrigger>
-              </TabsList>
+            <div className="flex flex-wrap gap-2">
+              {contentTypeFilters.map((filter) => (
+                <button
+                  key={filter}
+                  onClick={() => setActivityPlatformTab(filter)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${
+                    activityPlatformTab === filter
+                      ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                      : "bg-muted/50 text-muted-foreground border-border hover:bg-muted hover:text-foreground"
+                  }`}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
 
-              <TabsContent value="All" className="space-y-6 mt-4">
-                <UserActivityTable data={userActivity} platformFilter="All" />
-              </TabsContent>
-              <TabsContent value="Web" className="space-y-6 mt-4">
-                <UserActivityTable data={userActivity} platformFilter="Web" />
-              </TabsContent>
-              <TabsContent value="Mobile" className="space-y-6 mt-4">
-                <UserActivityTable data={userActivity} platformFilter="Mobile" />
-              </TabsContent>
-              <TabsContent value="School" className="space-y-6 mt-4">
-                <UserActivityTable data={userActivity} platformFilter="School" />
-              </TabsContent>
-            </Tabs>
+            <div className="mt-4">
+              <UserActivityTable data={userActivity} contentTypeFilter={activityPlatformTab} />
+            </div>
           </div>
         ) : (
           /* Original Table Views */
