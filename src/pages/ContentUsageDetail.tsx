@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Eye, User } from "lucide-react";
+import { ArrowLeft, Eye, User, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -249,8 +249,33 @@ const contentTypeFilters = ["All", "Lesson Plan", "Learning Resources", "Questio
 
 // ── Detailed User Activity Table ──
 function UserActivityTable({ data, contentTypeFilter }: { data: UserActivityRow[]; contentTypeFilter: string }) {
-  const filtered = contentTypeFilter === "All" ? data : data.filter((r) => r.contentType === contentTypeFilter);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [subjectFilter, setSubjectFilter] = useState("All");
+  const [classFilter, setClassFilter] = useState("All");
+
+  const byType = contentTypeFilter === "All" ? data : data.filter((r) => r.contentType === contentTypeFilter);
+
+  const subjects = useMemo(() => ["All", ...Array.from(new Set(byType.map((r) => r.subject)))], [byType]);
+  const classes = useMemo(() => ["All", ...Array.from(new Set(byType.map((r) => r.class)))], [byType]);
+
+  const filtered = useMemo(() => {
+    let result = byType;
+    if (subjectFilter !== "All") result = result.filter((r) => r.subject === subjectFilter);
+    if (classFilter !== "All") result = result.filter((r) => r.class === classFilter);
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter((r) =>
+        r.title.toLowerCase().includes(q) ||
+        r.chapter.toLowerCase().includes(q) ||
+        r.subject.toLowerCase().includes(q)
+      );
+    }
+    return result;
+  }, [byType, subjectFilter, classFilter, searchQuery]);
+
   const showContentType = contentTypeFilter === "All";
+  const hasActiveFilters = searchQuery || subjectFilter !== "All" || classFilter !== "All";
+
   const contentTypeColors: Record<string, string> = {
     "Lesson Plan": "bg-chart-1/15 text-chart-1 border-chart-1/30",
     "Learning Resources": "bg-chart-2/15 text-chart-2 border-chart-2/30",
@@ -260,11 +285,57 @@ function UserActivityTable({ data, contentTypeFilter }: { data: UserActivityRow[
     "LBQ": "bg-primary/15 text-primary border-primary/30",
   };
 
+  const clearAll = () => {
+    setSearchQuery("");
+    setSubjectFilter("All");
+    setClassFilter("All");
+  };
+
   return (
     <Card className="shadow-sm">
+      {/* Search & Filter Bar */}
+      <div className="flex flex-wrap items-center gap-3 px-6 py-3 border-b border-border">
+        <div className="relative flex-1 min-w-[200px]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <input
+            type="text"
+            placeholder="Search by title, chapter, or subject..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full rounded-md border border-input bg-background pl-9 pr-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          />
+        </div>
+        <Select value={classFilter} onValueChange={setClassFilter}>
+          <SelectTrigger className="w-[140px] h-9 text-sm">
+            <SelectValue placeholder="Class" />
+          </SelectTrigger>
+          <SelectContent className="bg-popover z-50">
+            {classes.map((c) => (
+              <SelectItem key={c} value={c}>{c === "All" ? "All Classes" : c}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={subjectFilter} onValueChange={setSubjectFilter}>
+          <SelectTrigger className="w-[160px] h-9 text-sm">
+            <SelectValue placeholder="Subject" />
+          </SelectTrigger>
+          <SelectContent className="bg-popover z-50">
+            {subjects.map((s) => (
+              <SelectItem key={s} value={s}>{s === "All" ? "All Subjects" : s}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {hasActiveFilters && (
+          <Button variant="ghost" size="sm" onClick={clearAll} className="h-9 gap-1 text-muted-foreground hover:text-foreground">
+            <X className="h-3.5 w-3.5" />
+            Clear
+          </Button>
+        )}
+      </div>
+
       <CardContent className="px-0 pb-0 pt-0">
         {filtered.length === 0 ? (
-          <div className="py-12 text-center text-muted-foreground">No activity found for this content type.</div>
+          <div className="py-12 text-center text-muted-foreground">No activity found.</div>
         ) : (
           <Table>
             <TableHeader>
