@@ -621,27 +621,25 @@ export default function ContentUsageDetail() {
               </CardHeader>
             </Card>
 
-            <Tabs value={activityPlatformTab} onValueChange={setActivityPlatformTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="All">All</TabsTrigger>
-                <TabsTrigger value="Web">Web</TabsTrigger>
-                <TabsTrigger value="Mobile">Mobile</TabsTrigger>
-                <TabsTrigger value="School">School</TabsTrigger>
-              </TabsList>
+            <div className="flex flex-wrap gap-2">
+              {contentTypeFilters.map((filter) => (
+                <button
+                  key={filter}
+                  onClick={() => setActivityPlatformTab(filter)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${
+                    activityPlatformTab === filter
+                      ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                      : "bg-muted/50 text-muted-foreground border-border hover:bg-muted hover:text-foreground"
+                  }`}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
 
-              <TabsContent value="All" className="space-y-6 mt-4">
-                <UserActivityTable data={userActivity} platformFilter="All" />
-              </TabsContent>
-              <TabsContent value="Web" className="space-y-6 mt-4">
-                <UserActivityTable data={userActivity} platformFilter="Web" />
-              </TabsContent>
-              <TabsContent value="Mobile" className="space-y-6 mt-4">
-                <UserActivityTable data={userActivity} platformFilter="Mobile" />
-              </TabsContent>
-              <TabsContent value="School" className="space-y-6 mt-4">
-                <UserActivityTable data={userActivity} platformFilter="School" />
-              </TabsContent>
-            </Tabs>
+            <div className="mt-4">
+              <UserActivityTable data={userActivity} contentTypeFilter={activityPlatformTab} />
+            </div>
           </div>
         ) : (
           /* Original Table Views */
