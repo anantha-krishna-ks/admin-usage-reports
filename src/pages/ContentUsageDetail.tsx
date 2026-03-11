@@ -506,25 +506,22 @@ export default function ContentUsageDetail() {
   
   // Detailed user drill-down state
   const [detailedMode, setDetailedMode] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<string>("");
+  const usersForRoleInit = usersByRole[role] || [];
+  const [selectedUser, setSelectedUser] = useState<string>(usersForRoleInit[0] || "");
   const [activityPlatformTab, setActivityPlatformTab] = useState<string>("All");
 
-  const usersForRole = usersByRole[role] || [];
+  const usersForRole = usersForRoleInit;
   const userActivity = selectedUser ? (userActivityData[selectedUser] || defaultActivity) : [];
 
   const handlePreview = (name: string) => {
     navigate(`/person-usage-detail?name=${encodeURIComponent(name)}&role=${role}&class=${encodeURIComponent(selectedClass)}`);
   };
 
-  // When detailed mode is toggled, auto-select first user
+  // When summary mode is toggled
   const handleDetailedModeChange = (checked: boolean) => {
     setDetailedMode(checked);
-    if (checked && usersForRole.length > 0 && !selectedUser) {
+    if (!checked && !selectedUser && usersForRole.length > 0) {
       setSelectedUser(usersForRole[0]);
-    }
-    if (!checked) {
-      setSelectedUser("");
-      setActivityPlatformTab("All");
     }
   };
 
