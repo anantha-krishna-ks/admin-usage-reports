@@ -179,6 +179,7 @@ interface UserActivityRow {
   contentType: string;
   class: string;
   subject: string;
+  chapter: string;
   duration: number; // in mins
   platform: "Web" | "Mobile" | "School";
 }
