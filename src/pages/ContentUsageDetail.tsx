@@ -254,10 +254,8 @@ function UserActivityTable({ data, contentTypeFilter }: { data: UserActivityRow[
   const contentTypeColors: Record<string, string> = {
     "Lesson Plan": "bg-chart-1/15 text-chart-1 border-chart-1/30",
     "Learning Resources": "bg-chart-2/15 text-chart-2 border-chart-2/30",
-    "Learning Resource": "bg-chart-2/15 text-chart-2 border-chart-2/30",
     "Ebook": "bg-chart-3/15 text-chart-3 border-chart-3/30",
     "Test": "bg-chart-4/15 text-chart-4 border-chart-4/30",
-    "Items": "bg-chart-5/15 text-chart-5 border-chart-5/30",
     "Question": "bg-chart-5/15 text-chart-5 border-chart-5/30",
     "LBQ": "bg-primary/15 text-primary border-primary/30",
   };
@@ -271,17 +269,21 @@ function UserActivityTable({ data, contentTypeFilter }: { data: UserActivityRow[
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/30">
-                <TableHead className="pl-6 font-semibold">Title</TableHead>
-                {showContentType && <TableHead className="font-semibold">Content Type</TableHead>}
-                <TableHead className="font-semibold">Class</TableHead>
+                <TableHead className="pl-6 font-semibold">Class</TableHead>
                 <TableHead className="font-semibold">Subject</TableHead>
-                <TableHead className="text-right pr-6 font-semibold">Duration (mins)</TableHead>
+                <TableHead className="font-semibold">Chapter</TableHead>
+                <TableHead className="font-semibold">Content Title</TableHead>
+                {showContentType && <TableHead className="font-semibold">Content Type</TableHead>}
+                <TableHead className="font-semibold pr-6">Usage (mins)</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.map((row, i) => (
                 <TableRow key={i} className="hover:bg-muted/20 transition-colors">
-                  <TableCell className="pl-6 font-medium">{row.title}</TableCell>
+                  <TableCell className="pl-6">{row.class}</TableCell>
+                  <TableCell>{row.subject}</TableCell>
+                  <TableCell className="text-muted-foreground">{row.chapter}</TableCell>
+                  <TableCell className="font-medium">{row.title}</TableCell>
                   {showContentType && (
                     <TableCell>
                       <Badge variant="outline" className={`text-xs font-medium border ${contentTypeColors[row.contentType] || "bg-muted text-muted-foreground"}`}>
@@ -289,9 +291,7 @@ function UserActivityTable({ data, contentTypeFilter }: { data: UserActivityRow[
                       </Badge>
                     </TableCell>
                   )}
-                  <TableCell className="text-muted-foreground">{row.class}</TableCell>
-                  <TableCell className="text-muted-foreground">{row.subject}</TableCell>
-                  <TableCell className="text-right pr-6">
+                  <TableCell className="pr-6">
                     <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-0.5 text-sm font-semibold tabular-nums text-primary">
                       {row.duration}
                     </span>
