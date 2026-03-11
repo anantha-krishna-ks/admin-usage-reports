@@ -506,25 +506,22 @@ export default function ContentUsageDetail() {
   
   // Detailed user drill-down state
   const [detailedMode, setDetailedMode] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<string>("");
+  const usersForRoleInit = usersByRole[role] || [];
+  const [selectedUser, setSelectedUser] = useState<string>(usersForRoleInit[0] || "");
   const [activityPlatformTab, setActivityPlatformTab] = useState<string>("All");
 
-  const usersForRole = usersByRole[role] || [];
+  const usersForRole = usersForRoleInit;
   const userActivity = selectedUser ? (userActivityData[selectedUser] || defaultActivity) : [];
 
   const handlePreview = (name: string) => {
     navigate(`/person-usage-detail?name=${encodeURIComponent(name)}&role=${role}&class=${encodeURIComponent(selectedClass)}`);
   };
 
-  // When detailed mode is toggled, auto-select first user
+  // When summary mode is toggled
   const handleDetailedModeChange = (checked: boolean) => {
     setDetailedMode(checked);
-    if (checked && usersForRole.length > 0 && !selectedUser) {
+    if (!checked && !selectedUser && usersForRole.length > 0) {
       setSelectedUser(usersForRole[0]);
-    }
-    if (!checked) {
-      setSelectedUser("");
-      setActivityPlatformTab("All");
     }
   };
 
@@ -570,10 +567,24 @@ export default function ContentUsageDetail() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
-        {/* Detailed User Mode Switch */}
+        {/* Summary View Toggle */}
         <Card className="shadow-sm">
           <CardContent className="py-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <User className="h-4 w-4 text-muted-foreground" />
+                <Select value={selectedUser} onValueChange={setSelectedUser}>
+                  <SelectTrigger className="w-56">
+                    <SelectValue placeholder="Select a user" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-popover z-50">
+                    {usersForRole.map((u) => (
+                      <SelectItem key={u} value={u}>{u}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
               <div className="flex items-center gap-3">
                 <Switch
                   id="detailed-mode"
@@ -581,31 +592,15 @@ export default function ContentUsageDetail() {
                   onCheckedChange={handleDetailedModeChange}
                 />
                 <Label htmlFor="detailed-mode" className="text-sm font-medium cursor-pointer">
-                  Detailed User View
+                  Summary View
                 </Label>
               </div>
-              
-              {detailedMode && (
-                <div className="flex items-center gap-3">
-                  <User className="h-4 w-4 text-muted-foreground" />
-                  <Select value={selectedUser} onValueChange={setSelectedUser}>
-                    <SelectTrigger className="w-56">
-                      <SelectValue placeholder="Select a user" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-popover z-50">
-                      {usersForRole.map((u) => (
-                        <SelectItem key={u} value={u}>{u}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
             </div>
           </CardContent>
         </Card>
 
-        {/* Detailed User Activity View */}
-        {detailedMode && selectedUser ? (
+        {/* Default: Detailed User Activity View */}
+        {!detailedMode && selectedUser ? (
           <div className="space-y-6">
             <Card className="shadow-sm border-primary/20 bg-primary/5">
               <CardHeader className="pb-2">
