@@ -179,6 +179,7 @@ interface UserActivityRow {
   contentType: string;
   class: string;
   subject: string;
+  chapter: string;
   duration: number; // in mins
   platform: "Web" | "Mobile" | "School";
 }
@@ -186,61 +187,61 @@ interface UserActivityRow {
 // ── Mock detailed activity data per user ──
 const userActivityData: Record<string, UserActivityRow[]> = {
   "Ms. Priya Sharma": [
-    { title: "Introduction to Fractions", contentType: "Lesson Plan", class: "I-2024", subject: "Mathematics", duration: 18, platform: "Web" },
-    { title: "Photosynthesis Explained", contentType: "Learning Resource", class: "III-2025", subject: "Science", duration: 25, platform: "Web" },
-    { title: "English Grammar Basics", contentType: "Ebook", class: "I-2024", subject: "English", duration: 12, platform: "Mobile" },
-    { title: "Weekly Assessment - Math", contentType: "Test", class: "I-2024", subject: "Mathematics", duration: 30, platform: "School" },
-    { title: "Creative Writing Guide", contentType: "Learning Resource", class: "II-2024", subject: "English", duration: 22, platform: "Web" },
-    { title: "World Map Activity", contentType: "Items", class: "I-2024", subject: "World Around Us", duration: 15, platform: "Mobile" },
-    { title: "Number Patterns Worksheet", contentType: "Items", class: "III-2025", subject: "Mathematics", duration: 20, platform: "School" },
-    { title: "Science Lab Safety", contentType: "Lesson Plan", class: "III-2025", subject: "Science", duration: 14, platform: "Web" },
+    { title: "Introduction to Fractions", contentType: "Lesson Plan", class: "I-2024", subject: "Mathematics", chapter: "Ch 3 - Fractions", duration: 18, platform: "Web" },
+    { title: "Photosynthesis Explained", contentType: "Learning Resources", class: "III-2025", subject: "Science", chapter: "Ch 7 - Plant Biology", duration: 25, platform: "Web" },
+    { title: "English Grammar Basics", contentType: "Ebook", class: "I-2024", subject: "English", chapter: "Ch 2 - Grammar", duration: 12, platform: "Mobile" },
+    { title: "Weekly Assessment - Math", contentType: "Test", class: "I-2024", subject: "Mathematics", chapter: "Ch 1-4 Revision", duration: 30, platform: "School" },
+    { title: "Creative Writing Guide", contentType: "Learning Resources", class: "II-2024", subject: "English", chapter: "Ch 5 - Writing", duration: 22, platform: "Web" },
+    { title: "World Map Activity", contentType: "Question", class: "I-2024", subject: "World Around Us", chapter: "Ch 6 - Maps", duration: 15, platform: "Mobile" },
+    { title: "Number Patterns Worksheet", contentType: "Question", class: "III-2025", subject: "Mathematics", chapter: "Ch 2 - Patterns", duration: 20, platform: "School" },
+    { title: "Science Lab Safety", contentType: "Lesson Plan", class: "III-2025", subject: "Science", chapter: "Ch 1 - Lab Intro", duration: 14, platform: "Web" },
   ],
   "Mr. Rajesh Kumar": [
-    { title: "Algebra Fundamentals", contentType: "Lesson Plan", class: "IV-2025", subject: "Mathematics", duration: 22, platform: "Web" },
-    { title: "History of India", contentType: "Learning Resource", class: "IV-2025", subject: "Social Studies", duration: 18, platform: "Mobile" },
-    { title: "English Comprehension", contentType: "Ebook", class: "II-2024", subject: "English", duration: 15, platform: "Web" },
-    { title: "Mid-term Science Test", contentType: "Test", class: "IV-2025", subject: "Science", duration: 35, platform: "School" },
-    { title: "Art Appreciation", contentType: "Learning Resource", class: "IV-2025", subject: "My Art Palette", duration: 10, platform: "Web" },
+    { title: "Algebra Fundamentals", contentType: "Lesson Plan", class: "IV-2025", subject: "Mathematics", chapter: "Ch 1 - Algebra", duration: 22, platform: "Web" },
+    { title: "History of India", contentType: "Learning Resources", class: "IV-2025", subject: "Social Studies", chapter: "Ch 3 - Ancient India", duration: 18, platform: "Mobile" },
+    { title: "English Comprehension", contentType: "Ebook", class: "II-2024", subject: "English", chapter: "Ch 4 - Comprehension", duration: 15, platform: "Web" },
+    { title: "Mid-term Science Test", contentType: "Test", class: "IV-2025", subject: "Science", chapter: "Ch 1-6 Mid-term", duration: 35, platform: "School" },
+    { title: "Art Appreciation", contentType: "Learning Resources", class: "IV-2025", subject: "My Art Palette", chapter: "Ch 2 - Art Forms", duration: 10, platform: "Web" },
   ],
   "Ms. Anitha Devi": [
-    { title: "Advanced Grammar", contentType: "Lesson Plan", class: "V-2025", subject: "English", duration: 28, platform: "Web" },
-    { title: "Geometry Shapes", contentType: "Learning Resource", class: "V-2025", subject: "Mathematics", duration: 20, platform: "Mobile" },
-    { title: "Environmental Science", contentType: "Ebook", class: "V-2025", subject: "Science", duration: 18, platform: "School" },
-    { title: "Social Studies Quiz", contentType: "Test", class: "V-2025", subject: "Social Studies", duration: 25, platform: "Web" },
-    { title: "Weekly Plan - English", contentType: "Lesson Plan", class: "III-2025", subject: "English", duration: 16, platform: "Web" },
-    { title: "Reading Comprehension Set", contentType: "Items", class: "III-2025", subject: "English", duration: 22, platform: "Mobile" },
+    { title: "Advanced Grammar", contentType: "Lesson Plan", class: "V-2025", subject: "English", chapter: "Ch 8 - Advanced Grammar", duration: 28, platform: "Web" },
+    { title: "Geometry Shapes", contentType: "Learning Resources", class: "V-2025", subject: "Mathematics", chapter: "Ch 5 - Geometry", duration: 20, platform: "Mobile" },
+    { title: "Environmental Science", contentType: "Ebook", class: "V-2025", subject: "Science", chapter: "Ch 4 - Environment", duration: 18, platform: "School" },
+    { title: "Social Studies Quiz", contentType: "Test", class: "V-2025", subject: "Social Studies", chapter: "Ch 2 - Civics", duration: 25, platform: "Web" },
+    { title: "Weekly Plan - English", contentType: "Lesson Plan", class: "III-2025", subject: "English", chapter: "Ch 3 - Prose", duration: 16, platform: "Web" },
+    { title: "Reading Comprehension Set", contentType: "Question", class: "III-2025", subject: "English", chapter: "Ch 6 - Reading", duration: 22, platform: "Mobile" },
   ],
   "Aarav Patel": [
-    { title: "Fraction Practice", contentType: "Learning Resource", class: "I-2024", subject: "Mathematics", duration: 15, platform: "Web" },
-    { title: "English Stories", contentType: "Ebook", class: "I-2024", subject: "English", duration: 12, platform: "Mobile" },
-    { title: "Math Quiz Chapter 3", contentType: "Test", class: "I-2024", subject: "Mathematics", duration: 20, platform: "School" },
-    { title: "Science Experiments", contentType: "Learning Resource", class: "I-2024", subject: "World Around Us", duration: 18, platform: "Web" },
-    { title: "Leader Board Quiz - Math", contentType: "Learning Resource", class: "I-2024", subject: "Mathematics", duration: 8, platform: "Mobile" },
+    { title: "Fraction Practice", contentType: "Learning Resources", class: "I-2024", subject: "Mathematics", chapter: "Ch 3 - Fractions", duration: 15, platform: "Web" },
+    { title: "English Stories", contentType: "Ebook", class: "I-2024", subject: "English", chapter: "Ch 1 - Stories", duration: 12, platform: "Mobile" },
+    { title: "Math Quiz Chapter 3", contentType: "Test", class: "I-2024", subject: "Mathematics", chapter: "Ch 3 - Fractions", duration: 20, platform: "School" },
+    { title: "Science Experiments", contentType: "Learning Resources", class: "I-2024", subject: "World Around Us", chapter: "Ch 5 - Experiments", duration: 18, platform: "Web" },
+    { title: "Leader Board Quiz - Math", contentType: "LBQ", class: "I-2024", subject: "Mathematics", chapter: "Ch 2 - Numbers", duration: 8, platform: "Mobile" },
   ],
   "Diya Krishnan": [
-    { title: "Poetry Collection", contentType: "Ebook", class: "II-2024", subject: "English", duration: 20, platform: "Web" },
-    { title: "Math Worksheets", contentType: "Learning Resource", class: "II-2024", subject: "Mathematics", duration: 25, platform: "Web" },
-    { title: "Science Chapter Test", contentType: "Test", class: "II-2024", subject: "World Around Us", duration: 30, platform: "School" },
-    { title: "Art Project Guide", contentType: "Learning Resource", class: "II-2024", subject: "My Art Palette", duration: 14, platform: "Mobile" },
+    { title: "Poetry Collection", contentType: "Ebook", class: "II-2024", subject: "English", chapter: "Ch 4 - Poetry", duration: 20, platform: "Web" },
+    { title: "Math Worksheets", contentType: "Learning Resources", class: "II-2024", subject: "Mathematics", chapter: "Ch 6 - Geometry", duration: 25, platform: "Web" },
+    { title: "Science Chapter Test", contentType: "Test", class: "II-2024", subject: "World Around Us", chapter: "Ch 3 - Animals", duration: 30, platform: "School" },
+    { title: "Art Project Guide", contentType: "Learning Resources", class: "II-2024", subject: "My Art Palette", chapter: "Ch 1 - Colors", duration: 14, platform: "Mobile" },
   ],
   "Mr. Venkat Patel": [
-    { title: "Child Progress Report", contentType: "Learning Resource", class: "I-2024", subject: "Mathematics", duration: 10, platform: "Web" },
-    { title: "English Ebook Review", contentType: "Ebook", class: "I-2024", subject: "English", duration: 8, platform: "Mobile" },
-    { title: "Test Results Overview", contentType: "Test", class: "I-2024", subject: "Mathematics", duration: 5, platform: "Web" },
+    { title: "Child Progress Report", contentType: "Learning Resources", class: "I-2024", subject: "Mathematics", chapter: "Ch 1-3 Progress", duration: 10, platform: "Web" },
+    { title: "English Ebook Review", contentType: "Ebook", class: "I-2024", subject: "English", chapter: "Ch 2 - Grammar", duration: 8, platform: "Mobile" },
+    { title: "Test Results Overview", contentType: "Test", class: "I-2024", subject: "Mathematics", chapter: "Ch 3 - Fractions", duration: 5, platform: "Web" },
   ],
   "Mrs. Sudha Krishnan": [
-    { title: "Academic Calendar", contentType: "Learning Resource", class: "II-2024", subject: "English", duration: 12, platform: "Web" },
-    { title: "Science Curriculum", contentType: "Ebook", class: "II-2024", subject: "World Around Us", duration: 15, platform: "Mobile" },
-    { title: "Term Assessment Review", contentType: "Test", class: "II-2024", subject: "Mathematics", duration: 10, platform: "School" },
-    { title: "Parent Guide - Reading", contentType: "Learning Resource", class: "II-2024", subject: "English", duration: 8, platform: "Web" },
+    { title: "Academic Calendar", contentType: "Learning Resources", class: "II-2024", subject: "English", chapter: "Ch 1 - Introduction", duration: 12, platform: "Web" },
+    { title: "Science Curriculum", contentType: "Ebook", class: "II-2024", subject: "World Around Us", chapter: "Ch 2 - Plants", duration: 15, platform: "Mobile" },
+    { title: "Term Assessment Review", contentType: "Test", class: "II-2024", subject: "Mathematics", chapter: "Ch 1-5 Term", duration: 10, platform: "School" },
+    { title: "Parent Guide - Reading", contentType: "Learning Resources", class: "II-2024", subject: "English", chapter: "Ch 3 - Reading", duration: 8, platform: "Web" },
   ],
 };
 
 // Fallback activity data for users without specific data
 const defaultActivity: UserActivityRow[] = [
-  { title: "General Resource Review", contentType: "Learning Resource", class: "I-2024", subject: "English", duration: 15, platform: "Web" },
-  { title: "Practice Test", contentType: "Test", class: "I-2024", subject: "Mathematics", duration: 20, platform: "School" },
-  { title: "Study Material", contentType: "Ebook", class: "II-2024", subject: "Science", duration: 12, platform: "Mobile" },
+  { title: "General Resource Review", contentType: "Learning Resources", class: "I-2024", subject: "English", chapter: "Ch 1 - Basics", duration: 15, platform: "Web" },
+  { title: "Practice Test", contentType: "Test", class: "I-2024", subject: "Mathematics", chapter: "Ch 2 - Numbers", duration: 20, platform: "School" },
+  { title: "Study Material", contentType: "Ebook", class: "II-2024", subject: "Science", chapter: "Ch 3 - Matter", duration: 12, platform: "Mobile" },
 ];
 
 // ── Content type filter options ──
@@ -253,10 +254,8 @@ function UserActivityTable({ data, contentTypeFilter }: { data: UserActivityRow[
   const contentTypeColors: Record<string, string> = {
     "Lesson Plan": "bg-chart-1/15 text-chart-1 border-chart-1/30",
     "Learning Resources": "bg-chart-2/15 text-chart-2 border-chart-2/30",
-    "Learning Resource": "bg-chart-2/15 text-chart-2 border-chart-2/30",
     "Ebook": "bg-chart-3/15 text-chart-3 border-chart-3/30",
     "Test": "bg-chart-4/15 text-chart-4 border-chart-4/30",
-    "Items": "bg-chart-5/15 text-chart-5 border-chart-5/30",
     "Question": "bg-chart-5/15 text-chart-5 border-chart-5/30",
     "LBQ": "bg-primary/15 text-primary border-primary/30",
   };
@@ -270,17 +269,21 @@ function UserActivityTable({ data, contentTypeFilter }: { data: UserActivityRow[
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/30">
-                <TableHead className="pl-6 font-semibold">Title</TableHead>
-                {showContentType && <TableHead className="font-semibold">Content Type</TableHead>}
-                <TableHead className="font-semibold">Class</TableHead>
+                <TableHead className="pl-6 font-semibold">Class</TableHead>
                 <TableHead className="font-semibold">Subject</TableHead>
-                <TableHead className="text-right pr-6 font-semibold">Duration (mins)</TableHead>
+                <TableHead className="font-semibold">Chapter</TableHead>
+                <TableHead className="font-semibold">Content Title</TableHead>
+                {showContentType && <TableHead className="font-semibold">Content Type</TableHead>}
+                <TableHead className="font-semibold pr-6">Usage (mins)</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.map((row, i) => (
                 <TableRow key={i} className="hover:bg-muted/20 transition-colors">
-                  <TableCell className="pl-6 font-medium">{row.title}</TableCell>
+                  <TableCell className="pl-6">{row.class}</TableCell>
+                  <TableCell>{row.subject}</TableCell>
+                  <TableCell className="text-muted-foreground">{row.chapter}</TableCell>
+                  <TableCell className="font-medium">{row.title}</TableCell>
                   {showContentType && (
                     <TableCell>
                       <Badge variant="outline" className={`text-xs font-medium border ${contentTypeColors[row.contentType] || "bg-muted text-muted-foreground"}`}>
@@ -288,9 +291,7 @@ function UserActivityTable({ data, contentTypeFilter }: { data: UserActivityRow[
                       </Badge>
                     </TableCell>
                   )}
-                  <TableCell className="text-muted-foreground">{row.class}</TableCell>
-                  <TableCell className="text-muted-foreground">{row.subject}</TableCell>
-                  <TableCell className="text-right pr-6">
+                  <TableCell className="pr-6">
                     <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-0.5 text-sm font-semibold tabular-nums text-primary">
                       {row.duration}
                     </span>
