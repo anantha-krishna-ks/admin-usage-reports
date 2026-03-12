@@ -684,12 +684,18 @@ export default function ContentUsageDetail() {
         {!detailedMode && selectedUser ? (
           <div className="space-y-6">
             <Card className="shadow-sm border-primary/20 bg-primary/5">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <User className="h-5 w-5 text-primary" />
-                  {selectedUser}
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">{role} — Detailed activity breakdown</p>
+              <CardHeader className="pb-2 flex flex-row items-start justify-between">
+                <div>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <User className="h-5 w-5 text-primary" />
+                    {selectedUser}
+                  </CardTitle>
+                  <p className="text-sm text-muted-foreground mt-1">{role} — Detailed activity breakdown</p>
+                </div>
+                <div className="flex items-center gap-2 bg-muted/40 rounded-lg px-4 py-2 border border-border">
+                  <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Total Usage</span>
+                  <span className="text-lg font-bold text-primary">106 mins</span>
+                </div>
               </CardHeader>
             </Card>
 
