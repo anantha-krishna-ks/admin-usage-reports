@@ -278,17 +278,32 @@ interface ChapterRow {
   total: number;
 }
 
-// ── Detailed User Activity Table (pivoted by chapter) ──
-function UserActivityTable({ data }: { data: UserActivityRow[] }) {
+// ── Detailed User Activity Table (pivoted by chapter, scoped to class+subject) ──
+function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; selectedClass: string }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [subjectFilter, setSubjectFilter] = useState("All");
-  const [classFilter, setClassFilter] = useState("All");
 
-  // Pivot: group by class+subject+chapter, aggregate by content type
+  // Get data for the selected class
+  const classData = useMemo(() => data.filter((r) => r.class === selectedClass), [data, selectedClass]);
+
+  // Available subjects for this class
+  const subjects = useMemo(() => Array.from(new Set(classData.map((r) => r.subject))), [classData]);
+
+  const [selectedSubject, setSelectedSubject] = useState(() => subjects[0] || "");
+
+  // Reset subject when class/data changes
+  useMemo(() => {
+    if (!subjects.includes(selectedSubject)) {
+      setSelectedSubject(subjects[0] || "");
+    }
+  }, [subjects]);
+
+  const subjectData = useMemo(() => classData.filter((r) => r.subject === selectedSubject), [classData, selectedSubject]);
+
+  // Pivot: group by chapter, aggregate by content type
   const pivoted = useMemo(() => {
     const map = new Map<string, ChapterRow>();
-    data.forEach((r) => {
-      const key = `${r.class}||${r.subject}||${r.chapter}`;
+    subjectData.forEach((r) => {
+      const key = r.chapter;
       if (!map.has(key)) {
         map.set(key, {
           class: r.class,
@@ -311,70 +326,40 @@ function UserActivityTable({ data }: { data: UserActivityRow[] }) {
       row.total += r.duration;
     });
     return Array.from(map.values());
-  }, [data]);
-
-  const subjects = useMemo(() => ["All", ...Array.from(new Set(pivoted.map((r) => r.subject)))], [pivoted]);
-  const classes = useMemo(() => ["All", ...Array.from(new Set(pivoted.map((r) => r.class)))], [pivoted]);
+  }, [subjectData]);
 
   const filtered = useMemo(() => {
-    let result = pivoted;
-    if (subjectFilter !== "All") result = result.filter((r) => r.subject === subjectFilter);
-    if (classFilter !== "All") result = result.filter((r) => r.class === classFilter);
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      result = result.filter((r) =>
-        r.chapter.toLowerCase().includes(q) ||
-        r.subject.toLowerCase().includes(q) ||
-        r.class.toLowerCase().includes(q)
-      );
-    }
-    return result;
-  }, [pivoted, subjectFilter, classFilter, searchQuery]);
-
-  const hasActiveFilters = searchQuery || subjectFilter !== "All" || classFilter !== "All";
-
-  const clearAll = () => {
-    setSearchQuery("");
-    setSubjectFilter("All");
-    setClassFilter("All");
-  };
+    if (!searchQuery.trim()) return pivoted;
+    const q = searchQuery.toLowerCase();
+    return pivoted.filter((r) => r.chapter.toLowerCase().includes(q));
+  }, [pivoted, searchQuery]);
 
   return (
     <Card className="shadow-sm">
-      {/* Search & Filter Bar */}
+      {/* Search & Subject Filter Bar */}
       <div className="flex flex-wrap items-center gap-3 px-6 py-3 border-b border-border">
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <input
             type="text"
-            placeholder="Search by title, chapter, or subject..."
+            placeholder="Search by chapter..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full rounded-md border border-input bg-background pl-9 pr-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           />
         </div>
-        <Select value={classFilter} onValueChange={setClassFilter}>
-          <SelectTrigger className="w-[140px] h-9 text-sm">
-            <SelectValue placeholder="Class" />
-          </SelectTrigger>
-          <SelectContent className="bg-popover z-50">
-            {classes.map((c) => (
-              <SelectItem key={c} value={c}>{c === "All" ? "All Classes" : c}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select value={subjectFilter} onValueChange={setSubjectFilter}>
-          <SelectTrigger className="w-[160px] h-9 text-sm">
-            <SelectValue placeholder="Subject" />
+        <Select value={selectedSubject} onValueChange={setSelectedSubject}>
+          <SelectTrigger className="w-[180px] h-9 text-sm">
+            <SelectValue placeholder="Select Subject" />
           </SelectTrigger>
           <SelectContent className="bg-popover z-50">
             {subjects.map((s) => (
-              <SelectItem key={s} value={s}>{s === "All" ? "All Subjects" : s}</SelectItem>
+              <SelectItem key={s} value={s}>{s}</SelectItem>
             ))}
           </SelectContent>
         </Select>
-        {hasActiveFilters && (
-          <Button variant="ghost" size="sm" onClick={clearAll} className="h-9 gap-1 text-muted-foreground hover:text-foreground">
+        {searchQuery && (
+          <Button variant="ghost" size="sm" onClick={() => setSearchQuery("")} className="h-9 gap-1 text-muted-foreground hover:text-foreground">
             <X className="h-3.5 w-3.5" />
             Clear
           </Button>
@@ -388,9 +373,7 @@ function UserActivityTable({ data }: { data: UserActivityRow[] }) {
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/30">
-                <TableHead className="pl-6 font-semibold">Class</TableHead>
-                <TableHead className="font-semibold">Subject</TableHead>
-                <TableHead className="font-semibold">Chapter</TableHead>
+                <TableHead className="pl-6 font-semibold">Chapter</TableHead>
                 {contentTypeCols.map((ct) => (
                   <TableHead key={ct} className="font-semibold text-center">{ct}</TableHead>
                 ))}
@@ -400,9 +383,7 @@ function UserActivityTable({ data }: { data: UserActivityRow[] }) {
             <TableBody>
               {filtered.map((row, i) => (
                 <TableRow key={i} className="hover:bg-muted/20 transition-colors">
-                  <TableCell className="pl-6">{row.class}</TableCell>
-                  <TableCell>{row.subject}</TableCell>
-                  <TableCell className="text-muted-foreground">{row.chapter}</TableCell>
+                  <TableCell className="pl-6">{row.chapter}</TableCell>
                   {contentTypeCols.map((ct) => (
                     <TableCell key={ct} className="text-center tabular-nums">
                       {row[ct] > 0 ? row[ct] : <span className="text-muted-foreground">-</span>}
