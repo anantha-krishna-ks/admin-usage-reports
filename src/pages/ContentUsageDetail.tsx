@@ -310,9 +310,55 @@ interface ChapterRow {
   total: number;
 }
 
+// ── Mock session data generator ──
+interface SessionEntry {
+  startDate: string;
+  startTime: string;
+  endDate: string;
+  endTime: string;
+  timeSpent: string;
+}
+
+function generateSessions(chapter: string, totalMins: number): SessionEntry[] {
+  const sessions: SessionEntry[] = [];
+  let remaining = totalMins;
+  const dates = ["24 Feb 2026", "21 Feb 2026", "18 Feb 2026", "14 Feb 2026", "10 Feb 2026"];
+  let dateIdx = 0;
+
+  while (remaining > 0 && sessions.length < 8) {
+    const dur = Math.min(remaining, Math.floor(Math.random() * 35) + 2);
+    remaining -= dur;
+    const startHour = 9 + Math.floor(Math.random() * 4);
+    const startMin = Math.floor(Math.random() * 50);
+    const endTotalMin = startHour * 60 + startMin + dur;
+    const endHour = Math.floor(endTotalMin / 60);
+    const endMin = endTotalMin % 60;
+    const fmtTime = (h: number, m: number) => {
+      const ampm = h >= 12 ? "PM" : "AM";
+      const hh = h > 12 ? h - 12 : h === 0 ? 12 : h;
+      return `${String(hh).padStart(2, "0")}:${String(m).padStart(2, "0")} ${ampm}`;
+    };
+    const durH = String(Math.floor(dur / 60)).padStart(2, "0");
+    const durM = String(dur % 60).padStart(2, "0");
+    const date = dates[dateIdx % dates.length];
+    sessions.push({
+      startDate: date,
+      startTime: fmtTime(startHour, startMin),
+      endDate: date,
+      endTime: fmtTime(endHour, endMin),
+      timeSpent: `${durH}:${durM}:00 Mins`,
+    });
+    dateIdx++;
+  }
+  return sessions;
+}
+
 // ── Detailed User Activity Table (pivoted by chapter, scoped to class+subject) ──
 function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; selectedClass: string }) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerChapter, setDrawerChapter] = useState<ChapterRow | null>(null);
+  const [drawerSessions, setDrawerSessions] = useState<SessionEntry[]>([]);
 
   // Get data for the selected class
   const classData = useMemo(() => data.filter((r) => r.class === selectedClass), [data, selectedClass]);
@@ -366,7 +412,14 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
     return pivoted.filter((r) => r.chapter.toLowerCase().includes(q));
   }, [pivoted, searchQuery]);
 
+  const handleUsageClick = (row: ChapterRow) => {
+    setDrawerChapter(row);
+    setDrawerSessions(generateSessions(row.chapter, row.total));
+    setDrawerOpen(true);
+  };
+
   return (
+    <>
     <Card className="shadow-sm">
       {/* Search & Subject Filter Bar */}
       <div className="flex flex-wrap items-center gap-3 px-6 py-3 border-b border-border">
@@ -422,9 +475,12 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
                     </TableCell>
                   ))}
                   <TableCell className="text-center pr-6">
-                    <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-0.5 text-sm font-semibold tabular-nums text-primary">
+                    <button
+                      onClick={() => handleUsageClick(row)}
+                      className="inline-flex items-center rounded-full bg-primary/10 px-3 py-0.5 text-sm font-semibold tabular-nums text-primary hover:bg-primary/20 transition-colors cursor-pointer"
+                    >
                       {row.total}
-                    </span>
+                    </button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -433,6 +489,55 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
         )}
       </CardContent>
     </Card>
+
+    {/* Session Details Drawer */}
+    <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
+      <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+        <SheetHeader className="pb-4">
+          <SheetTitle className="flex items-center gap-2">
+            <Clock className="h-5 w-5 text-primary" />
+            Session Details
+          </SheetTitle>
+          <SheetDescription>
+            {drawerChapter?.chapter} — {drawerSessions.length} sessions
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="space-y-3 mt-2">
+          {drawerSessions.map((session, idx) => (
+            <div key={idx} className="rounded-lg border border-border p-4 space-y-3">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Start Date</p>
+                  <p className="text-sm font-semibold text-foreground mt-0.5">{session.startDate}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">End Date</p>
+                  <p className="text-sm font-semibold text-foreground mt-0.5">{session.endDate}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Start Time</p>
+                  <p className="text-base font-semibold text-foreground mt-0.5">{session.startTime}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">End Time</p>
+                  <p className="text-base font-semibold text-foreground mt-0.5">{session.endTime}</p>
+                </div>
+              </div>
+              <div className="flex items-center justify-between border-t border-border pt-3">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Time Spent</p>
+                <span className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-sm font-medium tabular-nums text-foreground">
+                  {session.timeSpent}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </SheetContent>
+    </Sheet>
+    </>
   );
 }
 
