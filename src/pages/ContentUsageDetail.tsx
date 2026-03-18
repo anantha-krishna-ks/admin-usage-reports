@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Eye, User, Search, X, Clock } from "lucide-react";
 import {
@@ -356,9 +356,7 @@ function generateSessions(chapter: string, totalMins: number): SessionEntry[] {
 // ── Detailed User Activity Table (pivoted by chapter, scoped to class+subject) ──
 function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; selectedClass: string }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerChapter, setDrawerChapter] = useState<ChapterRow | null>(null);
-  const [drawerSessions, setDrawerSessions] = useState<SessionEntry[]>([]);
 
   // Get data for the selected class
   const classData = useMemo(() => data.filter((r) => r.class === selectedClass), [data, selectedClass]);
@@ -367,13 +365,16 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
   const subjects = useMemo(() => Array.from(new Set(classData.map((r) => r.subject))), [classData]);
 
   const [selectedSubject, setSelectedSubject] = useState(() => subjects[0] || "");
+  const drawerSessions = useMemo(
+    () => (drawerChapter ? generateSessions(drawerChapter.chapter, drawerChapter.total) : []),
+    [drawerChapter],
+  );
 
-  // Reset subject when class/data changes
-  useMemo(() => {
+  useEffect(() => {
     if (!subjects.includes(selectedSubject)) {
       setSelectedSubject(subjects[0] || "");
     }
-  }, [subjects]);
+  }, [selectedSubject, subjects]);
 
   const subjectData = useMemo(() => classData.filter((r) => r.subject === selectedSubject), [classData, selectedSubject]);
 
@@ -414,8 +415,6 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
 
   const handleUsageClick = (row: ChapterRow) => {
     setDrawerChapter(row);
-    setDrawerSessions(generateSessions(row.chapter, row.total));
-    setDrawerOpen(true);
   };
 
   return (
@@ -476,6 +475,7 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
                   ))}
                   <TableCell className="text-center pr-6">
                     <button
+                      type="button"
                       onClick={() => handleUsageClick(row)}
                       className="inline-flex items-center rounded-full bg-primary/10 px-3 py-0.5 text-sm font-semibold tabular-nums text-primary hover:bg-primary/20 transition-colors cursor-pointer"
                     >
@@ -491,7 +491,14 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
     </Card>
 
     {/* Session Details Drawer */}
-    <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
+    <Sheet
+      open={!!drawerChapter}
+      onOpenChange={(open) => {
+        if (!open) {
+          setDrawerChapter(null);
+        }
+      }}
+    >
       <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
         <SheetHeader className="pb-4">
           <SheetTitle className="flex items-center gap-2">
