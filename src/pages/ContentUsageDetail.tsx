@@ -377,9 +377,7 @@ function UserActivityTable({ data }: { data: UserActivityRow[] }) {
                 <TableHead className="font-semibold">Subject</TableHead>
                 <TableHead className="font-semibold">Chapter</TableHead>
                 {contentTypeCols.map((ct) => (
-                  <TableHead key={ct} className="font-semibold text-center">
-                    <Badge variant="outline" className="text-xs font-medium">{ct}</Badge>
-                  </TableHead>
+                  <TableHead key={ct} className="font-semibold text-center">{ct}</TableHead>
                 ))}
                 <TableHead className="font-semibold text-center pr-6">Usage (mins)</TableHead>
               </TableRow>
