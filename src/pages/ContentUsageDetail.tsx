@@ -728,7 +728,7 @@ export default function ContentUsageDetail() {
 
 
             <div className="mt-4">
-              <UserActivityTable data={userActivity} />
+              <UserActivityTable data={userActivity} selectedClass={selectedClass} />
             </div>
           </div>
         ) : (
