@@ -247,43 +247,76 @@ const defaultActivity: UserActivityRow[] = [
 // ── Content type filter options ──
 const contentTypeFilters = ["All", "Lesson Plan", "Learning Resources", "Question", "Test", "Ebook", "LBQ"];
 
-// ── Detailed User Activity Table ──
-function UserActivityTable({ data, contentTypeFilter }: { data: UserActivityRow[]; contentTypeFilter: string }) {
+// ── Content type columns for the pivoted table ──
+const contentTypeCols = ["Lesson Plan", "Learning Resources", "Question", "Test", "Ebook", "LBQ"] as const;
+
+interface ChapterRow {
+  class: string;
+  subject: string;
+  chapter: string;
+  "Lesson Plan": number;
+  "Learning Resources": number;
+  Question: number;
+  Test: number;
+  Ebook: number;
+  LBQ: number;
+  total: number;
+}
+
+// ── Detailed User Activity Table (pivoted by chapter) ──
+function UserActivityTable({ data }: { data: UserActivityRow[] }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [subjectFilter, setSubjectFilter] = useState("All");
   const [classFilter, setClassFilter] = useState("All");
 
-  const byType = contentTypeFilter === "All" ? data : data.filter((r) => r.contentType === contentTypeFilter);
+  // Pivot: group by class+subject+chapter, aggregate by content type
+  const pivoted = useMemo(() => {
+    const map = new Map<string, ChapterRow>();
+    data.forEach((r) => {
+      const key = `${r.class}||${r.subject}||${r.chapter}`;
+      if (!map.has(key)) {
+        map.set(key, {
+          class: r.class,
+          subject: r.subject,
+          chapter: r.chapter,
+          "Lesson Plan": 0,
+          "Learning Resources": 0,
+          Question: 0,
+          Test: 0,
+          Ebook: 0,
+          LBQ: 0,
+          total: 0,
+        });
+      }
+      const row = map.get(key)!;
+      const ct = r.contentType as keyof Pick<ChapterRow, "Lesson Plan" | "Learning Resources" | "Question" | "Test" | "Ebook" | "LBQ">;
+      if (ct in row) {
+        (row[ct] as number) += r.duration;
+      }
+      row.total += r.duration;
+    });
+    return Array.from(map.values());
+  }, [data]);
 
-  const subjects = useMemo(() => ["All", ...Array.from(new Set(byType.map((r) => r.subject)))], [byType]);
-  const classes = useMemo(() => ["All", ...Array.from(new Set(byType.map((r) => r.class)))], [byType]);
+  const subjects = useMemo(() => ["All", ...Array.from(new Set(pivoted.map((r) => r.subject)))], [pivoted]);
+  const classes = useMemo(() => ["All", ...Array.from(new Set(pivoted.map((r) => r.class)))], [pivoted]);
 
   const filtered = useMemo(() => {
-    let result = byType;
+    let result = pivoted;
     if (subjectFilter !== "All") result = result.filter((r) => r.subject === subjectFilter);
     if (classFilter !== "All") result = result.filter((r) => r.class === classFilter);
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       result = result.filter((r) =>
-        r.title.toLowerCase().includes(q) ||
         r.chapter.toLowerCase().includes(q) ||
-        r.subject.toLowerCase().includes(q)
+        r.subject.toLowerCase().includes(q) ||
+        r.class.toLowerCase().includes(q)
       );
     }
     return result;
-  }, [byType, subjectFilter, classFilter, searchQuery]);
+  }, [pivoted, subjectFilter, classFilter, searchQuery]);
 
-  const showContentType = contentTypeFilter === "All";
   const hasActiveFilters = searchQuery || subjectFilter !== "All" || classFilter !== "All";
-
-  const contentTypeColors: Record<string, string> = {
-    "Lesson Plan": "bg-chart-1/15 text-chart-1 border-chart-1/30",
-    "Learning Resources": "bg-chart-2/15 text-chart-2 border-chart-2/30",
-    "Ebook": "bg-chart-3/15 text-chart-3 border-chart-3/30",
-    "Test": "bg-chart-4/15 text-chart-4 border-chart-4/30",
-    "Question": "bg-chart-5/15 text-chart-5 border-chart-5/30",
-    "LBQ": "bg-primary/15 text-primary border-primary/30",
-  };
 
   const clearAll = () => {
     setSearchQuery("");
@@ -343,9 +376,12 @@ function UserActivityTable({ data, contentTypeFilter }: { data: UserActivityRow[
                 <TableHead className="pl-6 font-semibold">Class</TableHead>
                 <TableHead className="font-semibold">Subject</TableHead>
                 <TableHead className="font-semibold">Chapter</TableHead>
-                <TableHead className="font-semibold">Content Title</TableHead>
-                {showContentType && <TableHead className="font-semibold">Content Type</TableHead>}
-                <TableHead className="font-semibold pr-6">Usage (mins)</TableHead>
+                {contentTypeCols.map((ct) => (
+                  <TableHead key={ct} className="font-semibold text-center">
+                    <Badge variant="outline" className="text-xs font-medium">{ct}</Badge>
+                  </TableHead>
+                ))}
+                <TableHead className="font-semibold text-center pr-6">Usage (mins)</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -354,17 +390,14 @@ function UserActivityTable({ data, contentTypeFilter }: { data: UserActivityRow[
                   <TableCell className="pl-6">{row.class}</TableCell>
                   <TableCell>{row.subject}</TableCell>
                   <TableCell className="text-muted-foreground">{row.chapter}</TableCell>
-                  <TableCell className="font-medium">{row.title}</TableCell>
-                  {showContentType && (
-                    <TableCell>
-                      <Badge variant="outline" className={`text-xs font-medium border ${contentTypeColors[row.contentType] || "bg-muted text-muted-foreground"}`}>
-                        {row.contentType}
-                      </Badge>
+                  {contentTypeCols.map((ct) => (
+                    <TableCell key={ct} className="text-center tabular-nums">
+                      {row[ct] > 0 ? row[ct] : <span className="text-muted-foreground">-</span>}
                     </TableCell>
-                  )}
-                  <TableCell className="pr-6">
+                  ))}
+                  <TableCell className="text-center pr-6">
                     <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-0.5 text-sm font-semibold tabular-nums text-primary">
-                      {row.duration}
+                      {row.total}
                     </span>
                   </TableCell>
                 </TableRow>
@@ -700,23 +733,11 @@ export default function ContentUsageDetail() {
             </Card>
 
             <div className="flex flex-wrap gap-2">
-              {contentTypeFilters.map((filter) => (
-                <button
-                  key={filter}
-                  onClick={() => setActivityPlatformTab(filter)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${
-                    activityPlatformTab === filter
-                      ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                      : "bg-muted/50 text-muted-foreground border-border hover:bg-muted hover:text-foreground"
-                  }`}
-                >
-                  {filter}
-                </button>
-              ))}
+              <Badge variant="default" className="px-4 py-2 rounded-full text-sm font-medium">All</Badge>
             </div>
 
             <div className="mt-4">
-              <UserActivityTable data={userActivity} contentTypeFilter={activityPlatformTab} />
+              <UserActivityTable data={userActivity} />
             </div>
           </div>
         ) : (
