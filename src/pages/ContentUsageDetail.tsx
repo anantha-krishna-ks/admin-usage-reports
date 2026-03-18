@@ -730,9 +730,6 @@ export default function ContentUsageDetail() {
               </CardHeader>
             </Card>
 
-            <div className="flex flex-wrap gap-2">
-              <Badge variant="default" className="px-4 py-2 rounded-full text-sm font-medium">All</Badge>
-            </div>
 
             <div className="mt-4">
               <UserActivityTable data={userActivity} />
