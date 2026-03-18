@@ -733,23 +733,11 @@ export default function ContentUsageDetail() {
             </Card>
 
             <div className="flex flex-wrap gap-2">
-              {contentTypeFilters.map((filter) => (
-                <button
-                  key={filter}
-                  onClick={() => setActivityPlatformTab(filter)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${
-                    activityPlatformTab === filter
-                      ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                      : "bg-muted/50 text-muted-foreground border-border hover:bg-muted hover:text-foreground"
-                  }`}
-                >
-                  {filter}
-                </button>
-              ))}
+              <Badge variant="default" className="px-4 py-2 rounded-full text-sm font-medium">All</Badge>
             </div>
 
             <div className="mt-4">
-              <UserActivityTable data={userActivity} contentTypeFilter={activityPlatformTab} />
+              <UserActivityTable data={userActivity} />
             </div>
           </div>
         ) : (
