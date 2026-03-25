@@ -94,9 +94,11 @@ export function ExportButton({ onExport, captureRef, dateRange }: ExportButtonPr
       });
 
       // Restore hidden elements
-      hiddenEls.forEach((el) => {
-        el.style.visibility = "";
-      });
+      hiddenEls.forEach((el) => { el.style.visibility = ""; });
+      previewHeaders.forEach((el) => { el.style.display = ""; });
+      previewCells.forEach((el) => { el.style.display = ""; });
+      accordionEls.forEach((el) => { el.style.display = el.dataset.prevDisplay || ""; delete el.dataset.prevDisplay; });
+      if (dateBanner) dateBanner.remove();
 
       const imgData = canvas.toDataURL("image/jpeg", 0.95);
       const imgWidth = canvas.width;
