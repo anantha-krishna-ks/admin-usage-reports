@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Download, FileText, FileSpreadsheet, Check } from "lucide-react";
+import { Download, FileText, FileSpreadsheet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,27 +8,95 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "@/hooks/use-toast";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 interface ExportButtonProps {
   onExport?: (format: "pdf" | "csv") => void;
+  captureRef?: React.RefObject<HTMLDivElement>;
 }
 
-export function ExportButton({ onExport }: ExportButtonProps) {
+export function ExportButton({ onExport, captureRef }: ExportButtonProps) {
   const [exporting, setExporting] = useState<"pdf" | "csv" | null>(null);
 
-  const handleExport = async (format: "pdf" | "csv") => {
-    setExporting(format);
-    
-    // Simulate export delay
+  const handleExportPDF = async () => {
+    setExporting("pdf");
+
+    try {
+      const target = captureRef?.current ?? document.querySelector<HTMLElement>("[data-export-root]");
+      if (!target) {
+        toast({ title: "Export Failed", description: "Could not find page content to export.", variant: "destructive" });
+        setExporting(null);
+        return;
+      }
+
+      // Capture the entire scrollable content
+      const canvas = await html2canvas(target, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+        windowWidth: target.scrollWidth,
+        windowHeight: target.scrollHeight,
+      });
+
+      const imgData = canvas.toDataURL("image/jpeg", 0.95);
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+
+      // A4 dimensions in points
+      const pdfWidth = 595.28;
+      const pdfHeight = 841.89;
+      const margin = 20;
+      const contentWidth = pdfWidth - margin * 2;
+      const scaledHeight = (imgHeight * contentWidth) / imgWidth;
+
+      const pdf = new jsPDF("p", "pt", "a4");
+      let position = 0;
+      const pageContentHeight = pdfHeight - margin * 2;
+
+      // Multi-page support
+      let pageNum = 0;
+      while (position < scaledHeight) {
+        if (pageNum > 0) pdf.addPage();
+
+        // Calculate source crop for this page
+        const sourceY = (position / scaledHeight) * imgHeight;
+        const sourceH = Math.min((pageContentHeight / scaledHeight) * imgHeight, imgHeight - sourceY);
+        const destH = (sourceH / imgHeight) * scaledHeight;
+
+        // Create a cropped canvas for this page slice
+        const pageCanvas = document.createElement("canvas");
+        pageCanvas.width = imgWidth;
+        pageCanvas.height = sourceH;
+        const ctx = pageCanvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(canvas, 0, sourceY, imgWidth, sourceH, 0, 0, imgWidth, sourceH);
+          const pageImgData = pageCanvas.toDataURL("image/jpeg", 0.95);
+          pdf.addImage(pageImgData, "JPEG", margin, margin, contentWidth, destH);
+        }
+
+        position += pageContentHeight;
+        pageNum++;
+      }
+
+      pdf.save(`Admin_Report_${new Date().toISOString().split("T")[0]}.pdf`);
+
+      toast({ title: "Export Complete", description: "Your PDF report has been downloaded." });
+      onExport?.("pdf");
+    } catch (err) {
+      console.error("PDF export failed:", err);
+      toast({ title: "Export Failed", description: "Something went wrong while generating the PDF.", variant: "destructive" });
+    }
+
+    setExporting(null);
+  };
+
+  const handleExportCSV = async () => {
+    setExporting("csv");
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    onExport?.(format);
-    
-    toast({
-      title: "Export Complete",
-      description: `Your ${format.toUpperCase()} report has been downloaded.`,
-    });
-    
+    onExport?.("csv");
+    toast({ title: "Export Complete", description: "Your CSV report has been downloaded." });
     setExporting(null);
   };
 
@@ -41,8 +109,8 @@ export function ExportButton({ onExport }: ExportButtonProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48 shadow-lg">
-        <DropdownMenuItem 
-          onClick={() => handleExport("pdf")}
+        <DropdownMenuItem
+          onClick={handleExportPDF}
           disabled={exporting !== null}
           className="gap-3 cursor-pointer"
         >
@@ -53,8 +121,8 @@ export function ExportButton({ onExport }: ExportButtonProps) {
           )}
           <span>Export as PDF</span>
         </DropdownMenuItem>
-        <DropdownMenuItem 
-          onClick={() => handleExport("csv")}
+        <DropdownMenuItem
+          onClick={handleExportCSV}
           disabled={exporting !== null}
           className="gap-3 cursor-pointer"
         >
