@@ -29,8 +29,17 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Top info strip */}
       <div className="border-b border-border bg-muted/30">
-        <div className="container mx-auto px-6 py-2 flex items-center gap-2 text-sm text-muted-foreground">
-          <span>Riverside Academy — Admin Dashboard</span>
+        <div className="container mx-auto px-6 py-2 flex items-center justify-between">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span>Riverside Academy — Admin Dashboard</span>
+          </div>
+          <button
+            onClick={() => navigate("/dashboard-guide")}
+            className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3.5 py-1.5 text-xs font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors cursor-pointer"
+          >
+            <Info className="h-3.5 w-3.5" />
+            Dashboard Guide
+          </button>
         </div>
       </div>
 
@@ -39,15 +48,8 @@ const Index = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="text-4xl font-bold tracking-tight">Admin Reports</h1>
-            <p className="text-muted-foreground mt-1 flex items-center gap-2">
+            <p className="text-muted-foreground mt-1">
               Comprehensive usage analytics across schools and sections
-              <button
-                onClick={() => navigate("/dashboard-guide")}
-                className="inline-flex items-center gap-1 rounded-full border border-primary/20 bg-primary/5 px-2.5 py-0.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors cursor-pointer"
-              >
-                <Info className="h-3 w-3" />
-                Guide
-              </button>
             </p>
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
