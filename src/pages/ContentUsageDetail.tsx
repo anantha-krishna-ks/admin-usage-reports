@@ -476,7 +476,17 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
                   <TableCell className="pl-6">{row.chapter}</TableCell>
                   {contentTypeCols.map((ct) => (
                     <TableCell key={ct} className="text-center tabular-nums">
-                      {row[ct] > 0 ? row[ct] : <span className="text-muted-foreground">-</span>}
+                      {row[ct] > 0 ? (
+                        <button
+                          type="button"
+                          onClick={() => setContentTypeDrawer({ chapter: row, contentType: ct })}
+                          className="inline-flex items-center text-sm font-medium tabular-nums text-primary hover:underline cursor-pointer"
+                        >
+                          {row[ct]}
+                        </button>
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
                     </TableCell>
                   ))}
                   <TableCell className="text-center pr-6">
