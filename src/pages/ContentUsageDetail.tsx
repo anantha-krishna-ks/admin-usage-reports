@@ -560,6 +560,66 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
         </div>
       </SheetContent>
     </Sheet>
+
+    {/* Content Type Details Drawer */}
+    <Sheet
+      open={!!contentTypeDrawer}
+      onOpenChange={(open) => {
+        if (!open) setContentTypeDrawer(null);
+      }}
+    >
+      <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+        <SheetHeader className="pb-4">
+          <div className="flex items-center justify-between">
+            <SheetTitle className="text-xl font-semibold">
+              {contentTypeDrawer?.contentType} Details
+            </SheetTitle>
+            <Badge variant="outline" className="text-sm font-semibold tabular-nums px-3 py-1">
+              Total Mins: {contentTypeDrawer ? contentTypeDrawer.chapter[contentTypeDrawer.contentType as keyof ChapterRow] : 0}
+            </Badge>
+          </div>
+          <SheetDescription>
+            {contentTypeDrawer?.chapter.chapter} — {contentTypeSessions.length} sessions
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="space-y-3 mt-2">
+          {contentTypeSessions.map((session, idx) => (
+            <div key={idx} className="rounded-lg border border-border p-4 space-y-3">
+              <p className="text-sm font-semibold text-foreground">
+                {contentTypeDrawer?.chapter.subject} - {contentTypeDrawer?.contentType} {idx + 1}.{idx + 1}
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Start Date</p>
+                  <p className="text-sm font-semibold text-foreground mt-0.5">{session.startDate}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">End Date</p>
+                  <p className="text-sm font-semibold text-foreground mt-0.5">{session.endDate}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Start Time</p>
+                  <p className="text-base font-semibold text-foreground mt-0.5">{session.startTime}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">End Time</p>
+                  <p className="text-base font-semibold text-foreground mt-0.5">{session.endTime}</p>
+                </div>
+              </div>
+              <div className="flex items-center justify-between border-t border-border pt-3">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Time Spent</p>
+                <span className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-sm font-medium tabular-nums text-foreground">
+                  {session.timeSpent}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </SheetContent>
+    </Sheet>
     </>
   );
 }
