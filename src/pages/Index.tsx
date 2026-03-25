@@ -105,7 +105,6 @@ const Index = () => {
         {/* Custom Content Creation */}
         <CustomContentCreation />
       </div>
-      </div>
     </div>
   );
 };
