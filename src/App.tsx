@@ -10,6 +10,7 @@ import ContentUsageDetail from "./pages/ContentUsageDetail";
 import CustomContentDetail from "./pages/CustomContentDetail";
 import PersonUsageDetail from "./pages/PersonUsageDetail";
 import EnvironmentDetail from "./pages/EnvironmentDetail";
+import DashboardGuide from "./pages/DashboardGuide";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
