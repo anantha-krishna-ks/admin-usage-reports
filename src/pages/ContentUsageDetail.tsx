@@ -357,6 +357,7 @@ function generateSessions(chapter: string, totalMins: number): SessionEntry[] {
 function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; selectedClass: string }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [drawerChapter, setDrawerChapter] = useState<ChapterRow | null>(null);
+  const [contentTypeDrawer, setContentTypeDrawer] = useState<{ chapter: ChapterRow; contentType: string } | null>(null);
 
   // Get data for the selected class
   const classData = useMemo(() => data.filter((r) => r.class === selectedClass), [data, selectedClass]);
@@ -368,6 +369,11 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
   const drawerSessions = useMemo(
     () => (drawerChapter ? generateSessions(drawerChapter.chapter, drawerChapter.total) : []),
     [drawerChapter],
+  );
+
+  const contentTypeSessions = useMemo(
+    () => (contentTypeDrawer ? generateSessions(contentTypeDrawer.chapter.chapter, contentTypeDrawer.chapter[contentTypeDrawer.contentType as keyof ChapterRow] as number) : []),
+    [contentTypeDrawer],
   );
 
   useEffect(() => {
@@ -470,7 +476,17 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
                   <TableCell className="pl-6">{row.chapter}</TableCell>
                   {contentTypeCols.map((ct) => (
                     <TableCell key={ct} className="text-center tabular-nums">
-                      {row[ct] > 0 ? row[ct] : <span className="text-muted-foreground">-</span>}
+                      {row[ct] > 0 ? (
+                        <button
+                          type="button"
+                          onClick={() => setContentTypeDrawer({ chapter: row, contentType: ct })}
+                          className="inline-flex items-center text-sm font-medium tabular-nums text-primary hover:underline cursor-pointer"
+                        >
+                          {row[ct]}
+                        </button>
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
                     </TableCell>
                   ))}
                   <TableCell className="text-center pr-6">
@@ -513,6 +529,66 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
         <div className="space-y-3 mt-2">
           {drawerSessions.map((session, idx) => (
             <div key={idx} className="rounded-lg border border-border p-4 space-y-3">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Start Date</p>
+                  <p className="text-sm font-semibold text-foreground mt-0.5">{session.startDate}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">End Date</p>
+                  <p className="text-sm font-semibold text-foreground mt-0.5">{session.endDate}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Start Time</p>
+                  <p className="text-base font-semibold text-foreground mt-0.5">{session.startTime}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">End Time</p>
+                  <p className="text-base font-semibold text-foreground mt-0.5">{session.endTime}</p>
+                </div>
+              </div>
+              <div className="flex items-center justify-between border-t border-border pt-3">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Time Spent</p>
+                <span className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-sm font-medium tabular-nums text-foreground">
+                  {session.timeSpent}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </SheetContent>
+    </Sheet>
+
+    {/* Content Type Details Drawer */}
+    <Sheet
+      open={!!contentTypeDrawer}
+      onOpenChange={(open) => {
+        if (!open) setContentTypeDrawer(null);
+      }}
+    >
+      <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+        <SheetHeader className="pb-4">
+          <div className="flex items-center justify-between">
+            <SheetTitle className="text-xl font-semibold">
+              {contentTypeDrawer?.contentType} Details
+            </SheetTitle>
+            <Badge variant="outline" className="text-sm font-semibold tabular-nums px-3 py-1">
+              Total Mins: {contentTypeDrawer ? contentTypeDrawer.chapter[contentTypeDrawer.contentType as keyof ChapterRow] : 0}
+            </Badge>
+          </div>
+          <SheetDescription>
+            {contentTypeDrawer?.chapter.chapter} — {contentTypeSessions.length} sessions
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="space-y-3 mt-2">
+          {contentTypeSessions.map((session, idx) => (
+            <div key={idx} className="rounded-lg border border-border p-4 space-y-3">
+              <p className="text-sm font-semibold text-foreground">
+                {contentTypeDrawer?.chapter.subject} - {contentTypeDrawer?.contentType} {idx + 1}.{idx + 1}
+              </p>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Start Date</p>
