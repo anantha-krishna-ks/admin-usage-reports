@@ -10,6 +10,7 @@ import ContentUsageDetail from "./pages/ContentUsageDetail";
 import CustomContentDetail from "./pages/CustomContentDetail";
 import PersonUsageDetail from "./pages/PersonUsageDetail";
 import EnvironmentDetail from "./pages/EnvironmentDetail";
+import DashboardGuide from "./pages/DashboardGuide";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/dashboard-guide" element={<DashboardGuide />} />
           <Route path="/proctor-analytics" element={<ProctorAnalytics />} />
           <Route path="/section-detail" element={<SectionDetail />} />
           <Route path="/content-usage-detail" element={<ContentUsageDetail />} />
