@@ -23,6 +23,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/dashboard-guide" element={<DashboardGuide />} />
           <Route path="/proctor-analytics" element={<ProctorAnalytics />} />
           <Route path="/section-detail" element={<SectionDetail />} />
           <Route path="/content-usage-detail" element={<ContentUsageDetail />} />

@@ -25,6 +25,8 @@ import {
 const Index = () => {
   const [date, setDate] = useState<DateRange | undefined>();
 
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto p-6 space-y-8" data-export-root>
