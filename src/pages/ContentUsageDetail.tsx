@@ -295,7 +295,7 @@ const defaultActivity: UserActivityRow[] = [
 const contentTypeFilters = ["All", "Lesson Plan", "Learning Resources", "Question", "Test", "Ebook", "LBQ"];
 
 // ── Content type columns for the pivoted table ──
-const contentTypeCols = ["Lesson Plan", "Learning Resources", "Question", "Test", "Ebook", "LBQ"] as const;
+const contentTypeCols = ["Lesson Plan", "Learning Resources", "Question", "Test", "Ebook"] as const;
 
 interface ChapterRow {
   class: string;
