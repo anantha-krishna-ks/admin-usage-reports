@@ -579,7 +579,7 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
             </SheetDescription>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-semibold tabular-nums text-primary shrink-0">
               <Clock className="h-3.5 w-3.5" />
-              {contentTypeDrawer ? contentTypeDrawer.chapter[contentTypeDrawer.contentType as keyof ChapterRow] : 0} mins
+              Total: {contentTypeDrawer ? contentTypeDrawer.chapter[contentTypeDrawer.contentType as keyof ChapterRow] : 0} mins
             </span>
           </div>
         </SheetHeader>
