@@ -371,6 +371,11 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
     [drawerChapter],
   );
 
+  const contentTypeSessions = useMemo(
+    () => (contentTypeDrawer ? generateSessions(contentTypeDrawer.chapter.chapter, contentTypeDrawer.chapter[contentTypeDrawer.contentType as keyof ChapterRow] as number) : []),
+    [contentTypeDrawer],
+  );
+
   useEffect(() => {
     if (!subjects.includes(selectedSubject)) {
       setSelectedSubject(subjects[0] || "");
