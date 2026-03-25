@@ -357,6 +357,7 @@ function generateSessions(chapter: string, totalMins: number): SessionEntry[] {
 function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; selectedClass: string }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [drawerChapter, setDrawerChapter] = useState<ChapterRow | null>(null);
+  const [contentTypeDrawer, setContentTypeDrawer] = useState<{ chapter: ChapterRow; contentType: string } | null>(null);
 
   // Get data for the selected class
   const classData = useMemo(() => data.filter((r) => r.class === selectedClass), [data, selectedClass]);
