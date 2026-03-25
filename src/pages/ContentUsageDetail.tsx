@@ -586,33 +586,41 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
 
         <div className="space-y-3 mt-2">
           {contentTypeSessions.map((session, idx) => (
-            <div key={idx} className="rounded-lg border border-border p-4 space-y-3">
-              <p className="text-sm font-semibold text-foreground">
-                {contentTypeDrawer?.chapter.subject} - {contentTypeDrawer?.contentType} {idx + 1}.{idx + 1}
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Start Date</p>
-                  <p className="text-sm font-semibold text-foreground mt-0.5">{session.startDate}</p>
+            <div key={idx} className="rounded-xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
+              {/* Card header */}
+              <div className="bg-muted/40 px-4 py-3 border-b border-border">
+                <p className="text-sm font-semibold text-foreground">
+                  {contentTypeDrawer?.chapter.subject} - {contentTypeDrawer?.contentType} {idx + 1}.{idx + 1}
+                </p>
+              </div>
+              {/* Card body */}
+              <div className="p-4 space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-0.5">
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-primary/70">Start Date</p>
+                    <p className="text-sm font-semibold text-foreground">{session.startDate}</p>
+                  </div>
+                  <div className="space-y-0.5">
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-primary/70">End Date</p>
+                    <p className="text-sm font-semibold text-foreground">{session.endDate}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">End Date</p>
-                  <p className="text-sm font-semibold text-foreground mt-0.5">{session.endDate}</p>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-0.5">
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-primary/70">Start Time</p>
+                    <p className="text-base font-bold text-foreground">{session.startTime}</p>
+                  </div>
+                  <div className="space-y-0.5">
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-primary/70">End Time</p>
+                    <p className="text-base font-bold text-foreground">{session.endTime}</p>
+                  </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Start Time</p>
-                  <p className="text-base font-semibold text-foreground mt-0.5">{session.startTime}</p>
-                </div>
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">End Time</p>
-                  <p className="text-base font-semibold text-foreground mt-0.5">{session.endTime}</p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between border-t border-border pt-3">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Time Spent</p>
-                <span className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-sm font-medium tabular-nums text-foreground">
+              {/* Card footer */}
+              <div className="flex items-center justify-between bg-muted/30 px-4 py-2.5 border-t border-border">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Time Spent</p>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-sm font-semibold tabular-nums text-foreground">
+                  <Clock className="h-3 w-3 text-muted-foreground" />
                   {session.timeSpent}
                 </span>
               </div>
