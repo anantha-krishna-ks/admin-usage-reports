@@ -33,10 +33,27 @@ const Index = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
+          <div className="flex items-center gap-2">
             <h1 className="text-4xl font-bold tracking-tight">Admin Reports</h1>
-            <p className="text-muted-foreground mt-1">
-              Comprehensive usage analytics across schools and sections
-            </p>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                  onClick={() => navigate("/dashboard-guide")}
+                >
+                  <Info className="h-5 w-5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                <p>Learn about each section</p>
+              </TooltipContent>
+            </Tooltip>
+          </div>
+          <p className="text-muted-foreground mt-1">
+            Comprehensive usage analytics across schools and sections
+          </p>
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <DateRangeFilter date={date} onDateChange={setDate} />
