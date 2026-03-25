@@ -569,18 +569,19 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
       }}
     >
       <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
-        <SheetHeader className="pb-4">
-          <div className="flex items-center justify-between">
-            <SheetTitle className="text-xl font-semibold">
-              {contentTypeDrawer?.contentType} Details
-            </SheetTitle>
-            <Badge variant="outline" className="text-sm font-semibold tabular-nums px-3 py-1">
-              Total Mins: {contentTypeDrawer ? contentTypeDrawer.chapter[contentTypeDrawer.contentType as keyof ChapterRow] : 0}
-            </Badge>
+        <SheetHeader className="pb-2">
+          <SheetTitle className="text-xl font-semibold pr-8">
+            {contentTypeDrawer?.contentType} Details
+          </SheetTitle>
+          <div className="flex items-center justify-between mt-1">
+            <SheetDescription>
+              {contentTypeDrawer?.chapter.chapter} — {contentTypeSessions.length} sessions
+            </SheetDescription>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-semibold tabular-nums text-primary shrink-0">
+              <Clock className="h-3.5 w-3.5" />
+              {contentTypeDrawer ? contentTypeDrawer.chapter[contentTypeDrawer.contentType as keyof ChapterRow] : 0} mins
+            </span>
           </div>
-          <SheetDescription>
-            {contentTypeDrawer?.chapter.chapter} — {contentTypeSessions.length} sessions
-          </SheetDescription>
         </SheetHeader>
 
         <div className="space-y-3 mt-2">
