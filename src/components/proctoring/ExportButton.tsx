@@ -30,6 +30,17 @@ export function ExportButton({ onExport, captureRef }: ExportButtonProps) {
         return;
       }
 
+      // Hide interactive elements during capture
+      const hideSelector = "button, select, [data-export-hide], .react-day-picker, [role='combobox']";
+      const hiddenEls: HTMLElement[] = [];
+      target.querySelectorAll<HTMLElement>(hideSelector).forEach((el) => {
+        // Don't hide elements inside tables/charts, only top-level controls
+        if (!el.closest("table") && !el.closest(".recharts-wrapper")) {
+          hiddenEls.push(el);
+          el.style.visibility = "hidden";
+        }
+      });
+
       // Capture the entire scrollable content
       const canvas = await html2canvas(target, {
         scale: 2,
@@ -38,6 +49,11 @@ export function ExportButton({ onExport, captureRef }: ExportButtonProps) {
         backgroundColor: "#ffffff",
         windowWidth: target.scrollWidth,
         windowHeight: target.scrollHeight,
+      });
+
+      // Restore hidden elements
+      hiddenEls.forEach((el) => {
+        el.style.visibility = "";
       });
 
       const imgData = canvas.toDataURL("image/jpeg", 0.95);
