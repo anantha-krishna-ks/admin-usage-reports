@@ -29,17 +29,8 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Top info strip */}
       <div className="border-b border-border bg-muted/30">
-        <div className="container mx-auto px-6 py-2 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>Riverside Academy — Admin Dashboard</span>
-          </div>
-          <button
-            onClick={() => navigate("/dashboard-guide")}
-            className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary hover:bg-primary/10 transition-colors cursor-pointer"
-          >
-            <Info className="h-3.5 w-3.5" />
-            Dashboard Guide
-          </button>
+        <div className="container mx-auto px-6 py-2 flex items-center gap-2 text-sm text-muted-foreground">
+          <span>Riverside Academy — Admin Dashboard</span>
         </div>
       </div>
 
