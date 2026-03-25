@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Users, Info } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { StatCard } from "@/components/StatCard";
 import { CombinedUsageCard } from "@/components/CombinedUsageCard";
 import { UsageByUserTypeChart } from "@/components/UsageByUserTypeChart";
@@ -29,31 +27,30 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Top info strip */}
+      <div className="border-b border-border bg-muted/30">
+        <div className="container mx-auto px-6 py-2 flex items-center justify-between">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span>Riverside Academy — Admin Dashboard</span>
+          </div>
+          <button
+            onClick={() => navigate("/dashboard-guide")}
+            className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary hover:bg-primary/10 transition-colors cursor-pointer"
+          >
+            <Info className="h-3.5 w-3.5" />
+            Dashboard Guide
+          </button>
+        </div>
+      </div>
+
       <div className="container mx-auto p-6 space-y-8" data-export-root>
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-          <div className="flex items-center gap-2">
             <h1 className="text-4xl font-bold tracking-tight">Admin Reports</h1>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
-                  onClick={() => navigate("/dashboard-guide")}
-                >
-                  <Info className="h-5 w-5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="right">
-                <p>Learn about each section</p>
-              </TooltipContent>
-            </Tooltip>
-          </div>
-          <p className="text-muted-foreground mt-1">
-            Comprehensive usage analytics across schools and sections
-          </p>
+            <p className="text-muted-foreground mt-1">
+              Comprehensive usage analytics across schools and sections
+            </p>
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <DateRangeFilter date={date} onDateChange={setDate} />
