@@ -18,7 +18,7 @@ interface ExportButtonProps {
   dateRange?: { from?: Date; to?: Date };
 }
 
-export function ExportButton({ onExport, captureRef }: ExportButtonProps) {
+export function ExportButton({ onExport, captureRef, dateRange }: ExportButtonProps) {
   const [exporting, setExporting] = useState<"pdf" | "csv" | null>(null);
 
   const handleExportPDF = async () => {
