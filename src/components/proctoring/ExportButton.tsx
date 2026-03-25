@@ -14,6 +14,7 @@ import jsPDF from "jspdf";
 interface ExportButtonProps {
   onExport?: (format: "pdf" | "csv") => void;
   captureRef?: React.RefObject<HTMLDivElement>;
+  dateRange?: { from?: Date; to?: Date };
 }
 
 export function ExportButton({ onExport, captureRef }: ExportButtonProps) {
