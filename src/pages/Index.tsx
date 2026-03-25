@@ -45,7 +45,7 @@ const Index = () => {
                 <SelectItem value="mountain">Mountain View School</SelectItem>
               </SelectContent>
             </Select>
-            <ExportButton />
+            <ExportButton dateRange={date ? { from: date.from, to: date.to } : undefined} />
           </div>
         </div>
 

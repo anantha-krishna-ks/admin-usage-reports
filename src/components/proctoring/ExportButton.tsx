@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { format } from "date-fns";
 import { Download, FileText, FileSpreadsheet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,9 +15,10 @@ import jsPDF from "jspdf";
 interface ExportButtonProps {
   onExport?: (format: "pdf" | "csv") => void;
   captureRef?: React.RefObject<HTMLDivElement>;
+  dateRange?: { from?: Date; to?: Date };
 }
 
-export function ExportButton({ onExport, captureRef }: ExportButtonProps) {
+export function ExportButton({ onExport, captureRef, dateRange }: ExportButtonProps) {
   const [exporting, setExporting] = useState<"pdf" | "csv" | null>(null);
 
   const handleExportPDF = async () => {
@@ -34,12 +36,52 @@ export function ExportButton({ onExport, captureRef }: ExportButtonProps) {
       const hideSelector = "button, select, [data-export-hide], .react-day-picker, [role='combobox']";
       const hiddenEls: HTMLElement[] = [];
       target.querySelectorAll<HTMLElement>(hideSelector).forEach((el) => {
-        // Don't hide elements inside tables/charts, only top-level controls
         if (!el.closest("table") && !el.closest(".recharts-wrapper")) {
           hiddenEls.push(el);
           el.style.visibility = "hidden";
         }
       });
+
+      // Hide Preview columns (last column in tables) and accordions
+      const previewHeaders: HTMLElement[] = [];
+      const previewCells: HTMLElement[] = [];
+      const accordionEls: HTMLElement[] = [];
+
+      target.querySelectorAll<HTMLElement>("th, td").forEach((cell) => {
+        if (cell.textContent?.trim() === "Preview") {
+          previewHeaders.push(cell);
+          cell.style.display = "none";
+          // Hide corresponding cells in the same column index
+          const table = cell.closest("table");
+          const colIndex = Array.from(cell.parentElement?.children || []).indexOf(cell);
+          if (table && colIndex >= 0) {
+            table.querySelectorAll<HTMLElement>("tbody tr").forEach((row) => {
+              const td = row.children[colIndex] as HTMLElement;
+              if (td) { previewCells.push(td); td.style.display = "none"; }
+            });
+          }
+        }
+      });
+
+      // Hide accordion elements
+      target.querySelectorAll<HTMLElement>("[data-state='open'] [data-radix-collection-item], [data-orientation]").forEach((el) => {
+        if (el.closest("[data-state]") && el.tagName !== "TABLE") {
+          accordionEls.push(el);
+          el.dataset.prevDisplay = el.style.display;
+          el.style.display = "none";
+        }
+      });
+
+      // Add date range banner if available
+      let dateBanner: HTMLElement | null = null;
+      if (dateRange?.from) {
+        dateBanner = document.createElement("div");
+        dateBanner.style.cssText = "padding:8px 0 16px;font-size:14px;color:#555;font-weight:500;";
+        const fromStr = format(dateRange.from, "MMM dd, yyyy");
+        const toStr = dateRange.to ? format(dateRange.to, "MMM dd, yyyy") : fromStr;
+        dateBanner.textContent = `Report Period: ${fromStr} – ${toStr}`;
+        target.insertBefore(dateBanner, target.firstChild);
+      }
 
       // Capture the entire scrollable content
       const canvas = await html2canvas(target, {
@@ -52,9 +94,11 @@ export function ExportButton({ onExport, captureRef }: ExportButtonProps) {
       });
 
       // Restore hidden elements
-      hiddenEls.forEach((el) => {
-        el.style.visibility = "";
-      });
+      hiddenEls.forEach((el) => { el.style.visibility = ""; });
+      previewHeaders.forEach((el) => { el.style.display = ""; });
+      previewCells.forEach((el) => { el.style.display = ""; });
+      accordionEls.forEach((el) => { el.style.display = el.dataset.prevDisplay || ""; delete el.dataset.prevDisplay; });
+      if (dateBanner) dateBanner.remove();
 
       const imgData = canvas.toDataURL("image/jpeg", 0.95);
       const imgWidth = canvas.width;
