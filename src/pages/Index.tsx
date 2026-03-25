@@ -53,7 +53,7 @@ const Index = () => {
             <p className="text-muted-foreground mt-1">
               Comprehensive usage analytics across schools and sections
             </p>
-          </p>
+          </div>
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <DateRangeFilter date={date} onDateChange={setDate} />
