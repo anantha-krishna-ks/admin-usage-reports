@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Users, Info } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { StatCard } from "@/components/StatCard";
 import { CombinedUsageCard } from "@/components/CombinedUsageCard";
 import { UsageByUserTypeChart } from "@/components/UsageByUserTypeChart";
