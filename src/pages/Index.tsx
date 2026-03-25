@@ -39,8 +39,15 @@ const Index = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="text-4xl font-bold tracking-tight">Admin Reports</h1>
-            <p className="text-muted-foreground mt-1">
+            <p className="text-muted-foreground mt-1 flex items-center gap-2">
               Comprehensive usage analytics across schools and sections
+              <button
+                onClick={() => navigate("/dashboard-guide")}
+                className="inline-flex items-center gap-1 rounded-full border border-primary/20 bg-primary/5 px-2.5 py-0.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors cursor-pointer"
+              >
+                <Info className="h-3 w-3" />
+                Guide
+              </button>
             </p>
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
