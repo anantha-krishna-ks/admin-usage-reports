@@ -531,9 +531,7 @@ export default function SectionDetail() {
               const deviceData = sectionUsageByDevice[selectedDeviceDetail] || [];
               const totalVisits = deviceData.reduce((sum, d) => sum + d.visits, 0);
               const totalMinutes = deviceData.reduce((sum, d) => sum + d.minutes, 0);
-              const hours = Math.floor(totalMinutes / 60);
-              const mins = totalMinutes % 60;
-              const totalTimeFormatted = `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")} Mins`;
+              const totalTimeFormatted = `${totalMinutes.toLocaleString()} Mins`;
               return (
                 <Card className="shadow-sm">
                   <CardHeader className="pb-4">
