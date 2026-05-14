@@ -44,7 +44,7 @@ const sections = [
     icon: BookOpen,
     title: "Content Usage",
     description:
-      "Displays content engagement metrics by role — Teacher, Student, and Parent. Columns include Lesson Plan, Learning Resource, Items, Tests, and Ebook (in mins or hours). Click the Preview icon to navigate to a detailed content-usage breakdown filtered by the selected role.",
+      "Displays content engagement metrics by role — Teacher, Student, and Parent. Columns include Lesson Plan, Learning Resource, Items, Tests, and Ebook (in mins). Click the Preview icon to navigate to a detailed content-usage breakdown filtered by the selected role.",
   },
   {
     icon: PenTool,
