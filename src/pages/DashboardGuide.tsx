@@ -38,7 +38,7 @@ const sections = [
     icon: BarChart3,
     title: "Class-wise Application Usage Details",
     description:
-      "A grade-level table presenting Total Users, App Usage (hrs), Content Usage (hrs), and Total Usage (hrs) for each grade. Click the Preview icon on any row to drill down into section-level and individual-level usage for that grade.",
+      "A grade-level table presenting Total Users, App Usage (mins), Content Usage (mins), and Total Usage (mins) for each grade. Click the Preview icon on any row to drill down into section-level and individual-level usage for that grade.",
   },
   {
     icon: BookOpen,
