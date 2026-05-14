@@ -38,13 +38,13 @@ const sections = [
     icon: BarChart3,
     title: "Class-wise Application Usage Details",
     description:
-      "A grade-level table presenting Total Users, App Usage (hrs), Content Usage (hrs), and Total Usage (hrs) for each grade. Click the Preview icon on any row to drill down into section-level and individual-level usage for that grade.",
+      "A grade-level table presenting Total Users, App Usage (mins), Content Usage (mins), and Total Usage (mins) for each grade. Click the Preview icon on any row to drill down into section-level and individual-level usage for that grade.",
   },
   {
     icon: BookOpen,
     title: "Content Usage",
     description:
-      "Displays content engagement metrics by role — Teacher, Student, and Parent. Columns include Lesson Plan, Learning Resource, Items, Tests, and Ebook (in mins or hours). Click the Preview icon to navigate to a detailed content-usage breakdown filtered by the selected role.",
+      "Displays content engagement metrics by role — Teacher, Student, and Parent. Columns include Lesson Plan, Learning Resource, Items, Tests, and Ebook (in mins). Click the Preview icon to navigate to a detailed content-usage breakdown filtered by the selected role.",
   },
   {
     icon: PenTool,
