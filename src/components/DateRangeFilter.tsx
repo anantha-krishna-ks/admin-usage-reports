@@ -1,4 +1,5 @@
-import { format } from "date-fns";
+import { useState } from "react";
+import { format, subMonths } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -11,9 +12,26 @@ interface DateRangeFilterProps {
   onDateChange: (date: DateRange | undefined) => void;
 }
 
+const presets = [
+  { label: "Last 1 Month", months: 1 },
+  { label: "Last 2 Months", months: 2 },
+  { label: "Last 3 Months", months: 3 },
+];
+
 export const DateRangeFilter = ({ date, onDateChange }: DateRangeFilterProps) => {
+  const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState<"preset" | "custom">("preset");
+
+  const handlePreset = (months: number, label: string) => {
+    const to = new Date();
+    const from = subMonths(to, months);
+    onDateChange({ from, to });
+    setMode("preset");
+    setOpen(false);
+  };
+
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -37,14 +55,49 @@ export const DateRangeFilter = ({ date, onDateChange }: DateRangeFilterProps) =>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
-        <Calendar
-          mode="range"
-          selected={date}
-          onSelect={onDateChange}
-          numberOfMonths={2}
-          initialFocus
-          className="pointer-events-auto"
-        />
+        <div className="flex">
+          <div className="border-r border-border p-3 space-y-1 min-w-[160px] bg-muted/30">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2 px-2">
+              Quick Select
+            </p>
+            {presets.map((p) => (
+              <Button
+                key={p.label}
+                variant="ghost"
+                size="sm"
+                className="w-full justify-start font-normal text-sm hover:bg-background"
+                onClick={() => handlePreset(p.months, p.label)}
+              >
+                {p.label}
+              </Button>
+            ))}
+            <Button
+              variant={mode === "custom" ? "secondary" : "ghost"}
+              size="sm"
+              className="w-full justify-start font-normal text-sm"
+              onClick={() => setMode("custom")}
+            >
+              Custom Range
+            </Button>
+          </div>
+          {mode === "custom" && (
+            <div className="p-3">
+              <Calendar
+                mode="range"
+                selected={date}
+                onSelect={onDateChange}
+                numberOfMonths={2}
+                initialFocus
+                className="pointer-events-auto"
+              />
+              <div className="flex justify-end pt-2">
+                <Button size="sm" onClick={() => setOpen(false)} disabled={!date?.from}>
+                  Apply
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
       </PopoverContent>
     </Popover>
   );
