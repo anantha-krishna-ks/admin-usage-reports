@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { subMonths, format } from "date-fns";
-import { TrendingUp } from "lucide-react";
+
 
 // Last 6 months avg usage (mins per user) — teacher vs student
 const generateData = () => {
