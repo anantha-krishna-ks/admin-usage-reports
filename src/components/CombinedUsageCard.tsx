@@ -72,17 +72,15 @@ export const CombinedUsageCard = () => {
             return tiles.map((t) => (
               <div
                 key={t.label}
-                className="rounded-lg border border-border bg-muted/30 p-3"
+                className="relative overflow-hidden rounded-lg border border-border bg-muted/30 p-3 pl-4"
               >
-                <div className="flex items-center gap-1.5">
-                  <div
-                    className="h-2 w-2 rounded-full shrink-0"
-                    style={{ backgroundColor: `hsl(var(${t.colorVar}))` }}
-                  />
-                  <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-                    {t.label}
-                  </span>
-                </div>
+                <div
+                  className="absolute inset-y-0 left-0 w-1"
+                  style={{ backgroundColor: `hsl(var(${t.colorVar}))` }}
+                />
+                <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                  {t.label}
+                </span>
                 <div className="mt-1.5 flex items-baseline gap-1">
                   <span className="text-xl font-semibold tabular-nums leading-none">
                     {t.value.toFixed(1)}
