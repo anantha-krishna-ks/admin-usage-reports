@@ -13,9 +13,9 @@ interface DateRangeFilterProps {
 }
 
 const presets = [
-  { label: "Last 1 Month", months: 1 },
-  { label: "Last 3 Months", months: 3 },
-  { label: "Last 6 Months", months: 6 },
+  { label: "1", months: 1 },
+  { label: "2", months: 3 },
+  { label: "3", months: 6 },
 ];
 
 export const DateRangeFilter = ({ date, onDateChange }: DateRangeFilterProps) => {
