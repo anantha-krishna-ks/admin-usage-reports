@@ -125,14 +125,14 @@ export const ActiveUsersCard = () => {
             return (
               <div
                 key={item.label}
-                className="rounded-lg border border-border bg-muted/30 p-3 space-y-2"
+                className="relative overflow-hidden rounded-lg border border-border bg-muted/30 p-3 pl-4 space-y-2"
               >
+                <div
+                  className="absolute left-0 top-0 h-full w-1"
+                  style={{ backgroundColor: `hsl(var(${item.colorVar}))` }}
+                />
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    <div
-                      className="h-2 w-2 rounded-full shrink-0"
-                      style={{ backgroundColor: `hsl(var(${item.colorVar}))` }}
-                    />
+                  <div className="min-w-0">
                     <span className="text-xs font-medium truncate">{item.label}</span>
                   </div>
                   <div
