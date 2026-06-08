@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Info } from "lucide-react";
-import { StatCard } from "@/components/StatCard";
 import { CombinedUsageCard } from "@/components/CombinedUsageCard";
+import { ActiveUsersCard } from "@/components/ActiveUsersCard";
 import { UsageByUserTypeChart } from "@/components/UsageByUserTypeChart";
 import { ApplicationTrendChart } from "@/components/ApplicationTrendChart";
 import { UsageDistributionChart } from "@/components/UsageDistributionChart";
@@ -77,17 +77,7 @@ const Index = () => {
         {/* Stats Cards */}
         <div className="grid gap-6 md:grid-cols-3">
           <CombinedUsageCard />
-          <StatCard
-            title="Total Active Users"
-            value="1,008"
-            subtitle="across all user types"
-            drillDown={[
-              { label: "New Users", value: "324" },
-              { label: "Repeat Users", value: "684" },
-              { label: "Number of Schools", value: "12" }
-            ]}
-            trend={{ percentage: -4.2, previousValue: "1,052" }}
-          />
+          <ActiveUsersCard />
         </div>
 
         {/* Charts */}
