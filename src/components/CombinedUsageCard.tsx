@@ -1,22 +1,39 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Activity, BookOpen, Monitor, Smartphone } from "lucide-react";
+import { Activity, BookOpen, TrendingUp, TrendingDown } from "lucide-react";
 
 export const CombinedUsageCard = () => {
   const totalUsage = "21,250";
+  const previousUsage = "19,420";
+  const percentage = ((21250 - 19420) / 19420) * 100;
+  const isUp = percentage >= 0;
 
   return (
     <Card className="transition-all hover:shadow-lg md:col-span-2">
       <CardContent className="p-6 space-y-5">
         {/* Top section */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-start justify-between">
           <div>
             <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1">Total Platform Usage</p>
             <div className="flex items-baseline gap-2">
               <span className="text-4xl font-semibold tracking-tight">{totalUsage}</span>
               <span className="text-sm text-muted-foreground">mins this month</span>
             </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              vs <span className="tabular-nums font-medium text-foreground/70">{previousUsage}</span> mins last month
+            </p>
           </div>
           <div className="flex items-center gap-2">
+            <div
+              className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${
+                isUp
+                  ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                  : "bg-red-500/10 text-red-600 dark:text-red-400"
+              }`}
+              title={`Previous month: ${previousUsage}`}
+            >
+              {isUp ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+              <span className="tabular-nums">{isUp ? "+" : ""}{percentage.toFixed(1)}%</span>
+            </div>
             <Activity className="h-5 w-5 text-primary" />
             <BookOpen className="h-5 w-5 text-secondary" />
           </div>
