@@ -78,23 +78,23 @@ export const ActiveUsersCard = () => {
           </div>
         </div>
 
-        {/* By user type */}
-        <div className="space-y-3 pt-1">
+        {/* By user type — compact two-column row */}
+        <div className="grid grid-cols-2 gap-3 pt-1">
           {breakdown.map((item) => {
             const pct = (item.active / item.total) * 100;
             const up = item.percentage >= 0;
             return (
-              <div key={item.label} className="space-y-1.5">
+              <div
+                key={item.label}
+                className="rounded-lg border border-border bg-muted/30 p-3 space-y-2"
+              >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5 min-w-0">
                     <div
-                      className="h-2 w-2 rounded-full"
+                      className="h-2 w-2 rounded-full shrink-0"
                       style={{ backgroundColor: `hsl(var(${item.colorVar}))` }}
                     />
-                    <span className="text-xs font-medium">{item.label}</span>
-                    <span className="text-xs text-muted-foreground tabular-nums">
-                      {item.active.toLocaleString()} / {item.total.toLocaleString()}
-                    </span>
+                    <span className="text-xs font-medium truncate">{item.label}</span>
                   </div>
                   <div
                     className={`flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${
@@ -114,7 +114,15 @@ export const ActiveUsersCard = () => {
                     </span>
                   </div>
                 </div>
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                <div className="flex items-baseline gap-1">
+                  <span className="text-lg font-semibold tabular-nums leading-none">
+                    {item.active.toLocaleString()}
+                  </span>
+                  <span className="text-xs text-muted-foreground tabular-nums">
+                    / {item.total.toLocaleString()}
+                  </span>
+                </div>
+                <div className="h-1 w-full overflow-hidden rounded-full bg-muted">
                   <div
                     className="h-full transition-all"
                     style={{
