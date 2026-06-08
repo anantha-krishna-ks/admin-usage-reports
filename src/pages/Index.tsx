@@ -47,7 +47,7 @@ const Index = () => {
       <div className="container mx-auto p-6 space-y-8" data-export-root>
         {/* Header */}
         <div>
-          <h1 className="text-4xl font-bold tracking-tight">Admin Reports</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Admin Reports</h1>
           <p className="text-muted-foreground mt-1">
             Comprehensive usage analytics across schools and sections
           </p>
