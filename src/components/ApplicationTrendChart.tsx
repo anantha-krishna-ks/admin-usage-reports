@@ -19,10 +19,6 @@ const generateData = () => {
 };
 
 const data = generateData();
-const teacherTotal = data.reduce((s, d) => s + d.teacherAvg, 0);
-const studentTotal = data.reduce((s, d) => s + d.studentAvg, 0);
-
-const formatNum = (n: number) => n.toLocaleString();
 
 export const ApplicationTrendChart = () => {
   return (
