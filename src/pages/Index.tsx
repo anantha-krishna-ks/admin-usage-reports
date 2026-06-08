@@ -4,6 +4,7 @@ import { Users, Info } from "lucide-react";
 import { StatCard } from "@/components/StatCard";
 import { CombinedUsageCard } from "@/components/CombinedUsageCard";
 import { UsageByUserTypeChart } from "@/components/UsageByUserTypeChart";
+import { ApplicationTrendChart } from "@/components/ApplicationTrendChart";
 import { UsageDistributionChart } from "@/components/UsageDistributionChart";
 import { DetailedAnalytics } from "@/components/DetailedAnalytics";
 import { SectionDrillDown } from "@/components/SectionDrillDown";
@@ -84,6 +85,9 @@ const Index = () => {
             ]}
           />
         </div>
+
+        {/* Application Trend - full width */}
+        <ApplicationTrendChart />
 
         {/* Charts */}
         <div className="grid gap-6 md:grid-cols-2">
