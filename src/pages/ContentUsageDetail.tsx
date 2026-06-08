@@ -317,6 +317,9 @@ interface SessionEntry {
   endDate: string;
   endTime: string;
   timeSpent: string;
+  pageStart?: number;
+  pageEnd?: number;
+  pages?: number;
 }
 
 function generateSessions(chapter: string, totalMins: number): SessionEntry[] {
@@ -324,6 +327,7 @@ function generateSessions(chapter: string, totalMins: number): SessionEntry[] {
   let remaining = totalMins;
   const dates = ["24 Feb 2026", "21 Feb 2026", "18 Feb 2026", "14 Feb 2026", "10 Feb 2026"];
   let dateIdx = 0;
+  let pageCursor = 1;
 
   while (remaining > 0 && sessions.length < 8) {
     const dur = Math.min(remaining, Math.floor(Math.random() * 35) + 2);
@@ -341,12 +345,20 @@ function generateSessions(chapter: string, totalMins: number): SessionEntry[] {
     const durH = String(Math.floor(dur / 60)).padStart(2, "0");
     const durM = String(dur % 60).padStart(2, "0");
     const date = dates[dateIdx % dates.length];
+    // Approx 1.5 mins per page; minimum 1 page per session
+    const pages = Math.max(1, Math.round(dur / 1.5));
+    const pageStart = pageCursor;
+    const pageEnd = pageCursor + pages - 1;
+    pageCursor = pageEnd + 1;
     sessions.push({
       startDate: date,
       startTime: fmtTime(startHour, startMin),
       endDate: date,
       endTime: fmtTime(endHour, endMin),
       timeSpent: `${durH}:${durM}:00 Mins`,
+      pageStart,
+      pageEnd,
+      pages,
     });
     dateIdx++;
   }
