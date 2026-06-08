@@ -52,21 +52,21 @@ export const CombinedUsageCard = () => {
                 value: teacherUsage / teacherTotal,
                 totalMins: teacherUsage,
                 totalUsers: teacherTotal,
-                colorVar: "--chart-3",
+                colorVar: "--chart-2",
               },
               {
                 label: "Avg / Student",
                 value: studentUsage / studentTotal,
                 totalMins: studentUsage,
                 totalUsers: studentTotal,
-                colorVar: "--chart-5",
+                colorVar: "--chart-4",
               },
               {
                 label: "Avg / User",
                 value: overall / allUsers,
                 totalMins: overall,
                 totalUsers: allUsers,
-                colorVar: "--primary",
+                colorVar: "--chart-1",
               },
             ];
             return tiles.map((t) => (
