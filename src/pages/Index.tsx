@@ -46,27 +46,30 @@ const Index = () => {
 
       <div className="container mx-auto p-6 space-y-8" data-export-root>
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="text-4xl font-bold tracking-tight">Admin Reports</h1>
-            <p className="text-muted-foreground mt-1">
-              Comprehensive usage analytics across schools and sections
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-            <DateRangeFilter date={date} onDateChange={setDate} />
-            <Select defaultValue="riverside">
-              <SelectTrigger className="w-[250px]">
-                <SelectValue placeholder="Select school" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="riverside">Riverside Academy</SelectItem>
-                <SelectItem value="lakeside">Lakeside High School</SelectItem>
-                <SelectItem value="mountain">Mountain View School</SelectItem>
-              </SelectContent>
-            </Select>
-            <ExportButton dateRange={date ? { from: date.from, to: date.to } : undefined} />
-          </div>
+        <div>
+          <h1 className="text-4xl font-bold tracking-tight">Admin Reports</h1>
+          <p className="text-muted-foreground mt-1">
+            Comprehensive usage analytics across schools and sections
+          </p>
+        </div>
+
+        {/* Application Trend - full width */}
+        <ApplicationTrendChart />
+
+        {/* Filters */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+          <DateRangeFilter date={date} onDateChange={setDate} />
+          <Select defaultValue="riverside">
+            <SelectTrigger className="w-[250px]">
+              <SelectValue placeholder="Select school" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="riverside">Riverside Academy</SelectItem>
+              <SelectItem value="lakeside">Lakeside High School</SelectItem>
+              <SelectItem value="mountain">Mountain View School</SelectItem>
+            </SelectContent>
+          </Select>
+          <ExportButton dateRange={date ? { from: date.from, to: date.to } : undefined} />
         </div>
 
         {/* Stats Cards */}
@@ -85,9 +88,6 @@ const Index = () => {
             ]}
           />
         </div>
-
-        {/* Application Trend - full width */}
-        <ApplicationTrendChart />
 
         {/* Charts */}
         <div className="grid gap-6 md:grid-cols-2">
