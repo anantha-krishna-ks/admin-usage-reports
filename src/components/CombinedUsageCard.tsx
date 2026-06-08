@@ -50,19 +50,22 @@ export const CombinedUsageCard = () => {
               {
                 label: "Avg / Teacher",
                 value: teacherUsage / teacherTotal,
-                sub: `${teacherUsage.toLocaleString()} mins · ${teacherTotal} users`,
+                totalMins: teacherUsage,
+                totalUsers: teacherTotal,
                 colorVar: "--chart-3",
               },
               {
                 label: "Avg / Student",
                 value: studentUsage / studentTotal,
-                sub: `${studentUsage.toLocaleString()} mins · ${studentTotal} users`,
+                totalMins: studentUsage,
+                totalUsers: studentTotal,
                 colorVar: "--chart-5",
               },
               {
                 label: "Avg / User",
                 value: overall / allUsers,
-                sub: `${overall.toLocaleString()} mins · ${allUsers.toLocaleString()} users`,
+                totalMins: overall,
+                totalUsers: allUsers,
                 colorVar: "--primary",
               },
             ];
@@ -86,9 +89,16 @@ export const CombinedUsageCard = () => {
                   </span>
                   <span className="text-xs text-muted-foreground">mins</span>
                 </div>
-                <p className="mt-1 text-[11px] text-muted-foreground tabular-nums">
-                  {t.sub}
-                </p>
+                <div className="mt-2 space-y-0.5">
+                  <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                    <span>Total</span>
+                    <span className="tabular-nums font-medium text-foreground/60">{t.totalMins.toLocaleString()} mins</span>
+                  </div>
+                  <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                    <span>Users</span>
+                    <span className="tabular-nums font-medium text-foreground/60">{t.totalUsers.toLocaleString()}</span>
+                  </div>
+                </div>
               </div>
             ));
           })()}
