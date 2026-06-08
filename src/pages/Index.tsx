@@ -88,6 +88,7 @@ const Index = () => {
               { label: "Repeat Users", value: "684" },
               { label: "Number of Schools", value: "12" }
             ]}
+            trend={{ percentage: -4.2, previousValue: "1,052" }}
           />
         </div>
 
