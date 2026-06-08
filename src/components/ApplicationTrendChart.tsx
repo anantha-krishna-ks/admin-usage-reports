@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { subMonths, format } from "date-fns";
 
@@ -27,32 +27,9 @@ const formatNum = (n: number) => n.toLocaleString();
 export const ApplicationTrendChart = () => {
   return (
     <Card>
-      <CardHeader className="pb-2">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="flex items-start gap-3">
-            <div className="mt-0.5 rounded-md bg-primary/10 p-1.5 text-primary">
-              <TrendingUp className="h-4 w-4" />
-            </div>
-            <div>
-              <h3 className="text-base font-semibold leading-tight">Application Trend</h3>
-              <p className="text-sm text-muted-foreground mt-0.5">
-                Average usage per user · Last 6 months
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <div className="flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs">
-              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: "hsl(var(--primary))" }} />
-              <span className="text-muted-foreground">Teacher</span>
-              <span className="font-semibold tabular-nums">{formatNum(teacherTotal)} mins</span>
-            </div>
-            <div className="flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs">
-              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: "hsl(var(--chart-4))" }} />
-              <span className="text-muted-foreground">Student</span>
-              <span className="font-semibold tabular-nums">{formatNum(studentTotal)} mins</span>
-            </div>
-          </div>
-        </div>
+      <CardHeader>
+        <CardTitle>Application Usage Trend</CardTitle>
+        <CardDescription>Average usage per user · Last 6 months</CardDescription>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={320}>
