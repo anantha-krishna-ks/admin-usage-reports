@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Eye, User, Search, X, Clock } from "lucide-react";
+import { ArrowLeft, Eye, User, Search, X, Clock, BookOpen } from "lucide-react";
 import {
   Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
 } from "@/components/ui/sheet";
