@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Eye, User, Search, X, Clock } from "lucide-react";
+import { ArrowLeft, Eye, User, Search, X, Clock, BookOpen } from "lucide-react";
 import {
   Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
 } from "@/components/ui/sheet";
@@ -317,6 +317,9 @@ interface SessionEntry {
   endDate: string;
   endTime: string;
   timeSpent: string;
+  pageStart?: number;
+  pageEnd?: number;
+  pages?: number;
 }
 
 function generateSessions(chapter: string, totalMins: number): SessionEntry[] {
@@ -324,6 +327,7 @@ function generateSessions(chapter: string, totalMins: number): SessionEntry[] {
   let remaining = totalMins;
   const dates = ["24 Feb 2026", "21 Feb 2026", "18 Feb 2026", "14 Feb 2026", "10 Feb 2026"];
   let dateIdx = 0;
+  let pageCursor = 1;
 
   while (remaining > 0 && sessions.length < 8) {
     const dur = Math.min(remaining, Math.floor(Math.random() * 35) + 2);
@@ -341,12 +345,20 @@ function generateSessions(chapter: string, totalMins: number): SessionEntry[] {
     const durH = String(Math.floor(dur / 60)).padStart(2, "0");
     const durM = String(dur % 60).padStart(2, "0");
     const date = dates[dateIdx % dates.length];
+    // Approx 1.5 mins per page; minimum 1 page per session
+    const pages = Math.max(1, Math.round(dur / 1.5));
+    const pageStart = pageCursor;
+    const pageEnd = pageCursor + pages - 1;
+    pageCursor = pageEnd + 1;
     sessions.push({
       startDate: date,
       startTime: fmtTime(startHour, startMin),
       endDate: date,
       endTime: fmtTime(endHour, endMin),
       timeSpent: `${durH}:${durM}:00 Mins`,
+      pageStart,
+      pageEnd,
+      pages,
     });
     dateIdx++;
   }
@@ -573,14 +585,22 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
           <SheetTitle className="text-xl font-semibold pr-8">
             {contentTypeDrawer?.contentType} Details
           </SheetTitle>
-          <div className="flex items-center justify-between mt-1">
+          <div className="flex items-center justify-between mt-1 gap-2 flex-wrap">
             <SheetDescription>
               {contentTypeDrawer?.chapter.chapter} — {contentTypeSessions.length} sessions
             </SheetDescription>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-semibold tabular-nums text-primary shrink-0">
-              <Clock className="h-3.5 w-3.5" />
-              Total: {contentTypeDrawer ? contentTypeDrawer.chapter[contentTypeDrawer.contentType as keyof ChapterRow] : 0} mins
-            </span>
+            <div className="flex items-center gap-2 flex-wrap">
+              {contentTypeDrawer?.contentType === "Ebook" && (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-chart-2/30 bg-chart-2/10 px-3 py-1 text-sm font-semibold tabular-nums text-foreground shrink-0">
+                  <BookOpen className="h-3.5 w-3.5" />
+                  {contentTypeSessions.reduce((s, x) => s + (x.pages || 0), 0)} pages
+                </span>
+              )}
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-semibold tabular-nums text-primary shrink-0">
+                <Clock className="h-3.5 w-3.5" />
+                Total: {contentTypeDrawer ? contentTypeDrawer.chapter[contentTypeDrawer.contentType as keyof ChapterRow] : 0} mins
+              </span>
+            </div>
           </div>
         </SheetHeader>
 
@@ -615,6 +635,22 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
                     <p className="text-base font-bold text-foreground">{session.endTime}</p>
                   </div>
                 </div>
+                {contentTypeDrawer?.contentType === "Ebook" && session.pageStart && (
+                  <div className="grid grid-cols-2 gap-4 rounded-lg border border-border bg-muted/20 p-3">
+                    <div className="space-y-0.5">
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-primary/70 flex items-center gap-1">
+                        <BookOpen className="h-3 w-3" /> Page Range
+                      </p>
+                      <p className="text-sm font-semibold text-foreground tabular-nums">
+                        {session.pageStart} – {session.pageEnd}
+                      </p>
+                    </div>
+                    <div className="space-y-0.5">
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-primary/70">Pages Read</p>
+                      <p className="text-sm font-semibold text-foreground tabular-nums">{session.pages}</p>
+                    </div>
+                  </div>
+                )}
               </div>
               {/* Card footer */}
               <div className="flex items-center justify-between bg-muted/30 px-4 py-2.5 border-t border-border">
