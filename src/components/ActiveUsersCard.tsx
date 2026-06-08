@@ -63,18 +63,57 @@ export const ActiveUsersCard = () => {
           </div>
         </div>
 
-        {/* Active rate bar (Active vs Total) */}
+        {/* Active vs Total — engagement bar with breakdown */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>Active vs Total</span>
-            <span className="tabular-nums">{activeRate.toFixed(1)}% active</span>
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Engagement rate
+            </span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-sm font-semibold tabular-nums">
+                {activeRate.toFixed(1)}%
+              </span>
+              <span className="text-[11px] text-muted-foreground">engaged</span>
+            </div>
           </div>
-          <div className="h-2.5 w-full overflow-hidden rounded-full bg-muted">
+          <div
+            className="relative flex h-3 w-full overflow-hidden rounded-full bg-muted"
+            title={`${activeUsers.toLocaleString()} active of ${totalUsers.toLocaleString()}`}
+          >
             <div
               className="h-full bg-primary transition-all"
               style={{ width: `${activeRate}%` }}
-              title={`Active — ${activeRate.toFixed(1)}%`}
             />
+            {[25, 50, 75].map((t) => (
+              <div
+                key={t}
+                className="absolute top-0 h-full w-px bg-background/60"
+                style={{ left: `${t}%` }}
+              />
+            ))}
+          </div>
+          <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+            <div className="flex items-center gap-1.5">
+              <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+              <span>
+                Active{" "}
+                <span className="tabular-nums font-medium text-foreground/80">
+                  {activeUsers.toLocaleString()}
+                </span>
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="h-1.5 w-1.5 rounded-full bg-muted-foreground/40" />
+              <span>
+                Inactive{" "}
+                <span className="tabular-nums font-medium text-foreground/80">
+                  {(totalUsers - activeUsers).toLocaleString()}
+                </span>
+              </span>
+            </div>
+            <span className="tabular-nums">
+              Total {totalUsers.toLocaleString()}
+            </span>
           </div>
         </div>
 
