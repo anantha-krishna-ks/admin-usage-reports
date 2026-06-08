@@ -19,13 +19,31 @@ const generateData = () => {
 };
 
 const data = generateData();
+const teacherTotal = data.reduce((s, d) => s + d.teacherAvg, 0);
+const studentTotal = data.reduce((s, d) => s + d.studentAvg, 0);
+
+const formatNum = (n: number) => n.toLocaleString();
 
 export const ApplicationTrendChart = () => {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Application Usage Trend</CardTitle>
-        <CardDescription>Average usage per user · Last 6 months</CardDescription>
+      <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <CardTitle>Application Usage Trend</CardTitle>
+          <CardDescription>Average usage per user · Last 6 months</CardDescription>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs">
+            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: "hsl(var(--primary))" }} />
+            <span className="text-muted-foreground">Teacher</span>
+            <span className="font-semibold tabular-nums">{formatNum(teacherTotal)} mins</span>
+          </div>
+          <div className="flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs">
+            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: "hsl(var(--chart-4))" }} />
+            <span className="text-muted-foreground">Student</span>
+            <span className="font-semibold tabular-nums">{formatNum(studentTotal)} mins</span>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={320}>
