@@ -585,14 +585,22 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
           <SheetTitle className="text-xl font-semibold pr-8">
             {contentTypeDrawer?.contentType} Details
           </SheetTitle>
-          <div className="flex items-center justify-between mt-1">
+          <div className="flex items-center justify-between mt-1 gap-2 flex-wrap">
             <SheetDescription>
               {contentTypeDrawer?.chapter.chapter} — {contentTypeSessions.length} sessions
             </SheetDescription>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-semibold tabular-nums text-primary shrink-0">
-              <Clock className="h-3.5 w-3.5" />
-              Total: {contentTypeDrawer ? contentTypeDrawer.chapter[contentTypeDrawer.contentType as keyof ChapterRow] : 0} mins
-            </span>
+            <div className="flex items-center gap-2 flex-wrap">
+              {contentTypeDrawer?.contentType === "Ebook" && (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-chart-2/30 bg-chart-2/10 px-3 py-1 text-sm font-semibold tabular-nums text-foreground shrink-0">
+                  <BookOpen className="h-3.5 w-3.5" />
+                  {contentTypeSessions.reduce((s, x) => s + (x.pages || 0), 0)} pages
+                </span>
+              )}
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-semibold tabular-nums text-primary shrink-0">
+                <Clock className="h-3.5 w-3.5" />
+                Total: {contentTypeDrawer ? contentTypeDrawer.chapter[contentTypeDrawer.contentType as keyof ChapterRow] : 0} mins
+              </span>
+            </div>
           </div>
         </SheetHeader>
 
