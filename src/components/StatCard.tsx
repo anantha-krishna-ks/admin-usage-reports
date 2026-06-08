@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LucideIcon, TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp, TrendingDown } from "lucide-react";
 
 interface DrillDownItem {
   label: string;
@@ -15,13 +15,11 @@ interface StatCardProps {
   title: string;
   value: string;
   subtitle: string;
-  icon: LucideIcon;
-  iconColor: string;
   drillDown?: DrillDownItem[];
   trend?: TrendInfo;
 }
 
-export const StatCard = ({ title, value, subtitle, icon: Icon, iconColor, drillDown, trend }: StatCardProps) => {
+export const StatCard = ({ title, value, subtitle, drillDown, trend }: StatCardProps) => {
   const isUp = trend ? trend.percentage >= 0 : false;
   return (
     <Card className="transition-all hover:shadow-lg">
@@ -41,7 +39,6 @@ export const StatCard = ({ title, value, subtitle, icon: Icon, iconColor, drillD
               <span className="tabular-nums">{isUp ? "+" : ""}{trend.percentage.toFixed(1)}%</span>
             </div>
           )}
-          <Icon className={`h-5 w-5 ${iconColor}`} />
         </div>
       </CardHeader>
       <CardContent className="pb-6">

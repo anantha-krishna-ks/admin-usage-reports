@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Users, Info } from "lucide-react";
+import { Info } from "lucide-react";
 import { StatCard } from "@/components/StatCard";
 import { CombinedUsageCard } from "@/components/CombinedUsageCard";
 import { UsageByUserTypeChart } from "@/components/UsageByUserTypeChart";
@@ -81,8 +81,6 @@ const Index = () => {
             title="Total Active Users"
             value="1,008"
             subtitle="across all user types"
-            icon={Users}
-            iconColor="text-chart-3"
             drillDown={[
               { label: "New Users", value: "324" },
               { label: "Repeat Users", value: "684" },

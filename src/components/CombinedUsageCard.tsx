@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Activity, BookOpen, TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp, TrendingDown } from "lucide-react";
 
 export const CombinedUsageCard = () => {
   const totalUsage = "21,250";
@@ -34,8 +34,6 @@ export const CombinedUsageCard = () => {
               {isUp ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
               <span className="tabular-nums">{isUp ? "+" : ""}{percentage.toFixed(1)}%</span>
             </div>
-            <Activity className="h-5 w-5 text-primary" />
-            <BookOpen className="h-5 w-5 text-secondary" />
           </div>
         </div>
 
