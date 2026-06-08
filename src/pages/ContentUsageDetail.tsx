@@ -635,6 +635,22 @@ function UserActivityTable({ data, selectedClass }: { data: UserActivityRow[]; s
                     <p className="text-base font-bold text-foreground">{session.endTime}</p>
                   </div>
                 </div>
+                {contentTypeDrawer?.contentType === "Ebook" && session.pageStart && (
+                  <div className="grid grid-cols-2 gap-4 rounded-lg border border-border bg-muted/20 p-3">
+                    <div className="space-y-0.5">
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-primary/70 flex items-center gap-1">
+                        <BookOpen className="h-3 w-3" /> Page Range
+                      </p>
+                      <p className="text-sm font-semibold text-foreground tabular-nums">
+                        {session.pageStart} – {session.pageEnd}
+                      </p>
+                    </div>
+                    <div className="space-y-0.5">
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-primary/70">Pages Read</p>
+                      <p className="text-sm font-semibold text-foreground tabular-nums">{session.pages}</p>
+                    </div>
+                  </div>
+                )}
               </div>
               {/* Card footer */}
               <div className="flex items-center justify-between bg-muted/30 px-4 py-2.5 border-t border-border">
