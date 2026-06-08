@@ -10,8 +10,8 @@ interface UserTypeBreakdown {
 }
 
 const breakdown: UserTypeBreakdown[] = [
-  { label: "Teachers", active: 142, total: 160, percentage: 5.2, colorVar: "--chart-3" },
-  { label: "Students", active: 866, total: 1090, percentage: -6.1, colorVar: "--chart-5" },
+  { label: "Teachers", active: 142, total: 160, percentage: 5.2, colorVar: "--chart-2" },
+  { label: "Students", active: 866, total: 1090, percentage: -6.1, colorVar: "--chart-4" },
 ];
 
 export const ActiveUsersCard = () => {
