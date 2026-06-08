@@ -37,6 +37,64 @@ export const CombinedUsageCard = () => {
           </div>
         </div>
 
+        {/* Average usage by user type — matches ActiveUsersCard totals */}
+        <div className="grid grid-cols-3 gap-3">
+          {(() => {
+            const teacherTotal = 160;
+            const studentTotal = 1090;
+            const allUsers = teacherTotal + studentTotal;
+            const teacherUsage = 6800;
+            const studentUsage = 14450;
+            const overall = teacherUsage + studentUsage;
+            const tiles = [
+              {
+                label: "Avg / Teacher",
+                value: teacherUsage / teacherTotal,
+                sub: `${teacherUsage.toLocaleString()} mins · ${teacherTotal} users`,
+                colorVar: "--chart-3",
+              },
+              {
+                label: "Avg / Student",
+                value: studentUsage / studentTotal,
+                sub: `${studentUsage.toLocaleString()} mins · ${studentTotal} users`,
+                colorVar: "--chart-5",
+              },
+              {
+                label: "Avg / User",
+                value: overall / allUsers,
+                sub: `${overall.toLocaleString()} mins · ${allUsers.toLocaleString()} users`,
+                colorVar: "--primary",
+              },
+            ];
+            return tiles.map((t) => (
+              <div
+                key={t.label}
+                className="rounded-lg border border-border bg-muted/30 p-3"
+              >
+                <div className="flex items-center gap-1.5">
+                  <div
+                    className="h-2 w-2 rounded-full shrink-0"
+                    style={{ backgroundColor: `hsl(var(${t.colorVar}))` }}
+                  />
+                  <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                    {t.label}
+                  </span>
+                </div>
+                <div className="mt-1.5 flex items-baseline gap-1">
+                  <span className="text-xl font-semibold tabular-nums leading-none">
+                    {t.value.toFixed(1)}
+                  </span>
+                  <span className="text-xs text-muted-foreground">mins</span>
+                </div>
+                <p className="mt-1 text-[11px] text-muted-foreground tabular-nums">
+                  {t.sub}
+                </p>
+              </div>
+            ));
+          })()}
+        </div>
+
+
         {/* Bottom section — visual usage bar */}
         <div className="space-y-3">
           <div className="flex items-center justify-between text-xs text-muted-foreground">
