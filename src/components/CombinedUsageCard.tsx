@@ -50,19 +50,22 @@ export const CombinedUsageCard = () => {
               {
                 label: "Avg / Teacher",
                 value: teacherUsage / teacherTotal,
-                sub: `${teacherUsage.toLocaleString()} mins · ${teacherTotal} users`,
+                totalMins: teacherUsage,
+                totalUsers: teacherTotal,
                 colorVar: "--chart-3",
               },
               {
                 label: "Avg / Student",
                 value: studentUsage / studentTotal,
-                sub: `${studentUsage.toLocaleString()} mins · ${studentTotal} users`,
+                totalMins: studentUsage,
+                totalUsers: studentTotal,
                 colorVar: "--chart-5",
               },
               {
                 label: "Avg / User",
                 value: overall / allUsers,
-                sub: `${overall.toLocaleString()} mins · ${allUsers.toLocaleString()} users`,
+                totalMins: overall,
+                totalUsers: allUsers,
                 colorVar: "--primary",
               },
             ];
