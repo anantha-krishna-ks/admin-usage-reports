@@ -87,9 +87,11 @@ export const ApplicationTrendChart = () => {
               stroke="hsl(var(--primary))"
               strokeWidth={2.5}
               fill="url(#teacherFill)"
-              dot={false}
+              dot={{ r: 3, fill: "hsl(var(--primary))" }}
               activeDot={{ r: 5 }}
-            />
+            >
+              <LabelList dataKey="teacherAvg" position="top" style={{ fontSize: 11, fill: "hsl(var(--foreground))" }} />
+            </Area>
             <Area
               type="monotone"
               dataKey="studentAvg"
@@ -97,9 +99,11 @@ export const ApplicationTrendChart = () => {
               stroke="hsl(var(--chart-4))"
               strokeWidth={2.5}
               fill="url(#studentFill)"
-              dot={false}
+              dot={{ r: 3, fill: "hsl(var(--chart-4))" }}
               activeDot={{ r: 5 }}
-            />
+            >
+              <LabelList dataKey="studentAvg" position="bottom" style={{ fontSize: 11, fill: "hsl(var(--foreground))" }} />
+            </Area>
           </AreaChart>
         </ResponsiveContainer>
       </CardContent>
