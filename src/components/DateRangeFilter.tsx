@@ -72,7 +72,7 @@ export const DateRangeFilter = ({ date, onDateChange }: DateRangeFilterProps) =>
               </Button>
             ))}
             <Button
-              variant={mode === "custom" ? "secondary" : "ghost"}
+              variant={mode === "custom" ? "default" : "ghost"}
               size="sm"
               className="w-full justify-start font-normal text-sm"
               onClick={() => setMode("custom")}
