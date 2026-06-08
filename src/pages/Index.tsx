@@ -81,8 +81,6 @@ const Index = () => {
             title="Total Active Users"
             value="1,008"
             subtitle="across all user types"
-            icon={Users}
-            iconColor="text-chart-3"
             drillDown={[
               { label: "New Users", value: "324" },
               { label: "Repeat Users", value: "684" },
