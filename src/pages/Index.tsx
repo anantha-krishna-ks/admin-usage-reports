@@ -92,10 +92,7 @@ const Index = () => {
         </div>
 
         {/* Charts */}
-        <div className="grid gap-6 md:grid-cols-2">
-          <UsageByUserTypeChart />
-          <UsageDistributionChart />
-        </div>
+
 
         {/* Detailed Analytics */}
         <DetailedAnalytics />
