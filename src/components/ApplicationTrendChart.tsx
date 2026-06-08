@@ -1,6 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { subMonths, format } from "date-fns";
+import { TrendingUp } from "lucide-react";
 
 // Last 6 months avg usage (mins per user) — teacher vs student
 const generateData = () => {
@@ -18,53 +19,97 @@ const generateData = () => {
 };
 
 const data = generateData();
+const teacherTotal = data.reduce((s, d) => s + d.teacherAvg, 0);
+const studentTotal = data.reduce((s, d) => s + d.studentAvg, 0);
+
+const formatNum = (n: number) => n.toLocaleString();
 
 export const ApplicationTrendChart = () => {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Application Trend</CardTitle>
-        <CardDescription>
-          Average usage per user (mins) — Teachers vs Students · Last 6 months
-        </CardDescription>
+      <CardHeader className="pb-2">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 rounded-md bg-primary/10 p-1.5 text-primary">
+              <TrendingUp className="h-4 w-4" />
+            </div>
+            <div>
+              <h3 className="text-base font-semibold leading-tight">Application Trend</h3>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                Average usage per user · Last 6 months
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs">
+              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: "hsl(var(--primary))" }} />
+              <span className="text-muted-foreground">Teacher</span>
+              <span className="font-semibold tabular-nums">{formatNum(teacherTotal)} mins</span>
+            </div>
+            <div className="flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs">
+              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: "hsl(var(--chart-4))" }} />
+              <span className="text-muted-foreground">Student</span>
+              <span className="font-semibold tabular-nums">{formatNum(studentTotal)} mins</span>
+            </div>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={320}>
-          <LineChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-            <XAxis dataKey="month" className="text-sm" />
+          <AreaChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
+            <defs>
+              <linearGradient id="teacherFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.25} />
+                <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0.02} />
+              </linearGradient>
+              <linearGradient id="studentFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="hsl(var(--chart-4))" stopOpacity={0.25} />
+                <stop offset="100%" stopColor="hsl(var(--chart-4))" stopOpacity={0.02} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" vertical={false} className="stroke-muted" />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              axisLine={false}
+              tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+            />
             <YAxis
-              className="text-sm"
-              label={{ value: "Avg mins / user", angle: -90, position: "insideLeft", style: { fontSize: 12, fill: "hsl(var(--muted-foreground))" } }}
+              tickLine={false}
+              axisLine={false}
+              tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+              width={40}
             />
             <Tooltip
               contentStyle={{
                 backgroundColor: "hsl(var(--card))",
                 border: "1px solid hsl(var(--border))",
                 borderRadius: "var(--radius)",
+                fontSize: "12px",
               }}
-              formatter={(value: number) => [`${value} mins`, ""]}
+              formatter={(value: number, name: string) => [`${value} mins`, name]}
             />
-            <Legend />
-            <Line
+            <Area
               type="monotone"
               dataKey="teacherAvg"
-              name="Teacher Avg Usage"
+              name="Teacher"
               stroke="hsl(var(--primary))"
               strokeWidth={2.5}
-              dot={{ r: 4 }}
-              activeDot={{ r: 6 }}
+              fill="url(#teacherFill)"
+              dot={false}
+              activeDot={{ r: 5 }}
             />
-            <Line
+            <Area
               type="monotone"
               dataKey="studentAvg"
-              name="Student Avg Usage"
+              name="Student"
               stroke="hsl(var(--chart-4))"
               strokeWidth={2.5}
-              dot={{ r: 4 }}
-              activeDot={{ r: 6 }}
+              fill="url(#studentFill)"
+              dot={false}
+              activeDot={{ r: 5 }}
             />
-          </LineChart>
+          </AreaChart>
         </ResponsiveContainer>
       </CardContent>
     </Card>
