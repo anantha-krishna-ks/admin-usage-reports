@@ -46,12 +46,16 @@ export const CombinedUsageCard = () => {
             const teacherUsage = 6800;
             const studentUsage = 14450;
             const overall = teacherUsage + studentUsage;
+            const prevTeacher = 6100;
+            const prevStudent = 13550;
+            const prevOverall = prevTeacher + prevStudent;
             const tiles = [
               {
                 label: "Teachers",
                 avgLabel: "Avg / Teacher",
                 value: teacherUsage / teacherTotal,
                 totalMins: teacherUsage,
+                prevMins: prevTeacher,
                 totalUsers: teacherTotal,
                 colorVar: "--chart-2",
               },
@@ -60,6 +64,7 @@ export const CombinedUsageCard = () => {
                 avgLabel: "Avg / Student",
                 value: studentUsage / studentTotal,
                 totalMins: studentUsage,
+                prevMins: prevStudent,
                 totalUsers: studentTotal,
                 colorVar: "--chart-4",
               },
@@ -68,40 +73,58 @@ export const CombinedUsageCard = () => {
                 avgLabel: "Avg / User",
                 value: overall / allUsers,
                 totalMins: overall,
+                prevMins: prevOverall,
                 totalUsers: allUsers,
                 colorVar: "--chart-1",
               },
             ];
-            return tiles.map((t) => (
-              <div
-                key={t.label}
-                className="relative overflow-hidden rounded-lg border border-border bg-muted/30 p-3 pl-4"
-              >
+            return tiles.map((t) => {
+              const pct = ((t.totalMins - t.prevMins) / t.prevMins) * 100;
+              const up = pct >= 0;
+              return (
                 <div
-                  className="absolute inset-y-0 left-0 w-1"
-                  style={{ backgroundColor: `hsl(var(${t.colorVar}))` }}
-                />
-                <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-                  {t.label}
-                </span>
-                <div className="mt-1.5 flex items-baseline gap-1">
-                  <span className="text-xl font-semibold tabular-nums leading-none">
-                    {t.totalMins.toLocaleString()}
-                  </span>
-                  <span className="text-xs text-muted-foreground">mins</span>
-                </div>
-                <div className="mt-2 space-y-0.5">
-                  <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                    <span>Users</span>
-                    <span className="tabular-nums font-medium text-foreground/60">{t.totalUsers.toLocaleString()}</span>
+                  key={t.label}
+                  className="relative overflow-hidden rounded-lg border border-border bg-muted/30 p-3 pl-4"
+                >
+                  <div
+                    className="absolute inset-y-0 left-0 w-1"
+                    style={{ backgroundColor: `hsl(var(${t.colorVar}))` }}
+                  />
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                      {t.label}
+                    </span>
+                    <div
+                      className={`flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${
+                        up
+                          ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                          : "bg-red-500/10 text-red-600 dark:text-red-400"
+                      }`}
+                      title={`Previous: ${t.prevMins.toLocaleString()} mins`}
+                    >
+                      {up ? <TrendingUp className="h-2.5 w-2.5" /> : <TrendingDown className="h-2.5 w-2.5" />}
+                      <span className="tabular-nums">{up ? "+" : ""}{pct.toFixed(1)}%</span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                    <span>{t.avgLabel}</span>
-                    <span className="tabular-nums font-medium text-foreground/60">{t.value.toFixed(1)} mins</span>
+                  <div className="mt-1.5 flex items-baseline gap-1">
+                    <span className="text-xl font-semibold tabular-nums leading-none">
+                      {t.totalMins.toLocaleString()}
+                    </span>
+                    <span className="text-xs text-muted-foreground">mins</span>
+                  </div>
+                  <div className="mt-2 space-y-0.5">
+                    <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                      <span>Users</span>
+                      <span className="tabular-nums font-medium text-foreground/60">{t.totalUsers.toLocaleString()}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                      <span>{t.avgLabel}</span>
+                      <span className="tabular-nums font-medium text-foreground/60">{t.value.toFixed(1)} mins</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ));
+              );
+            });
           })()}
         </div>
 
