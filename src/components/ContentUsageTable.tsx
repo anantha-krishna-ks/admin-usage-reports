@@ -145,8 +145,9 @@ export const ContentUsageTable = () => {
                     <TableHead>Learning Resource (mins)</TableHead>
                     <TableHead>Items (mins)</TableHead>
                     <TableHead>Tests (mins)</TableHead>
-                    <TableHead>Ebook (mins)</TableHead>
-                   <TableHead className="w-[100px]">Preview</TableHead>
+                     <TableHead>Ebook (mins)</TableHead>
+                    <TableHead>Trend</TableHead>
+                    <TableHead className="w-[100px]">Preview</TableHead>
                  </TableRow>
                </TableHeader>
                <TableBody>
