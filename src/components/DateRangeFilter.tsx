@@ -36,22 +36,30 @@ export const DateRangeFilter = ({ date, onDateChange }: DateRangeFilterProps) =>
         <Button
           variant="outline"
           className={cn(
-            "w-[280px] justify-start text-left font-normal",
-            !date && "text-muted-foreground"
+            "h-10 w-[320px] justify-start gap-2 pl-2 pr-3 text-left font-medium",
+            "border-primary/40 bg-primary/5 hover:bg-primary/10 hover:border-primary/60",
+            "shadow-sm transition-colors"
           )}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date?.from ? (
-            date.to ? (
-              <>
-                {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}
-              </>
+          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-sm">
+            <CalendarIcon className="h-4 w-4" />
+          </span>
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Date Range
+          </span>
+          <span className="ml-1 flex-1 text-sm text-foreground">
+            {date?.from ? (
+              date.to ? (
+                <>
+                  {format(date.from, "LLL dd, y")} – {format(date.to, "LLL dd, y")}
+                </>
+              ) : (
+                format(date.from, "LLL dd, y")
+              )
             ) : (
-              format(date.from, "LLL dd, y")
-            )
-          ) : (
-            <span>Pick a date range</span>
-          )}
+              <span className="text-muted-foreground">Pick a date range</span>
+            )}
+          </span>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
