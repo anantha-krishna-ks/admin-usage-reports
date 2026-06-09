@@ -151,30 +151,36 @@ export const ContentUsageTable = () => {
                  </TableRow>
                </TableHeader>
                <TableBody>
-                 {contentUsageData.map((row) => (
-                   <TableRow key={row.role}>
-                     <TableCell>
-                       <Badge variant="secondary">{row.role}</Badge>
-                     </TableCell>
-                     <TableCell className={row.lessonPlan === "NA" ? "text-muted-foreground" : ""}>
-                       {row.lessonPlan}
-                     </TableCell>
-                     <TableCell>{row.learningResource}</TableCell>
-                     <TableCell>{row.items}</TableCell>
-                     <TableCell>{row.tests}</TableCell>
-                     <TableCell>{row.ebook}</TableCell>
-                     <TableCell>
-                       <Button
-                         variant="ghost"
-                         size="sm"
-                         className="h-8 w-8 p-0"
-                         onClick={() => navigate(`/content-usage-detail?role=${encodeURIComponent(row.role)}`)}
-                       >
-                         <Eye className="h-4 w-4" />
-                       </Button>
-                     </TableCell>
-                   </TableRow>
-                 ))}
+                  {contentUsageData.map((row, ri) => {
+                    const total = rowTotal(row);
+                    return (
+                    <TableRow key={row.role}>
+                      <TableCell>
+                        <Badge variant="secondary">{row.role}</Badge>
+                      </TableCell>
+                      <TableCell className={row.lessonPlan === "NA" ? "text-muted-foreground" : ""}>
+                        {row.lessonPlan}
+                      </TableCell>
+                      <TableCell>{row.learningResource}</TableCell>
+                      <TableCell>{row.items}</TableCell>
+                      <TableCell>{row.tests}</TableCell>
+                      <TableCell>{row.ebook}</TableCell>
+                      <TableCell>
+                        <TrendChip value={total} prev={prevOf(total, ri + 1)} />
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0"
+                          onClick={() => navigate(`/content-usage-detail?role=${encodeURIComponent(row.role)}`)}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                    );
+                  })}
                </TableBody>
              </Table>
            </div>
