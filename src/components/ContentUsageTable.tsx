@@ -270,10 +270,13 @@ export const ContentUsageTable = () => {
                      <TableHead className="font-semibold">Items (mins)</TableHead>
                      <TableHead className="font-semibold">Tests (mins)</TableHead>
                      <TableHead className="font-semibold">Ebook (mins)</TableHead>
+                     <TableHead className="font-semibold">Trend</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {selectedClass && studentBreakdownByClass[selectedClass]?.map((row) => (
+                  {selectedClass && studentBreakdownByClass[selectedClass]?.map((row, ri) => {
+                    const total = rowTotal(row);
+                    return (
                     <TableRow key={row.studentName} className="hover:bg-muted/30">
                       <TableCell className="font-medium">{row.studentName}</TableCell>
                       <TableCell>{row.lessonPlan}</TableCell>
@@ -281,8 +284,12 @@ export const ContentUsageTable = () => {
                       <TableCell>{row.items}</TableCell>
                       <TableCell>{row.tests}</TableCell>
                       <TableCell>{row.ebook}</TableCell>
+                      <TableCell>
+                        <TrendChip value={total} prev={prevOf(total, ri + 5)} />
+                      </TableCell>
                     </TableRow>
-                  ))}
+                    );
+                  })}
                 </TableBody>
               </Table>
             </ScrollArea>
