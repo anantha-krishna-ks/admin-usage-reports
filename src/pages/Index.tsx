@@ -54,11 +54,13 @@ const Index = () => {
             </p>
           </div>
           <Select defaultValue="riverside">
-            <SelectTrigger className="h-10 w-[280px] border-primary/40 bg-primary/5 shadow-sm hover:bg-primary/10 hover:border-primary/60 transition-colors [&>span]:flex [&>span]:items-center [&>span]:gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary">
-                <School className="h-4 w-4 text-primary-foreground" />
+            <SelectTrigger className="h-10 w-[280px] border-primary/40 bg-primary/5 shadow-sm hover:bg-primary/10 hover:border-primary/60 transition-colors">
+              <div className="flex items-center gap-2">
+                <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary">
+                  <School className="h-4 w-4 text-primary-foreground" />
+                </div>
+                <SelectValue placeholder="Select school" />
               </div>
-              <SelectValue placeholder="Select school" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="riverside">Riverside Academy</SelectItem>
