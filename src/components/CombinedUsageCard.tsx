@@ -89,12 +89,12 @@ export const CombinedUsageCard = () => {
                 </div>
                 <div className="mt-2 space-y-0.5">
                   <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                    <span>Total</span>
-                    <span className="tabular-nums font-medium text-foreground/60">{t.totalMins.toLocaleString()} mins</span>
-                  </div>
-                  <div className="flex items-center justify-between text-[11px] text-muted-foreground">
                     <span>Users</span>
                     <span className="tabular-nums font-medium text-foreground/60">{t.totalUsers.toLocaleString()}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                    <span>Total</span>
+                    <span className="tabular-nums font-medium text-foreground/60">{t.totalMins.toLocaleString()} mins</span>
                   </div>
                 </div>
               </div>
