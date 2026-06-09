@@ -121,6 +121,7 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
                 <TableHead>App Usage (mins)</TableHead>
                 <TableHead>Content Usage (mins)</TableHead>
                 <TableHead>Total Usage (mins)</TableHead>
+                <TableHead>Trend</TableHead>
                 <TableHead className="w-[100px]">Preview</TableHead>
               </TableRow>
             </TableHeader>
