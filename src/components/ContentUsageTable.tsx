@@ -7,6 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Eye, BookOpen, FileText, ClipboardList, GraduationCap, BookMarked } from "lucide-react";
+import { TrendChip } from "@/components/TrendChip";
+
+const toNum = (s: string) => parseFloat(s.replace(/[^\d.]/g, "")) || 0;
+const rowTotal = (r: { lessonPlan: string; learningResource: string; items: string; tests: string; ebook: string }) =>
+  toNum(r.lessonPlan) + toNum(r.learningResource) + toNum(r.items) + toNum(r.tests) + toNum(r.ebook);
+const prevOf = (val: number, seed: number) => {
+  const delta = (((seed * 17) % 25) - 10) / 100;
+  return val / (1 + delta);
+};
  
  interface ContentUsageData {
    role: string;
