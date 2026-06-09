@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Info } from "lucide-react";
+import { Info, School } from "lucide-react";
 import { CombinedUsageCard } from "@/components/CombinedUsageCard";
 import { ActiveUsersCard } from "@/components/ActiveUsersCard";
 import { UsageByUserTypeChart } from "@/components/UsageByUserTypeChart";
