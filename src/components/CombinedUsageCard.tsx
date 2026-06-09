@@ -48,21 +48,24 @@ export const CombinedUsageCard = () => {
             const overall = teacherUsage + studentUsage;
             const tiles = [
               {
-                label: "Avg / Teacher",
+                label: "Teachers",
+                avgLabel: "Avg / Teacher",
                 value: teacherUsage / teacherTotal,
                 totalMins: teacherUsage,
                 totalUsers: teacherTotal,
                 colorVar: "--chart-2",
               },
               {
-                label: "Avg / Student",
+                label: "Students",
+                avgLabel: "Avg / Student",
                 value: studentUsage / studentTotal,
                 totalMins: studentUsage,
                 totalUsers: studentTotal,
                 colorVar: "--chart-4",
               },
               {
-                label: "Avg / User",
+                label: "All Users",
+                avgLabel: "Avg / User",
                 value: overall / allUsers,
                 totalMins: overall,
                 totalUsers: allUsers,
@@ -83,7 +86,7 @@ export const CombinedUsageCard = () => {
                 </span>
                 <div className="mt-1.5 flex items-baseline gap-1">
                   <span className="text-xl font-semibold tabular-nums leading-none">
-                    {t.value.toFixed(1)}
+                    {t.totalMins.toLocaleString()}
                   </span>
                   <span className="text-xs text-muted-foreground">mins</span>
                 </div>
@@ -93,8 +96,8 @@ export const CombinedUsageCard = () => {
                     <span className="tabular-nums font-medium text-foreground/60">{t.totalUsers.toLocaleString()}</span>
                   </div>
                   <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                    <span>Total</span>
-                    <span className="tabular-nums font-medium text-foreground/60">{t.totalMins.toLocaleString()} mins</span>
+                    <span>{t.avgLabel}</span>
+                    <span className="tabular-nums font-medium text-foreground/60">{t.value.toFixed(1)} mins</span>
                   </div>
                 </div>
               </div>
