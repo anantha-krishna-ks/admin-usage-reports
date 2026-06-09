@@ -206,37 +206,44 @@ export const ContentUsageTable = () => {
                     <TableHead className="font-semibold">Learning Resource (mins)</TableHead>
                     <TableHead className="font-semibold">Items (mins)</TableHead>
                     <TableHead className="font-semibold">Tests (mins)</TableHead>
-                    <TableHead className="font-semibold">Ebook (mins)</TableHead>
-                    {selectedRole === "Teacher" && (
-                      <TableHead className="font-semibold w-[100px]">Preview</TableHead>
-                    )}
-                 </TableRow>
-               </TableHeader>
-               <TableBody>
-                 {selectedRole && classBreakdownByRole[selectedRole]?.map((row) => (
-                   <TableRow key={row.class} className="hover:bg-muted/30">
-                     <TableCell className="font-medium">{row.class}</TableCell>
-                     <TableCell className={row.lessonPlan === "NA" ? "text-muted-foreground" : ""}>
-                       {row.lessonPlan}
-                     </TableCell>
-                     <TableCell>{row.learningResource}</TableCell>
-                     <TableCell>{row.items}</TableCell>
-                     <TableCell>{row.tests}</TableCell>
-                     <TableCell>{row.ebook}</TableCell>
-                      {selectedRole === "Teacher" && (
-                        <TableCell>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-8 w-8 p-0"
-                            onClick={() => setSelectedClass(row.class)}
-                          >
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                        </TableCell>
-                      )}
-                   </TableRow>
-                 ))}
+                     <TableHead className="font-semibold">Ebook (mins)</TableHead>
+                     <TableHead className="font-semibold">Trend</TableHead>
+                     {selectedRole === "Teacher" && (
+                       <TableHead className="font-semibold w-[100px]">Preview</TableHead>
+                     )}
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {selectedRole && classBreakdownByRole[selectedRole]?.map((row, ri) => {
+                    const total = rowTotal(row);
+                    return (
+                    <TableRow key={row.class} className="hover:bg-muted/30">
+                      <TableCell className="font-medium">{row.class}</TableCell>
+                      <TableCell className={row.lessonPlan === "NA" ? "text-muted-foreground" : ""}>
+                        {row.lessonPlan}
+                      </TableCell>
+                      <TableCell>{row.learningResource}</TableCell>
+                      <TableCell>{row.items}</TableCell>
+                      <TableCell>{row.tests}</TableCell>
+                      <TableCell>{row.ebook}</TableCell>
+                      <TableCell>
+                        <TrendChip value={total} prev={prevOf(total, ri + 3)} />
+                      </TableCell>
+                       {selectedRole === "Teacher" && (
+                         <TableCell>
+                           <Button
+                             variant="ghost"
+                             size="sm"
+                             className="h-8 w-8 p-0"
+                             onClick={() => setSelectedClass(row.class)}
+                           >
+                             <Eye className="h-4 w-4" />
+                           </Button>
+                         </TableCell>
+                       )}
+                    </TableRow>
+                    );
+                  })}
                </TableBody>
              </Table>
            </ScrollArea>
