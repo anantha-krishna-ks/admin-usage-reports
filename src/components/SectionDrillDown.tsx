@@ -4,7 +4,16 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ChevronDown, ChevronRight, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { TrendChip } from "@/components/TrendChip";
 import type { DateRange } from "react-day-picker";
+
+const toNum = (s: string) => parseFloat(s.replace(/,/g, "")) || 0;
+// Deterministic pseudo-previous so trend chips render stable values
+const prevOf = (s: string, seed: number) => {
+  const n = toNum(s);
+  const delta = (((seed * 13) % 25) - 10) / 100; // -10% .. +14%
+  return n / (1 + delta);
+};
 
 interface SectionDrillDownProps {
   dateRange?: DateRange;
