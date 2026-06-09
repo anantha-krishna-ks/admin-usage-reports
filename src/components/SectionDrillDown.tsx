@@ -126,7 +126,7 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {gradesData.map((grade) => <>
+              {gradesData.map((grade, gi) => <>
                   <TableRow key={grade.grade} className="cursor-pointer hover:bg-muted/50" onClick={() => toggleGrade(grade.grade)}>
                     <TableCell className="font-medium">
                       <div className="flex items-center gap-2">
@@ -141,6 +141,9 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
                     <TableCell>{grade.contentUsage}</TableCell>
                     <TableCell className="font-semibold">{grade.totalUsage}</TableCell>
                     <TableCell>
+                      <TrendChip value={toNum(grade.totalUsage)} prev={prevOf(grade.totalUsage, gi + 1)} />
+                    </TableCell>
+                    <TableCell>
                       <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={(e) => {e.stopPropagation();handlePreview(grade.grade, "Teacher");}}>
                         <Eye className="h-4 w-4" />
                       </Button>
@@ -148,13 +151,16 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
                   </TableRow>
 
                   {expandedGrades.has(grade.grade) &&
-                grade.roles.map((role) =>
+                grade.roles.map((role, ri) =>
                 <TableRow key={`${grade.grade}-${role.name}`} className="bg-muted/20 hover:bg-muted/40">
                         <TableCell className="pl-12 text-muted-foreground">{role.name}</TableCell>
                         <TableCell>{role.users}</TableCell>
                         <TableCell>{role.appUsage}</TableCell>
                         <TableCell>{role.contentUsage}</TableCell>
                         <TableCell>{role.totalUsage}</TableCell>
+                        <TableCell>
+                          <TrendChip value={toNum(role.totalUsage)} prev={prevOf(role.totalUsage, (gi + 1) * 10 + ri + 1)} />
+                        </TableCell>
                         <TableCell>
                           <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={(e) => {e.stopPropagation();handlePreview(grade.grade, role.name);}}>
                             <Eye className="h-4 w-4" />
