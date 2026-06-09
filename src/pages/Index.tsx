@@ -70,19 +70,7 @@ const Index = () => {
 
         {/* Filters */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 rounded-lg border border-border bg-card/40 px-4 py-3">
-          <div className="flex items-center gap-3">
-            <DateRangeFilter date={date} onDateChange={setDate} />
-            <Select defaultValue="riverside">
-              <SelectTrigger className="w-[220px]">
-                <SelectValue placeholder="Select school" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="riverside">Riverside Academy</SelectItem>
-                <SelectItem value="lakeside">Lakeside High School</SelectItem>
-                <SelectItem value="mountain">Mountain View School</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <DateRangeFilter date={date} onDateChange={setDate} />
           <ExportButton dateRange={date ? { from: date.from, to: date.to } : undefined} />
         </div>
 
