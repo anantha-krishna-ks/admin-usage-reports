@@ -30,7 +30,7 @@ export const ApplicationTrendChart = () => {
       <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <CardTitle>Application Usage Trend</CardTitle>
-          <CardDescription>Average usage per user · Last 6 months</CardDescription>
+          <CardDescription>Usage  · Last 6 months</CardDescription>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs">
