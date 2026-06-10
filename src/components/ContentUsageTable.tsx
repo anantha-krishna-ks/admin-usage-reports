@@ -87,7 +87,7 @@ const studentBreakdownByClass: Record<string, StudentBreakdownData[]> = {
      { class: "Grade 10 - Section A", lessonPlan: "NA", learningResource: "2305m", items: "1295m", tests: "1815m", ebook: "985m" },
      { class: "Grade 11 - Section A", lessonPlan: "NA", learningResource: "1320m", items: "820m", tests: "1090m", ebook: "570m" },
    ],
-   Parent: [
+    Parent: [
      { class: "Grade 8 - Section A", lessonPlan: "NA", learningResource: "270m", items: "105m", tests: "170m", ebook: "220m" },
      { class: "Grade 9 - Section A", lessonPlan: "NA", learningResource: "345m", items: "130m", tests: "215m", ebook: "265m" },
      { class: "Grade 9 - Section B", lessonPlan: "NA", learningResource: "315m", items: "115m", tests: "200m", ebook: "250m" },
@@ -113,14 +113,14 @@ const studentBreakdownByClass: Record<string, StudentBreakdownData[]> = {
      tests: "7490m",
      ebook: "4055m",
    },
-   {
-     role: "Parent",
-     lessonPlan: "NA",
-     learningResource: "1455m",
-     items: "510m",
-     tests: "945m",
-     ebook: "1160m",
-   },
+    {
+      role: "OTHER USERS",
+      lessonPlan: "NA",
+      learningResource: "1455m",
+      items: "510m",
+      tests: "945m",
+      ebook: "1160m",
+    },
  ];
  
 export const ContentUsageTable = () => {

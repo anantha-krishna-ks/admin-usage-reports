@@ -46,7 +46,7 @@ const gradesData: GradeData[] = [
   roles: [
   { name: "Teachers", users: 5, appUsage: "52.14", contentUsage: "120.35", totalUsage: "172.49" },
   { name: "Students", users: 60, appUsage: "208.36", contentUsage: "342.90", totalUsage: "551.26" },
-  { name: "Parents", users: 21, appUsage: "28.24", contentUsage: "55.00", totalUsage: "83.24" }]
+  { name: "OTHER USERS", users: 21, appUsage: "28.24", contentUsage: "55.00", totalUsage: "83.24" }]
 
 },
 {
@@ -58,7 +58,7 @@ const gradesData: GradeData[] = [
   roles: [
   { name: "Teachers", users: 8, appUsage: "83.08", contentUsage: "209.36", totalUsage: "292.43" },
   { name: "Students", users: 108, appUsage: "413.73", contentUsage: "619.76", totalUsage: "1,033.49" },
-  { name: "Parents", users: 41, appUsage: "39.43", contentUsage: "134.58", totalUsage: "174.02" }]
+  { name: "OTHER USERS", users: 41, appUsage: "39.43", contentUsage: "134.58", totalUsage: "174.02" }]
 
 },
 {
@@ -70,7 +70,7 @@ const gradesData: GradeData[] = [
   roles: [
   { name: "Teachers", users: 4, appUsage: "72.30", contentUsage: "162.10", totalUsage: "234.40" },
   { name: "Students", users: 45, appUsage: "284.80", contentUsage: "408.84", totalUsage: "693.64" },
-  { name: "Parents", users: 16, appUsage: "30.50", contentUsage: "48.00", totalUsage: "78.50" }]
+  { name: "OTHER USERS", users: 16, appUsage: "30.50", contentUsage: "48.00", totalUsage: "78.50" }]
 
 },
 {
@@ -82,7 +82,7 @@ const gradesData: GradeData[] = [
   roles: [
   { name: "Teachers", users: 5, appUsage: "84.90", contentUsage: "63.18", totalUsage: "148.08" },
   { name: "Students", users: 58, appUsage: "313.09", contentUsage: "295.80", totalUsage: "608.89" },
-  { name: "Parents", users: 20, appUsage: "30.40", contentUsage: "32.40", totalUsage: "62.80" }]
+  { name: "OTHER USERS", users: 20, appUsage: "30.40", contentUsage: "32.40", totalUsage: "62.80" }]
 
 }];
 
