@@ -4,7 +4,7 @@ import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 const data = [
   { name: "Teachers", totalUsage: 2450, appUsage: 980, contentUsage: 1470 },
   { name: "Students", totalUsage: 16170, appUsage: 6470, contentUsage: 9700 },
-  { name: "Parents", totalUsage: 2630, appUsage: 1050, contentUsage: 1580 },
+  { name: "OTHER USERS", totalUsage: 2630, appUsage: 1050, contentUsage: 1580 },
 ];
 
 const avgTotal = Math.round(data.reduce((s, d) => s + d.totalUsage, 0) / data.length);

@@ -156,7 +156,7 @@ export const DetailedAnalytics = () => {
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="teachers">Teachers</TabsTrigger>
             <TabsTrigger value="students">Students</TabsTrigger>
-            <TabsTrigger value="parents">Parents</TabsTrigger>
+            <TabsTrigger value="parents">OTHER USERS</TabsTrigger>
           </TabsList>
           <TabsContent value="teachers" className="space-y-4 pt-4">
             <TabPanel data={userTypeData.teachers} contentLabels={{ lessonPlans: "Lesson Plans" }} />
