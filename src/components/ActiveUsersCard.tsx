@@ -131,27 +131,25 @@ export const ActiveUsersCard = () => {
                   className="absolute left-0 top-0 h-full w-1"
                   style={{ backgroundColor: `hsl(var(${item.colorVar}))` }}
                 />
-                <div className="flex items-center justify-between">
-                  <div className="min-w-0">
-                    <span className="text-xs font-medium truncate">{item.label}</span>
-                  </div>
-                  <div
-                    className={`flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${
-                      up
-                        ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                        : "bg-red-500/10 text-red-600 dark:text-red-400"
-                    }`}
-                  >
-                    {up ? (
-                      <TrendingUp className="h-2.5 w-2.5" />
-                    ) : (
-                      <TrendingDown className="h-2.5 w-2.5" />
-                    )}
-                    <span className="tabular-nums">
-                      {up ? "+" : ""}
-                      {item.percentage.toFixed(1)}%
-                    </span>
-                  </div>
+                <div
+                  className={`absolute top-3 right-3 flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${
+                    up
+                      ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                      : "bg-red-500/10 text-red-600 dark:text-red-400"
+                  }`}
+                >
+                  {up ? (
+                    <TrendingUp className="h-2.5 w-2.5" />
+                  ) : (
+                    <TrendingDown className="h-2.5 w-2.5" />
+                  )}
+                  <span className="tabular-nums">
+                    {up ? "+" : ""}
+                    {item.percentage.toFixed(1)}%
+                  </span>
+                </div>
+                <div className="min-w-0">
+                  <span className="text-xs font-medium truncate">{item.label}</span>
                 </div>
                 <div className="flex items-baseline gap-1">
                   <span className="text-lg font-semibold tabular-nums leading-none">
