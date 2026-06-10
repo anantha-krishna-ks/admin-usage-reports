@@ -118,6 +118,10 @@ export const CombinedUsageCard = () => {
                       <span className="tabular-nums font-medium text-foreground/60">{t.totalUsers.toLocaleString()}</span>
                     </div>
                     <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                      <span>Last month</span>
+                      <span className="tabular-nums font-medium text-foreground/60">{t.prevMins.toLocaleString()} mins</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[11px] text-muted-foreground">
                       <span>{t.avgLabel}</span>
                       <span className="tabular-nums font-medium text-foreground/60">{t.value.toFixed(1)} mins</span>
                     </div>
