@@ -52,17 +52,6 @@ export const ApplicationTrendChart = () => {
           <CardDescription>Usage  · Last 6 months</CardDescription>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <div className="flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs">
-            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: "hsl(var(--primary))" }} />
-            <span className="text-muted-foreground">Teacher</span>
-            <span className="font-semibold tabular-nums">{formatNum(teacherTotal)} mins</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs">
-            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: "hsl(var(--chart-4))" }} />
-            <span className="text-muted-foreground">Student</span>
-            <span className="font-semibold tabular-nums">{formatNum(studentTotal)} mins</span>
-          </div>
-          <div className="mx-1 h-5 w-px bg-border" />
           {filters.map((f) => {
             const Icon = f.icon;
             const active = channel === f.id;
@@ -85,6 +74,18 @@ export const ApplicationTrendChart = () => {
         </div>
       </CardHeader>
       <CardContent>
+        <div className="mb-3 flex flex-wrap items-center justify-end gap-2">
+          <div className="flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs">
+            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: "hsl(var(--primary))" }} />
+            <span className="text-muted-foreground">Teacher</span>
+            <span className="font-semibold tabular-nums">{formatNum(teacherTotal)} mins</span>
+          </div>
+          <div className="flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs">
+            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: "hsl(var(--chart-4))" }} />
+            <span className="text-muted-foreground">Student</span>
+            <span className="font-semibold tabular-nums">{formatNum(studentTotal)} mins</span>
+          </div>
+        </div>
         <ResponsiveContainer width="100%" height={320}>
           <AreaChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
             <defs>
