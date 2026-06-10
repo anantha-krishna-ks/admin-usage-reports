@@ -24,7 +24,7 @@ export const ActiveUsersCard = () => {
 
   return (
     <Card className="transition-all hover:shadow-lg">
-      <CardContent className="p-6 py-10 space-y-7">
+      <CardContent className="p-6 space-y-5">
         {/* Top section */}
         <div className="flex items-start justify-between">
           <div>
