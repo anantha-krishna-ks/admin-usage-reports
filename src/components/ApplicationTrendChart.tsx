@@ -62,10 +62,7 @@ export const ApplicationTrendChart = () => {
             <span className="text-muted-foreground">Student</span>
             <span className="font-semibold tabular-nums">{formatNum(studentTotal)} mins</span>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="mb-4 flex flex-wrap items-center gap-2">
+          <div className="mx-1 h-5 w-px bg-border" />
           {filters.map((f) => {
             const Icon = f.icon;
             const active = channel === f.id;
@@ -86,6 +83,8 @@ export const ApplicationTrendChart = () => {
             );
           })}
         </div>
+      </CardHeader>
+      <CardContent>
         <ResponsiveContainer width="100%" height={320}>
           <AreaChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
             <defs>
