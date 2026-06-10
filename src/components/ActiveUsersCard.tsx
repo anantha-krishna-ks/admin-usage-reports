@@ -125,7 +125,7 @@ export const ActiveUsersCard = () => {
             return (
               <div
                 key={item.label}
-                className="relative overflow-hidden rounded-lg border border-border bg-muted/30 p-3 pl-4 space-y-2"
+                className="relative overflow-hidden rounded-lg border border-border bg-muted/30 p-5 pl-4 space-y-3"
               >
                 <div
                   className="absolute left-0 top-0 h-full w-1"
