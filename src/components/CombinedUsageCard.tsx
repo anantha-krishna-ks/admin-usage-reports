@@ -9,7 +9,7 @@ export const CombinedUsageCard = () => {
 
   return (
     <Card className="transition-all hover:shadow-lg md:col-span-2">
-      <CardContent className="p-6 py-8 space-y-6">
+      <CardContent className="p-6 py-10 space-y-7">
         {/* Top section */}
         <div className="flex items-start justify-between">
           <div>
