@@ -69,7 +69,7 @@ export const CombinedUsageCard = () => {
                 colorVar: "--chart-4",
               },
               {
-                label: "All Users",
+                label: "Other users",
                 avgLabel: "Avg / User",
                 value: overall / allUsers,
                 totalMins: overall,
