@@ -985,7 +985,7 @@ export default function ContentUsageDetail() {
                   </CardTitle>
                   <p className="text-sm text-muted-foreground mt-1">{role} — Detailed activity breakdown</p>
                 </div>
-                <div className="flex items-center gap-2 bg-muted/40 rounded-lg px-4 py-2 border border-border">
+                <div className="flex items-center gap-2 bg-background rounded-lg px-4 py-2 border border-border shadow-sm">
                   <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Total Usage</span>
                   <span className="text-lg font-semibold text-primary">106 mins</span>
                   <TrendChip value={106} prev={98} />
