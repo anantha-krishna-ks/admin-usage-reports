@@ -10,14 +10,15 @@ interface TeacherContentData {
   learningResources: number;
   questions: number;
   tests: number;
+  assignments: number;
 }
 
 const teacherContentData: TeacherContentData[] = [
-  { teacherName: "Ms. Sarah Johnson", lessonPlans: 24, learningResources: 18, questions: 156, tests: 12 },
-  { teacherName: "Mr. David Williams", lessonPlans: 19, learningResources: 22, questions: 132, tests: 9 },
-  { teacherName: "Ms. Emily Davis", lessonPlans: 31, learningResources: 15, questions: 198, tests: 15 },
-  { teacherName: "Mr. Robert Brown", lessonPlans: 16, learningResources: 27, questions: 112, tests: 8 },
-  { teacherName: "Ms. Jennifer Miller", lessonPlans: 22, learningResources: 20, questions: 175, tests: 11 },
+  { teacherName: "Ms. Sarah Johnson", lessonPlans: 24, learningResources: 18, questions: 156, tests: 12, assignments: 14 },
+  { teacherName: "Mr. David Williams", lessonPlans: 19, learningResources: 22, questions: 132, tests: 9, assignments: 10 },
+  { teacherName: "Ms. Emily Davis", lessonPlans: 31, learningResources: 15, questions: 198, tests: 15, assignments: 17 },
+  { teacherName: "Mr. Robert Brown", lessonPlans: 16, learningResources: 27, questions: 112, tests: 8, assignments: 7 },
+  { teacherName: "Ms. Jennifer Miller", lessonPlans: 22, learningResources: 20, questions: 175, tests: 11, assignments: 13 },
 ];
 
 export const CustomContentCreation = () => {
