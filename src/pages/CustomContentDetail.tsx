@@ -93,6 +93,7 @@ const CustomContentDetail = () => {
                     <TableHead>Questions</TableHead>
                     <TableHead>Tests</TableHead>
                     <TableHead>LBQ</TableHead>
+                    <TableHead>Assignments</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -104,6 +105,7 @@ const CustomContentDetail = () => {
                       <TableCell>{row.questions}</TableCell>
                       <TableCell>{row.tests}</TableCell>
                       <TableCell>{row.lbq}</TableCell>
+                      <TableCell>{row.assignments}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
