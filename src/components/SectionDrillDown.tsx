@@ -118,8 +118,6 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
               <TableRow>
                 <TableHead className="w-[300px]">Grade / Role</TableHead>
                 <TableHead>Total Users</TableHead>
-                <TableHead>App Usage (mins)</TableHead>
-                <TableHead>Content Usage (mins)</TableHead>
                 <TableHead>Total Usage (mins)</TableHead>
                 <TableHead>Trend</TableHead>
                 <TableHead className="w-[100px]">Preview</TableHead>
@@ -136,9 +134,12 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
                         {grade.grade}
                       </div>
                     </TableCell>
-                    <TableCell>{grade.totalUsers}</TableCell>
-                    <TableCell>{grade.appUsage}</TableCell>
-                    <TableCell>{grade.contentUsage}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span>{grade.totalUsers}</span>
+                        <TrendChip value={grade.totalUsers} prev={prevOf(String(grade.totalUsers), gi + 2)} />
+                      </div>
+                    </TableCell>
                     <TableCell className="font-semibold">{grade.totalUsage}</TableCell>
                     <TableCell>
                       <TrendChip value={toNum(grade.totalUsage)} prev={prevOf(grade.totalUsage, gi + 1)} />
@@ -154,9 +155,12 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
                 grade.roles.map((role, ri) =>
                 <TableRow key={`${grade.grade}-${role.name}`} className="bg-muted/20 hover:bg-muted/40">
                         <TableCell className="pl-12 text-muted-foreground">{role.name}</TableCell>
-                        <TableCell>{role.users}</TableCell>
-                        <TableCell>{role.appUsage}</TableCell>
-                        <TableCell>{role.contentUsage}</TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <span>{role.users}</span>
+                            <TrendChip value={role.users} prev={prevOf(String(role.users), (gi + 1) * 10 + ri + 2)} />
+                          </div>
+                        </TableCell>
                         <TableCell>{role.totalUsage}</TableCell>
                         <TableCell>
                           <TrendChip value={toNum(role.totalUsage)} prev={prevOf(role.totalUsage, (gi + 1) * 10 + ri + 1)} />
