@@ -119,7 +119,6 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
                 <TableHead className="w-[300px]">Grade / Role</TableHead>
                 <TableHead>Total Users</TableHead>
                 <TableHead>Total Usage (mins)</TableHead>
-                <TableHead>Trend</TableHead>
                 <TableHead className="w-[100px]">Preview</TableHead>
               </TableRow>
             </TableHeader>
@@ -140,9 +139,11 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
                         <TrendChip value={grade.totalUsers} prev={prevOf(String(grade.totalUsers), gi + 2)} />
                       </div>
                     </TableCell>
-                    <TableCell className="font-semibold">{grade.totalUsage}</TableCell>
-                    <TableCell>
-                      <TrendChip value={toNum(grade.totalUsage)} prev={prevOf(grade.totalUsage, gi + 1)} />
+                    <TableCell className="font-semibold">
+                      <div className="flex items-center gap-2">
+                        <span>{grade.totalUsage}</span>
+                        <TrendChip value={toNum(grade.totalUsage)} prev={prevOf(grade.totalUsage, gi + 1)} />
+                      </div>
                     </TableCell>
                     <TableCell>
                       <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={(e) => {e.stopPropagation();handlePreview(grade.grade, "Teacher");}}>
@@ -161,9 +162,11 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
                             <TrendChip value={role.users} prev={prevOf(String(role.users), (gi + 1) * 10 + ri + 2)} />
                           </div>
                         </TableCell>
-                        <TableCell>{role.totalUsage}</TableCell>
                         <TableCell>
-                          <TrendChip value={toNum(role.totalUsage)} prev={prevOf(role.totalUsage, (gi + 1) * 10 + ri + 1)} />
+                          <div className="flex items-center gap-2">
+                            <span>{role.totalUsage}</span>
+                            <TrendChip value={toNum(role.totalUsage)} prev={prevOf(role.totalUsage, (gi + 1) * 10 + ri + 1)} />
+                          </div>
                         </TableCell>
                         <TableCell>
                           <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={(e) => {e.stopPropagation();handlePreview(grade.grade, role.name);}}>
