@@ -790,11 +790,14 @@ function ParentTable({ data, onPreview }: { data: typeof userAppParents; onPrevi
                <TableHead className="text-right font-semibold">Learning Resource (mins)</TableHead>
                <TableHead className="text-right font-semibold">Ebook (mins)</TableHead>
                <TableHead className="text-right font-semibold">Test (mins)</TableHead>
+               <TableHead className="text-center font-semibold">Trend</TableHead>
                <TableHead className="text-center pr-6 font-semibold w-[80px]">Preview</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((p, i) => (
+            {data.map((p, i) => {
+              const total = _toNum(p.learningResource) + _toNum(p.ebook) + _toNum(p.test);
+              return (
               <TableRow key={i} className="hover:bg-muted/20 transition-colors">
                 <TableCell className="pl-6 font-medium">{p.name}</TableCell>
                 <TableCell className="text-right">{p.learningResource}</TableCell>
@@ -804,13 +807,17 @@ function ParentTable({ data, onPreview }: { data: typeof userAppParents; onPrevi
                     {p.test}
                   </span>
                 </TableCell>
+                <TableCell className="text-center">
+                  <TrendChip value={total} prev={_prevOf(total, i + 3)} />
+                </TableCell>
                 <TableCell className="text-center pr-6">
                   <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => onPreview?.(p.name)}>
                     <Eye className="h-4 w-4" />
                   </Button>
                 </TableCell>
               </TableRow>
-            ))}
+              );
+            })}
           </TableBody>
         </Table>
       </CardContent>
