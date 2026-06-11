@@ -91,11 +91,11 @@ const Index = () => {
         {/* Detailed Analytics */}
         <DetailedAnalytics />
 
-        {/* Section Drill Down */}
-        <SectionDrillDown dateRange={date} />
-
         {/* Content Usage */}
         <ContentUsageTable />
+
+        {/* Section Drill Down */}
+        <SectionDrillDown dateRange={date} />
 
         {/* Custom Content Creation */}
         <CustomContentCreation />
