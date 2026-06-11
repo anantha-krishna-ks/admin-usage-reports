@@ -977,7 +977,7 @@ export default function ContentUsageDetail() {
         {!detailedMode && selectedUser ? (
           <div className="space-y-6">
             <Card className="shadow-sm border-primary/20 bg-primary/5">
-              <CardHeader className="pb-2 flex flex-row items-start justify-between">
+              <CardHeader className="pt-3 pb-2 flex flex-row items-start justify-between">
                 <div>
                   <CardTitle className="text-lg flex items-center gap-2">
                     <User className="h-5 w-5 text-primary" />
