@@ -11,33 +11,34 @@ interface ClassSubjectData {
   questions: number;
   tests: number;
   lbq: number;
+  assignments: number;
 }
 
 const teacherContentDetail: Record<string, ClassSubjectData[]> = {
   "Ms. Sarah Johnson": [
-    { classSubject: "Grade 8 - Mathematics", lessonPlans: 8, learningResources: 5, questions: 42, tests: 3, lbq: 6 },
-    { classSubject: "Grade 9 - Mathematics", lessonPlans: 10, learningResources: 7, questions: 58, tests: 5, lbq: 8 },
-    { classSubject: "Grade 10 - Mathematics", lessonPlans: 6, learningResources: 6, questions: 56, tests: 4, lbq: 5 },
+    { classSubject: "Grade 8 - Mathematics", lessonPlans: 8, learningResources: 5, questions: 42, tests: 3, lbq: 6, assignments: 4 },
+    { classSubject: "Grade 9 - Mathematics", lessonPlans: 10, learningResources: 7, questions: 58, tests: 5, lbq: 8, assignments: 6 },
+    { classSubject: "Grade 10 - Mathematics", lessonPlans: 6, learningResources: 6, questions: 56, tests: 4, lbq: 5, assignments: 4 },
   ],
   "Mr. David Williams": [
-    { classSubject: "Grade 8 - Science", lessonPlans: 7, learningResources: 9, questions: 38, tests: 3, lbq: 4 },
-    { classSubject: "Grade 9 - Science", lessonPlans: 6, learningResources: 8, questions: 52, tests: 3, lbq: 7 },
-    { classSubject: "Grade 11 - Science", lessonPlans: 6, learningResources: 5, questions: 42, tests: 3, lbq: 5 },
+    { classSubject: "Grade 8 - Science", lessonPlans: 7, learningResources: 9, questions: 38, tests: 3, lbq: 4, assignments: 3 },
+    { classSubject: "Grade 9 - Science", lessonPlans: 6, learningResources: 8, questions: 52, tests: 3, lbq: 7, assignments: 4 },
+    { classSubject: "Grade 11 - Science", lessonPlans: 6, learningResources: 5, questions: 42, tests: 3, lbq: 5, assignments: 3 },
   ],
   "Ms. Emily Davis": [
-    { classSubject: "Grade 8 - English", lessonPlans: 11, learningResources: 4, questions: 65, tests: 5, lbq: 9 },
-    { classSubject: "Grade 9 - English", lessonPlans: 9, learningResources: 6, questions: 72, tests: 5, lbq: 7 },
-    { classSubject: "Grade 10 - English", lessonPlans: 11, learningResources: 5, questions: 61, tests: 5, lbq: 8 },
+    { classSubject: "Grade 8 - English", lessonPlans: 11, learningResources: 4, questions: 65, tests: 5, lbq: 9, assignments: 6 },
+    { classSubject: "Grade 9 - English", lessonPlans: 9, learningResources: 6, questions: 72, tests: 5, lbq: 7, assignments: 5 },
+    { classSubject: "Grade 10 - English", lessonPlans: 11, learningResources: 5, questions: 61, tests: 5, lbq: 8, assignments: 6 },
   ],
   "Mr. Robert Brown": [
-    { classSubject: "Grade 9 - History", lessonPlans: 5, learningResources: 10, questions: 35, tests: 2, lbq: 3 },
-    { classSubject: "Grade 10 - History", lessonPlans: 6, learningResources: 9, questions: 40, tests: 3, lbq: 4 },
-    { classSubject: "Grade 11 - History", lessonPlans: 5, learningResources: 8, questions: 37, tests: 3, lbq: 3 },
+    { classSubject: "Grade 9 - History", lessonPlans: 5, learningResources: 10, questions: 35, tests: 2, lbq: 3, assignments: 2 },
+    { classSubject: "Grade 10 - History", lessonPlans: 6, learningResources: 9, questions: 40, tests: 3, lbq: 4, assignments: 3 },
+    { classSubject: "Grade 11 - History", lessonPlans: 5, learningResources: 8, questions: 37, tests: 3, lbq: 3, assignments: 2 },
   ],
   "Ms. Jennifer Miller": [
-    { classSubject: "Grade 8 - Geography", lessonPlans: 8, learningResources: 7, questions: 55, tests: 4, lbq: 6 },
-    { classSubject: "Grade 9 - Geography", lessonPlans: 7, learningResources: 6, questions: 62, tests: 3, lbq: 5 },
-    { classSubject: "Grade 10 - Geography", lessonPlans: 7, learningResources: 7, questions: 58, tests: 4, lbq: 7 },
+    { classSubject: "Grade 8 - Geography", lessonPlans: 8, learningResources: 7, questions: 55, tests: 4, lbq: 6, assignments: 5 },
+    { classSubject: "Grade 9 - Geography", lessonPlans: 7, learningResources: 6, questions: 62, tests: 3, lbq: 5, assignments: 4 },
+    { classSubject: "Grade 10 - Geography", lessonPlans: 7, learningResources: 7, questions: 58, tests: 4, lbq: 7, assignments: 4 },
   ],
 };
 
@@ -92,6 +93,7 @@ const CustomContentDetail = () => {
                     <TableHead>Questions</TableHead>
                     <TableHead>Tests</TableHead>
                     <TableHead>LBQ</TableHead>
+                    <TableHead>Assignments</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -103,6 +105,7 @@ const CustomContentDetail = () => {
                       <TableCell>{row.questions}</TableCell>
                       <TableCell>{row.tests}</TableCell>
                       <TableCell>{row.lbq}</TableCell>
+                      <TableCell>{row.assignments}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
