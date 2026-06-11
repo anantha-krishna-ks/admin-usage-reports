@@ -987,7 +987,8 @@ export default function ContentUsageDetail() {
                 </div>
                 <div className="flex items-center gap-2 bg-muted/40 rounded-lg px-4 py-2 border border-border">
                   <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Total Usage</span>
-                  <span className="text-lg font-bold text-primary">106 mins</span>
+                  <span className="text-lg font-semibold text-primary">106 mins</span>
+                  <TrendChip value={106} prev={98} />
                 </div>
               </CardHeader>
             </Card>
