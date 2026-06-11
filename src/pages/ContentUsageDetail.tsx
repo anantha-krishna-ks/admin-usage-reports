@@ -11,6 +11,13 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { TrendChip } from "@/components/TrendChip";
+
+const _toNum = (s: string | number) => typeof s === "number" ? s : parseFloat(String(s).replace(/[^\d.]/g, "")) || 0;
+const _prevOf = (val: number, seed: number) => {
+  const delta = (((seed * 17) % 25) - 10) / 100;
+  return val / (1 + delta);
+};
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
