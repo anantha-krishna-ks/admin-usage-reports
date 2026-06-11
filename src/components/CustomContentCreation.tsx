@@ -40,6 +40,7 @@ export const CustomContentCreation = () => {
                 <TableHead>Learning Resources</TableHead>
                 <TableHead>Questions</TableHead>
                 <TableHead>Tests</TableHead>
+                <TableHead>Assignments</TableHead>
                 <TableHead className="w-[100px]">Preview</TableHead>
               </TableRow>
             </TableHeader>
@@ -51,6 +52,7 @@ export const CustomContentCreation = () => {
                   <TableCell>{row.learningResources}</TableCell>
                   <TableCell>{row.questions}</TableCell>
                   <TableCell>{row.tests}</TableCell>
+                  <TableCell>{row.assignments}</TableCell>
                   <TableCell>
                     <Button
                       variant="ghost"
