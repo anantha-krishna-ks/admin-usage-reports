@@ -690,11 +690,14 @@ function TeacherTable({ data, onPreview }: { data: typeof userAppTeachers; onPre
                <TableHead className="text-right font-semibold">Items (mins)</TableHead>
                <TableHead className="text-right font-semibold">Tests (mins)</TableHead>
                <TableHead className="text-right font-semibold">Ebook (mins)</TableHead>
+               <TableHead className="text-center font-semibold">Trend</TableHead>
                <TableHead className="text-center pr-6 font-semibold w-[80px]">Preview</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((t, i) => (
+            {data.map((t, i) => {
+              const total = _toNum(t.lessonPlan) + _toNum(t.learningResource) + _toNum(t.items) + _toNum(t.tests) + _toNum(t.ebook);
+              return (
               <TableRow key={i} className="hover:bg-muted/20 transition-colors">
                 <TableCell className="pl-6 font-medium">{t.name}</TableCell>
                 <TableCell className="text-right">{t.lessonPlan}</TableCell>
@@ -706,13 +709,17 @@ function TeacherTable({ data, onPreview }: { data: typeof userAppTeachers; onPre
                     {t.ebook}
                   </span>
                 </TableCell>
+                <TableCell className="text-center">
+                  <TrendChip value={total} prev={_prevOf(total, i + 1)} />
+                </TableCell>
                 <TableCell className="text-center pr-6">
                   <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => onPreview?.(t.name)}>
                     <Eye className="h-4 w-4" />
                   </Button>
                 </TableCell>
               </TableRow>
-            ))}
+              );
+            })}
           </TableBody>
         </Table>
       </CardContent>
