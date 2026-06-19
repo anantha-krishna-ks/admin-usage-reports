@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 interface ContentItem {
   title: string;
+  chapter: string;
   contentType: string;
   date: string;
 }
@@ -24,6 +25,8 @@ interface ClassSubjectData {
 }
 
 const contentTypes = ["Lesson Plan", "Learning Resource", "Question", "Test", "LBQ", "Assignment"];
+
+const chapters = ["Chapter 1", "Chapter 2", "Chapter 3", "Chapter 4", "Chapter 5"];
 
 const makeItems = (base: Omit<ClassSubjectData, "items" | "classSubject">): ContentItem[] => {
   const titles: Record<string, string[]> = {
@@ -45,7 +48,8 @@ const makeItems = (base: Omit<ClassSubjectData, "items" | "classSubject">): Cont
       const day = 1 + (counter % 28);
       const month = 1 + (counter % 12);
       const date = `2025-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-      items.push({ title: `${title} ${Math.floor(counter / typeTitles.length) + 1}`, contentType: type, date });
+      const chapter = chapters[counter % chapters.length];
+      items.push({ title: `${title} ${Math.floor(counter / typeTitles.length) + 1}`, chapter, contentType: type, date });
       counter++;
     }
   };
@@ -181,17 +185,19 @@ const CustomContentDetail = () => {
                                 </div>
                                 <div className="rounded-md border bg-background">
                                   <Table>
-                                    <TableHeader>
-                                      <TableRow>
-                                        <TableHead className="w-[380px]">Title</TableHead>
-                                        <TableHead>Content Type</TableHead>
-                                        <TableHead>Date</TableHead>
-                                      </TableRow>
-                                    </TableHeader>
+                                      <TableHeader>
+                                        <TableRow>
+                                          <TableHead className="w-[320px]">Title</TableHead>
+                                          <TableHead>Chapter</TableHead>
+                                          <TableHead>Content Type</TableHead>
+                                          <TableHead>Date</TableHead>
+                                        </TableRow>
+                                      </TableHeader>
                                     <TableBody>
                                       {row.items.map((item, idx) => (
                                         <TableRow key={idx}>
                                           <TableCell className="font-medium">{item.title}</TableCell>
+                                          <TableCell>{item.chapter}</TableCell>
                                           <TableCell>{item.contentType}</TableCell>
                                           <TableCell>{item.date}</TableCell>
                                         </TableRow>
