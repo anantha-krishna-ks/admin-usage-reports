@@ -153,7 +153,7 @@ export const DetailedAnalytics = () => {
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <CardTitle>Detailed Analytics</CardTitle>
-            <Badge className="text-xs font-medium h-6 px-2.5 tracking-wide bg-primary/15 text-primary hover:bg-primary/15 hover:text-primary">
+            <Badge className="text-xs font-medium h-6 px-2.5 tracking-wide bg-primary/15 text-[#0043af] hover:bg-primary/15 hover:text-[#0043af]">
               mins
             </Badge>
           </div>
