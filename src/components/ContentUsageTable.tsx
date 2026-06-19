@@ -17,11 +17,20 @@ const prevOf = (val: number, seed: number) => {
   const delta = (((seed * 17) % 25) - 10) / 100;
   return val / (1 + delta);
 };
-const fmtWithPct = (val: string, total: number) => {
-  if (val === "NA" || total === 0) return val;
+const UsageCell = ({ val, total }: { val: string; total: number }) => {
+  if (val === "NA" || total === 0) {
+    return <span className="text-muted-foreground">{val}</span>;
+  }
   const n = toNum(val);
   const pct = Math.round((n / total) * 100);
-  return `${val} (${pct}%)`;
+  return (
+    <div className="flex items-center gap-2">
+      <span className="font-medium tabular-nums">{val}</span>
+      <span className="text-[11px] font-medium bg-muted text-muted-foreground px-1.5 py-0.5 rounded-md tabular-nums">
+        {pct}%
+      </span>
+    </div>
+  );
 };
  
  interface ContentUsageData {
@@ -168,13 +177,13 @@ export const ContentUsageTable = () => {
                       <TableCell>
                         <Badge variant="secondary">{row.role}</Badge>
                       </TableCell>
-                      <TableCell className={row.lessonPlan === "NA" ? "text-muted-foreground" : ""}>
-                        {fmtWithPct(row.lessonPlan, total)}
+                      <TableCell>
+                        <UsageCell val={row.lessonPlan} total={total} />
                       </TableCell>
-                      <TableCell>{fmtWithPct(row.learningResource, total)}</TableCell>
-                      <TableCell>{fmtWithPct(row.items, total)}</TableCell>
-                      <TableCell>{fmtWithPct(row.tests, total)}</TableCell>
-                      <TableCell>{fmtWithPct(row.ebook, total)}</TableCell>
+                      <TableCell><UsageCell val={row.learningResource} total={total} /></TableCell>
+                      <TableCell><UsageCell val={row.items} total={total} /></TableCell>
+                      <TableCell><UsageCell val={row.tests} total={total} /></TableCell>
+                      <TableCell><UsageCell val={row.ebook} total={total} /></TableCell>
                       <TableCell>
                         <TrendChip value={total} prev={prevOf(total, ri + 1)} />
                       </TableCell>
@@ -229,13 +238,13 @@ export const ContentUsageTable = () => {
                     return (
                     <TableRow key={row.class} className="hover:bg-muted/30">
                       <TableCell className="font-medium">{row.class}</TableCell>
-                      <TableCell className={row.lessonPlan === "NA" ? "text-muted-foreground" : ""}>
-                        {fmtWithPct(row.lessonPlan, total)}
+                      <TableCell>
+                        <UsageCell val={row.lessonPlan} total={total} />
                       </TableCell>
-                      <TableCell>{fmtWithPct(row.learningResource, total)}</TableCell>
-                      <TableCell>{fmtWithPct(row.items, total)}</TableCell>
-                      <TableCell>{fmtWithPct(row.tests, total)}</TableCell>
-                      <TableCell>{fmtWithPct(row.ebook, total)}</TableCell>
+                      <TableCell><UsageCell val={row.learningResource} total={total} /></TableCell>
+                      <TableCell><UsageCell val={row.items} total={total} /></TableCell>
+                      <TableCell><UsageCell val={row.tests} total={total} /></TableCell>
+                      <TableCell><UsageCell val={row.ebook} total={total} /></TableCell>
                       <TableCell>
                         <TrendChip value={total} prev={prevOf(total, ri + 3)} />
                       </TableCell>
@@ -289,11 +298,11 @@ export const ContentUsageTable = () => {
                     return (
                     <TableRow key={row.studentName} className="hover:bg-muted/30">
                       <TableCell className="font-medium">{row.studentName}</TableCell>
-                      <TableCell>{fmtWithPct(row.lessonPlan, total)}</TableCell>
-                      <TableCell>{fmtWithPct(row.learningResource, total)}</TableCell>
-                      <TableCell>{fmtWithPct(row.items, total)}</TableCell>
-                      <TableCell>{fmtWithPct(row.tests, total)}</TableCell>
-                      <TableCell>{fmtWithPct(row.ebook, total)}</TableCell>
+                      <TableCell><UsageCell val={row.lessonPlan} total={total} /></TableCell>
+                      <TableCell><UsageCell val={row.learningResource} total={total} /></TableCell>
+                      <TableCell><UsageCell val={row.items} total={total} /></TableCell>
+                      <TableCell><UsageCell val={row.tests} total={total} /></TableCell>
+                      <TableCell><UsageCell val={row.ebook} total={total} /></TableCell>
                       <TableCell>
                         <TrendChip value={total} prev={prevOf(total, ri + 5)} />
                       </TableCell>
