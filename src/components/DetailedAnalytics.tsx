@@ -151,7 +151,12 @@ export const DetailedAnalytics = () => {
     <Card>
       <CardHeader className="flex flex-row items-start justify-between">
         <div className="space-y-1">
-          <CardTitle>Detailed Analytics</CardTitle>
+          <div className="flex items-center gap-2">
+            <CardTitle>Detailed Analytics</CardTitle>
+            <Badge variant="outline" className="text-[10px] font-normal text-muted-foreground h-5 px-2">
+              mins
+            </Badge>
+          </div>
           <CardDescription>Usage breakdown by user type and content category</CardDescription>
         </div>
         <SectionInfoButton description="Comprehensive breakdown of application, content, and total usage metrics segmented by user type." />
