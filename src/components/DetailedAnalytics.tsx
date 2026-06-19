@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Monitor, Smartphone, Building2, FileText, Library, BookOpen, TrendingUp, TrendingDown, LucideIcon } from "lucide-react";
+import { SectionInfoButton } from "@/components/SectionInfoButton";
 
 type Metric = { value: number; prev: number };
 
@@ -147,9 +148,12 @@ const TabPanel = ({ data, contentLabels }: { data: typeof userTypeData.teachers;
 export const DetailedAnalytics = () => {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Detailed Analytics</CardTitle>
-        <CardDescription>Usage breakdown by user type and content category</CardDescription>
+      <CardHeader className="flex flex-row items-start justify-between">
+        <div className="space-y-1">
+          <CardTitle>Detailed Analytics</CardTitle>
+          <CardDescription>Usage breakdown by user type and content category</CardDescription>
+        </div>
+        <SectionInfoButton description="Comprehensive breakdown of application, content, and total usage metrics segmented by user type." />
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="teachers" className="w-full">

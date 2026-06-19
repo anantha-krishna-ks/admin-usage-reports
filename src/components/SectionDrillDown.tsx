@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ChevronDown, ChevronRight, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TrendChip } from "@/components/TrendChip";
+import { SectionInfoButton } from "@/components/SectionInfoButton";
 import type { DateRange } from "react-day-picker";
 
 const toNum = (s: string) => parseFloat(s.replace(/,/g, "")) || 0;
@@ -106,10 +107,12 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Class-wise Application Usage Details
-        </CardTitle>
-        <CardDescription>Detailed usage metrics for each grade and role within the school</CardDescription>
+      <CardHeader className="flex flex-row items-start justify-between">
+        <div className="space-y-1">
+          <CardTitle>Class-wise Application Usage Details</CardTitle>
+          <CardDescription>Detailed usage metrics for each grade and role within the school</CardDescription>
+        </div>
+        <SectionInfoButton description="Detailed usage metrics for each grade and role within the school, showing total users and time spent across platforms." />
       </CardHeader>
       <CardContent>
         <div className="rounded-md border">

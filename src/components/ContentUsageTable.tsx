@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Eye, BookOpen, FileText, ClipboardList, GraduationCap, BookMarked } from "lucide-react";
 import { TrendChip } from "@/components/TrendChip";
+import { SectionInfoButton } from "@/components/SectionInfoButton";
 
 const toNum = (s: string) => parseFloat(s.replace(/[^\d.]/g, "")) || 0;
 const rowTotal = (r: { lessonPlan: string; learningResource: string; items: string; tests: string; ebook: string }) =>
@@ -131,10 +132,13 @@ export const ContentUsageTable = () => {
    return (
      <>
        <Card>
-         <CardHeader>
-           <CardTitle>Content Usage</CardTitle>
-           <CardDescription>Usage metrics by role across different content types</CardDescription>
-         </CardHeader>
+          <CardHeader className="flex flex-row items-start justify-between">
+            <div className="space-y-1">
+              <CardTitle>Content Usage</CardTitle>
+              <CardDescription>Usage metrics by role across different content types</CardDescription>
+            </div>
+            <SectionInfoButton description="Usage metrics by role across different content types including lesson plans, resources, items, tests, and ebooks." />
+          </CardHeader>
          <CardContent>
            <div className="rounded-md border">
              <Table>
