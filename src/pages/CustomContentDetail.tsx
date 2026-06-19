@@ -26,6 +26,8 @@ interface ClassSubjectData {
 
 const contentTypes = ["Lesson Plan", "Learning Resource", "Question", "Test", "LBQ", "Assignment"];
 
+const chapters = ["Chapter 1", "Chapter 2", "Chapter 3", "Chapter 4", "Chapter 5"];
+
 const makeItems = (base: Omit<ClassSubjectData, "items" | "classSubject">): ContentItem[] => {
   const titles: Record<string, string[]> = {
     "Lesson Plan": ["Introduction to Quadratic Equations", "Cell Structure & Function", "Shakespeare's Sonnets", "Causes of World War I", "Climate Zones & Vegetation"],
@@ -46,7 +48,8 @@ const makeItems = (base: Omit<ClassSubjectData, "items" | "classSubject">): Cont
       const day = 1 + (counter % 28);
       const month = 1 + (counter % 12);
       const date = `2025-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-      items.push({ title: `${title} ${Math.floor(counter / typeTitles.length) + 1}`, contentType: type, date });
+      const chapter = chapters[counter % chapters.length];
+      items.push({ title: `${title} ${Math.floor(counter / typeTitles.length) + 1}`, chapter, contentType: type, date });
       counter++;
     }
   };
