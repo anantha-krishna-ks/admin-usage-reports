@@ -110,7 +110,12 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
     <Card>
       <CardHeader className="flex flex-row items-start justify-between">
         <div className="space-y-1">
-          <CardTitle>Class-wise Application Usage Details</CardTitle>
+          <div className="flex items-center gap-2">
+            <CardTitle>Class-wise Application Usage Details</CardTitle>
+            <Badge variant="outline" className="text-[10px] font-normal text-muted-foreground h-5 px-2">
+              mins
+            </Badge>
+          </div>
           <CardDescription>Detailed usage metrics for each grade and role within the school</CardDescription>
         </div>
         <SectionInfoButton description="Detailed usage metrics for each grade and role within the school, showing total users and time spent across platforms." />
