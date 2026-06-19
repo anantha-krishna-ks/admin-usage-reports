@@ -112,7 +112,7 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <CardTitle>Class-wise Application Usage Details</CardTitle>
-            <Badge variant="secondary" className="text-xs font-medium h-6 px-2.5 tracking-wide">
+            <Badge variant="secondary" className="text-xs font-medium h-6 px-2.5 tracking-wide bg-primary/15 text-primary-foreground">
               mins
             </Badge>
           </div>
