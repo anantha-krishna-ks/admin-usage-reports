@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import { Monitor, Smartphone, Building2, FileText, Library, BookOpen, TrendingUp, TrendingDown, LucideIcon } from "lucide-react";
 import { SectionInfoButton } from "@/components/SectionInfoButton";
 
