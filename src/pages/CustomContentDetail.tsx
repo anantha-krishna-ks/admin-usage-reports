@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 interface ContentItem {
   title: string;
+  chapter: string;
   contentType: string;
   date: string;
 }
