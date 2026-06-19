@@ -177,13 +177,13 @@ export const ContentUsageTable = () => {
                       <TableCell>
                         <Badge variant="secondary">{row.role}</Badge>
                       </TableCell>
-                      <TableCell className={row.lessonPlan === "NA" ? "text-muted-foreground" : ""}>
-                        {fmtWithPct(row.lessonPlan, total)}
+                      <TableCell>
+                        <UsageCell val={row.lessonPlan} total={total} />
                       </TableCell>
-                      <TableCell>{fmtWithPct(row.learningResource, total)}</TableCell>
-                      <TableCell>{fmtWithPct(row.items, total)}</TableCell>
-                      <TableCell>{fmtWithPct(row.tests, total)}</TableCell>
-                      <TableCell>{fmtWithPct(row.ebook, total)}</TableCell>
+                      <TableCell><UsageCell val={row.learningResource} total={total} /></TableCell>
+                      <TableCell><UsageCell val={row.items} total={total} /></TableCell>
+                      <TableCell><UsageCell val={row.tests} total={total} /></TableCell>
+                      <TableCell><UsageCell val={row.ebook} total={total} /></TableCell>
                       <TableCell>
                         <TrendChip value={total} prev={prevOf(total, ri + 1)} />
                       </TableCell>
