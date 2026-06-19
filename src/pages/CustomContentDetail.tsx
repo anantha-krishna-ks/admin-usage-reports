@@ -133,9 +133,8 @@ const CustomContentDetail = () => {
                   {data.map((row) => {
                     const isOpen = !!expanded[row.classSubject];
                     return (
-                      <>
+                      <React.Fragment key={row.classSubject}>
                         <TableRow
-                          key={row.classSubject}
                           className="cursor-pointer"
                           onClick={() => toggle(row.classSubject)}
                           data-state={isOpen ? "selected" : undefined}
