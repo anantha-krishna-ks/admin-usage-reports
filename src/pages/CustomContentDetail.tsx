@@ -11,6 +11,7 @@ interface ContentItem {
   chapter: string;
   contentType: string;
   date: string;
+  time: string;
 }
 
 interface ClassSubjectData {
@@ -49,7 +50,12 @@ const makeItems = (base: Omit<ClassSubjectData, "items" | "classSubject">): Cont
       const month = 1 + (counter % 12);
       const date = `2025-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
       const chapter = chapters[counter % chapters.length];
-      items.push({ title: `${title} ${Math.floor(counter / typeTitles.length) + 1}`, chapter, contentType: type, date });
+      const hour = 8 + (counter % 10);
+      const minute = (counter * 7) % 60;
+      const ampm = hour >= 12 ? "PM" : "AM";
+      const displayHour = hour > 12 ? hour - 12 : hour;
+      const time = `${displayHour}:${String(minute).padStart(2, "0")} ${ampm}`;
+      items.push({ title: `${title} ${Math.floor(counter / typeTitles.length) + 1}`, chapter, contentType: type, date, time });
       counter++;
     }
   };
@@ -190,7 +196,7 @@ const CustomContentDetail = () => {
                                           <TableHead className="w-[320px]">Title</TableHead>
                                           <TableHead>Chapter</TableHead>
                                           <TableHead>Content Type</TableHead>
-                                          <TableHead>Date</TableHead>
+                                          <TableHead>Date &amp; Time</TableHead>
                                         </TableRow>
                                       </TableHeader>
                                     <TableBody>
@@ -199,7 +205,7 @@ const CustomContentDetail = () => {
                                           <TableCell className="font-medium">{item.title}</TableCell>
                                           <TableCell>{item.chapter}</TableCell>
                                           <TableCell>{item.contentType}</TableCell>
-                                          <TableCell>{item.date}</TableCell>
+                                          <TableCell>{item.date} {item.time}</TableCell>
                                         </TableRow>
                                       ))}
                                     </TableBody>
