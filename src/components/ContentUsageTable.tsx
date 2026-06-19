@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Eye, BookOpen, FileText, ClipboardList, GraduationCap, BookMarked } from "lucide-react";
 import { TrendChip } from "@/components/TrendChip";
+import { SectionInfoButton } from "@/components/SectionInfoButton";
 
 const toNum = (s: string) => parseFloat(s.replace(/[^\d.]/g, "")) || 0;
 const rowTotal = (r: { lessonPlan: string; learningResource: string; items: string; tests: string; ebook: string }) =>

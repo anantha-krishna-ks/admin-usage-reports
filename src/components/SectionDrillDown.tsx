@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ChevronDown, ChevronRight, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TrendChip } from "@/components/TrendChip";
+import { SectionInfoButton } from "@/components/SectionInfoButton";
 import type { DateRange } from "react-day-picker";
 
 const toNum = (s: string) => parseFloat(s.replace(/,/g, "")) || 0;
