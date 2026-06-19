@@ -1,10 +1,9 @@
 import { Info } from "lucide-react";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface SectionInfoButtonProps {
   description: string;
@@ -12,25 +11,26 @@ interface SectionInfoButtonProps {
 
 export const SectionInfoButton = ({ description }: SectionInfoButtonProps) => {
   return (
-    <TooltipProvider delayDuration={100}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-full w-5 h-5 bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Section info"
-          >
-            <Info className="h-3 w-3" />
-          </button>
-        </TooltipTrigger>
-        <TooltipContent
-          side="top"
-          align="end"
-          className="max-w-xs text-xs leading-relaxed"
+    <Popover>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          className="inline-flex items-center justify-center rounded-full w-6 h-6 bg-primary/10 text-primary ring-1 ring-primary/20 hover:bg-primary/20 hover:ring-primary/30 transition-all"
+          aria-label="Section info"
         >
-          {description}
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+          <Info className="h-3.5 w-3.5" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent
+        side="top"
+        align="end"
+        className="max-w-xs text-sm leading-relaxed bg-popover/95 backdrop-blur-sm"
+      >
+        <div className="flex items-start gap-2">
+          <Info className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+          <span>{description}</span>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 };
