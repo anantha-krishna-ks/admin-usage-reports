@@ -107,10 +107,12 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Class-wise Application Usage Details
-        </CardTitle>
-        <CardDescription>Detailed usage metrics for each grade and role within the school</CardDescription>
+      <CardHeader className="flex flex-row items-start justify-between">
+        <div className="space-y-1">
+          <CardTitle>Class-wise Application Usage Details</CardTitle>
+          <CardDescription>Detailed usage metrics for each grade and role within the school</CardDescription>
+        </div>
+        <SectionInfoButton description="Detailed usage metrics for each grade and role within the school, showing total users and time spent across platforms." />
       </CardHeader>
       <CardContent>
         <div className="rounded-md border">
