@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { ChevronDown, ChevronRight, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TrendChip } from "@/components/TrendChip";
@@ -109,7 +110,12 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
     <Card>
       <CardHeader className="flex flex-row items-start justify-between">
         <div className="space-y-1">
-          <CardTitle>Class-wise Application Usage Details</CardTitle>
+          <div className="flex items-center gap-2">
+            <CardTitle>Class-wise Application Usage Details</CardTitle>
+            <Badge variant="outline" className="text-[10px] font-normal text-muted-foreground h-5 px-2">
+              mins
+            </Badge>
+          </div>
           <CardDescription>Detailed usage metrics for each grade and role within the school</CardDescription>
         </div>
         <SectionInfoButton description="Detailed usage metrics for each grade and role within the school, showing total users and time spent across platforms." />
@@ -121,7 +127,7 @@ export const SectionDrillDown = ({ dateRange }: SectionDrillDownProps) => {
               <TableRow>
                 <TableHead className="w-[300px]">Grade / Role</TableHead>
                 <TableHead>Total Users</TableHead>
-                <TableHead>Total Usage (mins)</TableHead>
+                <TableHead>Total Usage</TableHead>
                 <TableHead className="w-[100px]">Preview</TableHead>
               </TableRow>
             </TableHeader>

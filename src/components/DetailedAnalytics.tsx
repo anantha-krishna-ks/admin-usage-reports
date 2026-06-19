@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import { Monitor, Smartphone, Building2, FileText, Library, BookOpen, TrendingUp, TrendingDown, LucideIcon } from "lucide-react";
 import { SectionInfoButton } from "@/components/SectionInfoButton";
 
@@ -63,7 +64,7 @@ const TrendChip = ({ value, prev }: { value: number; prev: number }) => {
           ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
           : "bg-red-500/10 text-red-600 dark:text-red-400"
       }`}
-      title={`Previous: ${prev.toLocaleString()} mins`}
+      title={`Previous: ${prev.toLocaleString()}`}
     >
       {up ? <TrendingUp className="h-2.5 w-2.5" /> : <TrendingDown className="h-2.5 w-2.5" />}
       <span className="tabular-nums">{up ? "+" : ""}{pct.toFixed(1)}%</span>
@@ -108,7 +109,7 @@ const BreakdownItem = ({
           <p className="text-xs text-muted-foreground">{label}</p>
           <TrendChip value={metric.value} prev={metric.prev} />
         </div>
-        <p className="text-sm font-semibold text-foreground">{metric.value.toLocaleString()} mins</p>
+        <p className="text-sm font-semibold text-foreground">{metric.value.toLocaleString()}</p>
       </div>
     </div>
   );
@@ -119,7 +120,7 @@ const TabPanel = ({ data, contentLabels }: { data: typeof userTypeData.teachers;
     <div className="space-y-4">
       <div>
         <p className="text-sm text-muted-foreground mb-1">Application Usage</p>
-        <p className="text-3xl font-semibold text-primary">{data.applicationUsage.toLocaleString()} mins</p>
+        <p className="text-3xl font-semibold text-primary">{data.applicationUsage.toLocaleString()}</p>
       </div>
       <div className="space-y-2">
         <BreakdownItem icon={Monitor} label="Web" metric={data.applicationBreakdown.web} tone="primary" />
@@ -130,7 +131,7 @@ const TabPanel = ({ data, contentLabels }: { data: typeof userTypeData.teachers;
     <div className="pl-6 space-y-4">
       <div>
         <p className="text-sm text-muted-foreground mb-1">Content Usage</p>
-        <p className="text-3xl font-semibold text-secondary">{data.contentUsage.toLocaleString()} mins</p>
+        <p className="text-3xl font-semibold text-secondary">{data.contentUsage.toLocaleString()}</p>
       </div>
       <div className="space-y-2">
         <BreakdownItem icon={FileText} label={contentLabels.lessonPlans} metric={data.contentBreakdown.lessonPlans} tone="secondary" />
@@ -140,7 +141,7 @@ const TabPanel = ({ data, contentLabels }: { data: typeof userTypeData.teachers;
     </div>
     <div className="pl-6">
       <p className="text-sm text-muted-foreground mb-1">Total Usage</p>
-      <p className="text-3xl font-semibold text-foreground">{data.totalUsage.toLocaleString()} mins</p>
+      <p className="text-3xl font-semibold text-foreground">{data.totalUsage.toLocaleString()}</p>
     </div>
   </div>
 );
@@ -150,7 +151,12 @@ export const DetailedAnalytics = () => {
     <Card>
       <CardHeader className="flex flex-row items-start justify-between">
         <div className="space-y-1">
-          <CardTitle>Detailed Analytics</CardTitle>
+          <div className="flex items-center gap-2">
+            <CardTitle>Detailed Analytics</CardTitle>
+            <Badge variant="outline" className="text-[10px] font-normal text-muted-foreground h-5 px-2">
+              mins
+            </Badge>
+          </div>
           <CardDescription>Usage breakdown by user type and content category</CardDescription>
         </div>
         <SectionInfoButton description="Comprehensive breakdown of application, content, and total usage metrics segmented by user type." />

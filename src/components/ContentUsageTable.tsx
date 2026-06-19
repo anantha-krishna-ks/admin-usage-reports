@@ -62,80 +62,80 @@ interface StudentBreakdownData {
 
 const studentBreakdownByClass: Record<string, StudentBreakdownData[]> = {
   "Grade 8 - Section A": [
-    { studentName: "John Smith", lessonPlan: "135m", learningResource: "90m", items: "45m", tests: "80m", ebook: "35m" },
-    { studentName: "Emma Johnson", lessonPlan: "105m", learningResource: "130m", items: "55m", tests: "105m", ebook: "40m" },
-    { studentName: "Michael Brown", lessonPlan: "150m", learningResource: "75m", items: "70m", tests: "90m", ebook: "50m" },
+    { studentName: "John Smith", lessonPlan: "135", learningResource: "90", items: "45", tests: "80", ebook: "35" },
+    { studentName: "Emma Johnson", lessonPlan: "105", learningResource: "130", items: "55", tests: "105", ebook: "40" },
+    { studentName: "Michael Brown", lessonPlan: "150", learningResource: "75", items: "70", tests: "90", ebook: "50" },
   ],
   "Grade 9 - Section A": [
-    { studentName: "Sarah Davis", lessonPlan: "200m", learningResource: "165m", items: "85m", tests: "130m", ebook: "65m" },
-    { studentName: "James Wilson", lessonPlan: "175m", learningResource: "140m", items: "75m", tests: "115m", ebook: "55m" },
-    { studentName: "Emily Taylor", lessonPlan: "190m", learningResource: "155m", items: "90m", tests: "145m", ebook: "75m" },
+    { studentName: "Sarah Davis", lessonPlan: "200", learningResource: "165", items: "85", tests: "130", ebook: "65" },
+    { studentName: "James Wilson", lessonPlan: "175", learningResource: "140", items: "75", tests: "115", ebook: "55" },
+    { studentName: "Emily Taylor", lessonPlan: "190", learningResource: "155", items: "90", tests: "145", ebook: "75" },
   ],
   "Grade 9 - Section B": [
-    { studentName: "Daniel Anderson", lessonPlan: "160m", learningResource: "115m", items: "80m", tests: "105m", ebook: "45m" },
-    { studentName: "Olivia Thomas", lessonPlan: "185m", learningResource: "150m", items: "95m", tests: "140m", ebook: "60m" },
-    { studentName: "William Jackson", lessonPlan: "145m", learningResource: "130m", items: "70m", tests: "110m", ebook: "55m" },
+    { studentName: "Daniel Anderson", lessonPlan: "160", learningResource: "115", items: "80", tests: "105", ebook: "45" },
+    { studentName: "Olivia Thomas", lessonPlan: "185", learningResource: "150", items: "95", tests: "140", ebook: "60" },
+    { studentName: "William Jackson", lessonPlan: "145", learningResource: "130", items: "70", tests: "110", ebook: "55" },
   ],
   "Grade 10 - Section A": [
-    { studentName: "Sophia White", lessonPlan: "170m", learningResource: "100m", items: "60m", tests: "95m", ebook: "40m" },
-    { studentName: "Alexander Harris", lessonPlan: "195m", learningResource: "145m", items: "85m", tests: "125m", ebook: "70m" },
-    { studentName: "Isabella Martin", lessonPlan: "155m", learningResource: "120m", items: "75m", tests: "110m", ebook: "50m" },
+    { studentName: "Sophia White", lessonPlan: "170", learningResource: "100", items: "60", tests: "95", ebook: "40" },
+    { studentName: "Alexander Harris", lessonPlan: "195", learningResource: "145", items: "85", tests: "125", ebook: "70" },
+    { studentName: "Isabella Martin", lessonPlan: "155", learningResource: "120", items: "75", tests: "110", ebook: "50" },
   ],
   "Grade 11 - Section A": [
-    { studentName: "Benjamin Garcia", lessonPlan: "90m", learningResource: "70m", items: "35m", tests: "75m", ebook: "30m" },
-    { studentName: "Mia Rodriguez", lessonPlan: "105m", learningResource: "95m", items: "50m", tests: "90m", ebook: "40m" },
-    { studentName: "Ethan Martinez", lessonPlan: "85m", learningResource: "80m", items: "45m", tests: "85m", ebook: "35m" },
+    { studentName: "Benjamin Garcia", lessonPlan: "90", learningResource: "70", items: "35", tests: "75", ebook: "30" },
+    { studentName: "Mia Rodriguez", lessonPlan: "105", learningResource: "95", items: "50", tests: "90", ebook: "40" },
+    { studentName: "Ethan Martinez", lessonPlan: "85", learningResource: "80", items: "45", tests: "85", ebook: "35" },
   ],
 };
 
  const classBreakdownByRole: Record<string, ClassBreakdownData[]> = {
    Teacher: [
-     { class: "Grade 8 - Section A", lessonPlan: "495m", learningResource: "330m", items: "200m", tests: "285m", ebook: "130m" },
-     { class: "Grade 9 - Section A", lessonPlan: "765m", learningResource: "500m", items: "255m", tests: "390m", ebook: "205m" },
-     { class: "Grade 9 - Section B", lessonPlan: "630m", learningResource: "465m", items: "310m", tests: "435m", ebook: "165m" },
-     { class: "Grade 10 - Section A", lessonPlan: "560m", learningResource: "385m", items: "230m", tests: "340m", ebook: "135m" },
-     { class: "Grade 11 - Section A", lessonPlan: "280m", learningResource: "255m", items: "130m", tests: "250m", ebook: "95m" },
+     { class: "Grade 8 - Section A", lessonPlan: "495", learningResource: "330", items: "200", tests: "285", ebook: "130" },
+     { class: "Grade 9 - Section A", lessonPlan: "765", learningResource: "500", items: "255", tests: "390", ebook: "205" },
+     { class: "Grade 9 - Section B", lessonPlan: "630", learningResource: "465", items: "310", tests: "435", ebook: "165" },
+     { class: "Grade 10 - Section A", lessonPlan: "560", learningResource: "385", items: "230", tests: "340", ebook: "135" },
+     { class: "Grade 11 - Section A", lessonPlan: "280", learningResource: "255", items: "130", tests: "250", ebook: "95" },
    ],
    Student: [
-     { class: "Grade 8 - Section A", lessonPlan: "NA", learningResource: "1695m", items: "990m", tests: "1365m", ebook: "740m" },
-     { class: "Grade 9 - Section A", lessonPlan: "NA", learningResource: "2140m", items: "1165m", tests: "1690m", ebook: "935m" },
-     { class: "Grade 9 - Section B", lessonPlan: "NA", learningResource: "1940m", items: "1095m", tests: "1530m", ebook: "825m" },
-     { class: "Grade 10 - Section A", lessonPlan: "NA", learningResource: "2305m", items: "1295m", tests: "1815m", ebook: "985m" },
-     { class: "Grade 11 - Section A", lessonPlan: "NA", learningResource: "1320m", items: "820m", tests: "1090m", ebook: "570m" },
+     { class: "Grade 8 - Section A", lessonPlan: "NA", learningResource: "1695", items: "990", tests: "1365", ebook: "740" },
+     { class: "Grade 9 - Section A", lessonPlan: "NA", learningResource: "2140", items: "1165", tests: "1690", ebook: "935" },
+     { class: "Grade 9 - Section B", lessonPlan: "NA", learningResource: "1940", items: "1095", tests: "1530", ebook: "825" },
+     { class: "Grade 10 - Section A", lessonPlan: "NA", learningResource: "2305", items: "1295", tests: "1815", ebook: "985" },
+     { class: "Grade 11 - Section A", lessonPlan: "NA", learningResource: "1320", items: "820", tests: "1090", ebook: "570" },
    ],
     Parent: [
-     { class: "Grade 8 - Section A", lessonPlan: "NA", learningResource: "270m", items: "105m", tests: "170m", ebook: "220m" },
-     { class: "Grade 9 - Section A", lessonPlan: "NA", learningResource: "345m", items: "130m", tests: "215m", ebook: "265m" },
-     { class: "Grade 9 - Section B", lessonPlan: "NA", learningResource: "315m", items: "115m", tests: "200m", ebook: "250m" },
-     { class: "Grade 10 - Section A", lessonPlan: "NA", learningResource: "300m", items: "100m", tests: "205m", ebook: "245m" },
-     { class: "Grade 11 - Section A", lessonPlan: "NA", learningResource: "225m", items: "60m", tests: "155m", ebook: "180m" },
+     { class: "Grade 8 - Section A", lessonPlan: "NA", learningResource: "270", items: "105", tests: "170", ebook: "220" },
+     { class: "Grade 9 - Section A", lessonPlan: "NA", learningResource: "345", items: "130", tests: "215", ebook: "265" },
+     { class: "Grade 9 - Section B", lessonPlan: "NA", learningResource: "315", items: "115", tests: "200", ebook: "250" },
+     { class: "Grade 10 - Section A", lessonPlan: "NA", learningResource: "300", items: "100", tests: "205", ebook: "245" },
+     { class: "Grade 11 - Section A", lessonPlan: "NA", learningResource: "225", items: "60", tests: "155", ebook: "180" },
    ],
  };
  
  const contentUsageData: ContentUsageData[] = [
    {
      role: "Teacher",
-     lessonPlan: "2730m",
-     learningResource: "1935m",
-     items: "1125m",
-     tests: "1700m",
-     ebook: "730m",
+     lessonPlan: "2730",
+     learningResource: "1935",
+     items: "1125",
+     tests: "1700",
+     ebook: "730",
    },
    {
      role: "Student",
      lessonPlan: "NA",
-     learningResource: "9400m",
-     items: "5365m",
-     tests: "7490m",
-     ebook: "4055m",
+     learningResource: "9400",
+     items: "5365",
+     tests: "7490",
+     ebook: "4055",
    },
     {
       role: "OTHER USERS",
       lessonPlan: "NA",
-      learningResource: "1455m",
-      items: "510m",
-      tests: "945m",
-      ebook: "1160m",
+      learningResource: "1455",
+      items: "510",
+      tests: "945",
+      ebook: "1160",
     },
  ];
  
@@ -149,7 +149,12 @@ export const ContentUsageTable = () => {
        <Card>
           <CardHeader className="flex flex-row items-start justify-between">
             <div className="space-y-1">
-              <CardTitle>Content Usage</CardTitle>
+              <div className="flex items-center gap-2">
+                <CardTitle>Content Usage</CardTitle>
+                <Badge variant="outline" className="text-[10px] font-normal text-muted-foreground h-5 px-2">
+                  mins
+                </Badge>
+              </div>
               <CardDescription>Usage metrics by role across different content types</CardDescription>
             </div>
             <SectionInfoButton description="Usage metrics by role across different content types including lesson plans, resources, items, tests, and ebooks." />
@@ -160,11 +165,11 @@ export const ContentUsageTable = () => {
                <TableHeader>
                  <TableRow>
                    <TableHead className="w-[150px]">Role</TableHead>
-                    <TableHead>Lesson Plan (mins)</TableHead>
-                    <TableHead>Learning Resource (mins)</TableHead>
-                    <TableHead>Items (mins)</TableHead>
-                    <TableHead>Tests (mins)</TableHead>
-                     <TableHead>Ebook (mins)</TableHead>
+                    <TableHead>Lesson Plan</TableHead>
+                    <TableHead>Learning Resource</TableHead>
+                    <TableHead>Items</TableHead>
+                    <TableHead>Tests</TableHead>
+                     <TableHead>Ebook</TableHead>
                     <TableHead>Trend</TableHead>
                     <TableHead className="w-[100px]">Preview</TableHead>
                  </TableRow>
@@ -221,11 +226,11 @@ export const ContentUsageTable = () => {
                <TableHeader>
                  <TableRow className="bg-muted/50">
                    <TableHead className="font-semibold">Class</TableHead>
-                    <TableHead className="font-semibold">Lesson Plan (mins)</TableHead>
-                    <TableHead className="font-semibold">Learning Resource (mins)</TableHead>
-                    <TableHead className="font-semibold">Items (mins)</TableHead>
-                    <TableHead className="font-semibold">Tests (mins)</TableHead>
-                     <TableHead className="font-semibold">Ebook (mins)</TableHead>
+                    <TableHead className="font-semibold">Lesson Plan</TableHead>
+                    <TableHead className="font-semibold">Learning Resource</TableHead>
+                    <TableHead className="font-semibold">Items</TableHead>
+                    <TableHead className="font-semibold">Tests</TableHead>
+                     <TableHead className="font-semibold">Ebook</TableHead>
                      <TableHead className="font-semibold">Trend</TableHead>
                      {selectedRole === "Teacher" && (
                        <TableHead className="font-semibold w-[100px]">Preview</TableHead>
@@ -284,11 +289,11 @@ export const ContentUsageTable = () => {
                 <TableHeader>
                   <TableRow className="bg-muted/50">
                     <TableHead className="font-semibold">Student Name</TableHead>
-                     <TableHead className="font-semibold">Lesson Plan (mins)</TableHead>
-                     <TableHead className="font-semibold">Learning Resource (mins)</TableHead>
-                     <TableHead className="font-semibold">Items (mins)</TableHead>
-                     <TableHead className="font-semibold">Tests (mins)</TableHead>
-                     <TableHead className="font-semibold">Ebook (mins)</TableHead>
+                     <TableHead className="font-semibold">Lesson Plan</TableHead>
+                     <TableHead className="font-semibold">Learning Resource</TableHead>
+                     <TableHead className="font-semibold">Items</TableHead>
+                     <TableHead className="font-semibold">Tests</TableHead>
+                     <TableHead className="font-semibold">Ebook</TableHead>
                      <TableHead className="font-semibold">Trend</TableHead>
                   </TableRow>
                 </TableHeader>
