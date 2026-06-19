@@ -185,13 +185,14 @@ const CustomContentDetail = () => {
                                 </div>
                                 <div className="rounded-md border bg-background">
                                   <Table>
-                                    <TableHeader>
-                                      <TableRow>
-                                        <TableHead className="w-[380px]">Title</TableHead>
-                                        <TableHead>Content Type</TableHead>
-                                        <TableHead>Date</TableHead>
-                                      </TableRow>
-                                    </TableHeader>
+                                      <TableHeader>
+                                        <TableRow>
+                                          <TableHead className="w-[320px]">Title</TableHead>
+                                          <TableHead>Chapter</TableHead>
+                                          <TableHead>Content Type</TableHead>
+                                          <TableHead>Date</TableHead>
+                                        </TableRow>
+                                      </TableHeader>
                                     <TableBody>
                                       {row.items.map((item, idx) => (
                                         <TableRow key={idx}>
