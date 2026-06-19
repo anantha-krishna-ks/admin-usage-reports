@@ -17,6 +17,12 @@ const prevOf = (val: number, seed: number) => {
   const delta = (((seed * 17) % 25) - 10) / 100;
   return val / (1 + delta);
 };
+const fmtWithPct = (val: string, total: number) => {
+  if (val === "NA" || total === 0) return val;
+  const n = toNum(val);
+  const pct = Math.round((n / total) * 100);
+  return `${val} (${pct}%)`;
+};
  
  interface ContentUsageData {
    role: string;
@@ -163,12 +169,12 @@ export const ContentUsageTable = () => {
                         <Badge variant="secondary">{row.role}</Badge>
                       </TableCell>
                       <TableCell className={row.lessonPlan === "NA" ? "text-muted-foreground" : ""}>
-                        {row.lessonPlan}
+                        {fmtWithPct(row.lessonPlan, total)}
                       </TableCell>
-                      <TableCell>{row.learningResource}</TableCell>
-                      <TableCell>{row.items}</TableCell>
-                      <TableCell>{row.tests}</TableCell>
-                      <TableCell>{row.ebook}</TableCell>
+                      <TableCell>{fmtWithPct(row.learningResource, total)}</TableCell>
+                      <TableCell>{fmtWithPct(row.items, total)}</TableCell>
+                      <TableCell>{fmtWithPct(row.tests, total)}</TableCell>
+                      <TableCell>{fmtWithPct(row.ebook, total)}</TableCell>
                       <TableCell>
                         <TrendChip value={total} prev={prevOf(total, ri + 1)} />
                       </TableCell>
@@ -224,12 +230,12 @@ export const ContentUsageTable = () => {
                     <TableRow key={row.class} className="hover:bg-muted/30">
                       <TableCell className="font-medium">{row.class}</TableCell>
                       <TableCell className={row.lessonPlan === "NA" ? "text-muted-foreground" : ""}>
-                        {row.lessonPlan}
+                        {fmtWithPct(row.lessonPlan, total)}
                       </TableCell>
-                      <TableCell>{row.learningResource}</TableCell>
-                      <TableCell>{row.items}</TableCell>
-                      <TableCell>{row.tests}</TableCell>
-                      <TableCell>{row.ebook}</TableCell>
+                      <TableCell>{fmtWithPct(row.learningResource, total)}</TableCell>
+                      <TableCell>{fmtWithPct(row.items, total)}</TableCell>
+                      <TableCell>{fmtWithPct(row.tests, total)}</TableCell>
+                      <TableCell>{fmtWithPct(row.ebook, total)}</TableCell>
                       <TableCell>
                         <TrendChip value={total} prev={prevOf(total, ri + 3)} />
                       </TableCell>
@@ -283,11 +289,11 @@ export const ContentUsageTable = () => {
                     return (
                     <TableRow key={row.studentName} className="hover:bg-muted/30">
                       <TableCell className="font-medium">{row.studentName}</TableCell>
-                      <TableCell>{row.lessonPlan}</TableCell>
-                      <TableCell>{row.learningResource}</TableCell>
-                      <TableCell>{row.items}</TableCell>
-                      <TableCell>{row.tests}</TableCell>
-                      <TableCell>{row.ebook}</TableCell>
+                      <TableCell>{fmtWithPct(row.lessonPlan, total)}</TableCell>
+                      <TableCell>{fmtWithPct(row.learningResource, total)}</TableCell>
+                      <TableCell>{fmtWithPct(row.items, total)}</TableCell>
+                      <TableCell>{fmtWithPct(row.tests, total)}</TableCell>
+                      <TableCell>{fmtWithPct(row.ebook, total)}</TableCell>
                       <TableCell>
                         <TrendChip value={total} prev={prevOf(total, ri + 5)} />
                       </TableCell>
