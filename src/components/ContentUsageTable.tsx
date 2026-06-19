@@ -151,7 +151,7 @@ export const ContentUsageTable = () => {
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <CardTitle>Content Usage</CardTitle>
-                <Badge variant="outline" className="text-[10px] font-normal text-muted-foreground h-5 px-2">
+                <Badge variant="secondary" className="text-xs font-medium h-6 px-2.5 tracking-wide">
                   mins
                 </Badge>
               </div>
