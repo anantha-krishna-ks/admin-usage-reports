@@ -197,6 +197,7 @@ const CustomContentDetail = () => {
                                       {row.items.map((item, idx) => (
                                         <TableRow key={idx}>
                                           <TableCell className="font-medium">{item.title}</TableCell>
+                                          <TableCell>{item.chapter}</TableCell>
                                           <TableCell>{item.contentType}</TableCell>
                                           <TableCell>{item.date}</TableCell>
                                         </TableRow>
