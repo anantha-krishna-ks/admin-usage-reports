@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ArrowLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ChevronRight, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -205,7 +205,7 @@ const CustomContentDetail = () => {
                                           <TableCell className="font-medium">{item.title}</TableCell>
                                           <TableCell>{item.chapter}</TableCell>
                                           <TableCell>{item.contentType}</TableCell>
-                                          <TableCell>{item.date} {item.time}</TableCell>
+                                          <TableCell>{item.date} <span className="inline-flex items-center gap-1 text-muted-foreground"><Clock size={12} />{item.time}</span></TableCell>
                                         </TableRow>
                                       ))}
                                     </TableBody>
