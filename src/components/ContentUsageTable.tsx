@@ -17,11 +17,20 @@ const prevOf = (val: number, seed: number) => {
   const delta = (((seed * 17) % 25) - 10) / 100;
   return val / (1 + delta);
 };
-const fmtWithPct = (val: string, total: number) => {
-  if (val === "NA" || total === 0) return val;
+const UsageCell = ({ val, total }: { val: string; total: number }) => {
+  if (val === "NA" || total === 0) {
+    return <span className="text-muted-foreground">{val}</span>;
+  }
   const n = toNum(val);
   const pct = Math.round((n / total) * 100);
-  return `${val} (${pct}%)`;
+  return (
+    <div className="flex items-center gap-2">
+      <span className="font-medium tabular-nums">{val}</span>
+      <span className="text-[11px] font-medium bg-muted text-muted-foreground px-1.5 py-0.5 rounded-md tabular-nums">
+        {pct}%
+      </span>
+    </div>
+  );
 };
  
  interface ContentUsageData {
