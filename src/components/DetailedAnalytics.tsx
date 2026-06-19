@@ -148,9 +148,12 @@ const TabPanel = ({ data, contentLabels }: { data: typeof userTypeData.teachers;
 export const DetailedAnalytics = () => {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Detailed Analytics</CardTitle>
-        <CardDescription>Usage breakdown by user type and content category</CardDescription>
+      <CardHeader className="flex flex-row items-start justify-between">
+        <div className="space-y-1">
+          <CardTitle>Detailed Analytics</CardTitle>
+          <CardDescription>Usage breakdown by user type and content category</CardDescription>
+        </div>
+        <SectionInfoButton description="Comprehensive breakdown of application, content, and total usage metrics segmented by user type." />
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="teachers" className="w-full">

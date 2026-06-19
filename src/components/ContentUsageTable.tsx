@@ -132,10 +132,13 @@ export const ContentUsageTable = () => {
    return (
      <>
        <Card>
-         <CardHeader>
-           <CardTitle>Content Usage</CardTitle>
-           <CardDescription>Usage metrics by role across different content types</CardDescription>
-         </CardHeader>
+          <CardHeader className="flex flex-row items-start justify-between">
+            <div className="space-y-1">
+              <CardTitle>Content Usage</CardTitle>
+              <CardDescription>Usage metrics by role across different content types</CardDescription>
+            </div>
+            <SectionInfoButton description="Usage metrics by role across different content types including lesson plans, resources, items, tests, and ebooks." />
+          </CardHeader>
          <CardContent>
            <div className="rounded-md border">
              <Table>

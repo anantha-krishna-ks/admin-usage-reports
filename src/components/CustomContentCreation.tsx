@@ -27,9 +27,12 @@ export const CustomContentCreation = () => {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Custom Content Creation</CardTitle>
-        <CardDescription>Content created by teachers across different categories</CardDescription>
+      <CardHeader className="flex flex-row items-start justify-between">
+        <div className="space-y-1">
+          <CardTitle>Custom Content Creation</CardTitle>
+          <CardDescription>Content created by teachers across different categories</CardDescription>
+        </div>
+        <SectionInfoButton description="Content created by teachers across different categories including lesson plans, resources, questions, tests, and assignments." />
       </CardHeader>
       <CardContent>
         <div className="rounded-md border">
