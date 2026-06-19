@@ -17,6 +17,12 @@ const prevOf = (val: number, seed: number) => {
   const delta = (((seed * 17) % 25) - 10) / 100;
   return val / (1 + delta);
 };
+const fmtWithPct = (val: string, total: number) => {
+  if (val === "NA" || total === 0) return val;
+  const n = toNum(val);
+  const pct = Math.round((n / total) * 100);
+  return `${val} (${pct}%)`;
+};
  
  interface ContentUsageData {
    role: string;
