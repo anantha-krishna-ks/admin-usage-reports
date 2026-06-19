@@ -26,7 +26,7 @@ const UsageCell = ({ val, total }: { val: string; total: number }) => {
   return (
     <div className="flex items-center gap-2">
       <span className="font-medium tabular-nums">{val}</span>
-      <span className="text-[11px] font-medium bg-muted text-muted-foreground px-1.5 py-0.5 rounded-md tabular-nums">
+      <span className="text-xs font-medium bg-muted text-foreground px-1.5 py-0.5 rounded-md tabular-nums">
         {pct}%
       </span>
     </div>
