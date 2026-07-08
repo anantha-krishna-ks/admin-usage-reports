@@ -85,9 +85,6 @@ const SuperAdminDashboard = () => {
         {/* Detailed Analytics */}
         <DetailedAnalytics />
 
-        {/* Content Usage */}
-        <ContentUsageTable />
-
         {/* Custom Content Creation */}
         <CustomContentCreation />
       </div>
