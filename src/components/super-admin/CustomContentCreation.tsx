@@ -133,6 +133,16 @@ export const CustomContentCreation = () => {
             </TableBody>
           </Table>
         </div>
+        <div className="mt-4 flex justify-end">
+          <Button
+            variant="default"
+            size="sm"
+            className="group rounded-full px-4 shadow-sm hover:shadow-md transition-all"
+          >
+            View More
+            <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
