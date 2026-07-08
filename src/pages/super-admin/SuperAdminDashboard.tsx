@@ -5,7 +5,6 @@ import { CombinedUsageCard } from "@/components/super-admin/CombinedUsageCard";
 import { ActiveUsersCard } from "@/components/super-admin/ActiveUsersCard";
 import { ApplicationTrendChart } from "@/components/super-admin/ApplicationTrendChart";
 import { DetailedAnalytics } from "@/components/super-admin/DetailedAnalytics";
-import { ContentUsageTable } from "@/components/super-admin/ContentUsageTable";
 import { CustomContentCreation } from "@/components/super-admin/CustomContentCreation";
 import { DateRangeFilter } from "@/components/super-admin/DateRangeFilter";
 import { ExportButton } from "@/components/proctoring/ExportButton";
