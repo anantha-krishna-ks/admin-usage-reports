@@ -112,13 +112,14 @@ export const DetailedAnalytics = () => {
             <SchoolTable rows={contentData} />
           </TabsContent>
         </Tabs>
-        <div className="mt-5">
+        <div className="mt-4 flex justify-end">
           <Button
             variant="default"
-            className="w-full group shadow-sm hover:shadow-md transition-all"
+            size="sm"
+            className="group rounded-full px-4 shadow-sm hover:shadow-md transition-all"
           >
             View More
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </Button>
         </div>
       </CardContent>
