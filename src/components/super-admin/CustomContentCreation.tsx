@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Eye, School, TrendingUp } from "lucide-react";
+import { Eye, School, TrendingUp, ArrowRight } from "lucide-react";
 import { TrendChip } from "@/components/TrendChip";
 import { SectionInfoButton } from "@/components/SectionInfoButton";
 
@@ -132,6 +132,16 @@ export const CustomContentCreation = () => {
               })}
             </TableBody>
           </Table>
+        </div>
+        <div className="mt-4 flex justify-end">
+          <Button
+            variant="default"
+            size="sm"
+            className="group rounded-full px-4 shadow-sm hover:shadow-md transition-all"
+          >
+            View More
+            <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+          </Button>
         </div>
       </CardContent>
     </Card>
