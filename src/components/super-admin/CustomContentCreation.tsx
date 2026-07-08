@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Eye, School, TrendingUp } from "lucide-react";
+import { Eye, School, TrendingUp, ArrowRight } from "lucide-react";
 import { TrendChip } from "@/components/TrendChip";
 import { SectionInfoButton } from "@/components/SectionInfoButton";
 
