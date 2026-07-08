@@ -1,152 +1,90 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Monitor, Smartphone, Building2, FileText, Library, BookOpen, TrendingUp, TrendingDown, LucideIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Eye, ArrowRight } from "lucide-react";
 import { SectionInfoButton } from "@/components/SectionInfoButton";
 
-type Metric = { value: number; prev: number };
+interface SchoolRow {
+  school: string;
+  totalUsers: number;
+  activeUsers: number;
+  teachers: number;
+  students: number;
+  otherUsers: number;
+  totalUsage: number;
+}
 
-const userTypeData = {
-  teachers: {
-    applicationUsage: 980,
-    applicationBreakdown: {
-      web: { value: 490, prev: 440 },
-      mobile: { value: 350, prev: 380 },
-      school: { value: 140, prev: 120 },
-    },
-    contentUsage: 1470,
-    contentBreakdown: {
-      lessonPlans: { value: 590, prev: 510 },
-      learningResources: { value: 520, prev: 480 },
-      ebooks: { value: 360, prev: 390 },
-    },
-    totalUsage: 2450,
-  },
-  students: {
-    applicationUsage: 6890,
-    applicationBreakdown: {
-      web: { value: 3100, prev: 2850 },
-      mobile: { value: 2650, prev: 2400 },
-      school: { value: 1140, prev: 1220 },
-    },
-    contentUsage: 9280,
-    contentBreakdown: {
-      lessonPlans: { value: 3200, prev: 2950 },
-      learningResources: { value: 3850, prev: 3600 },
-      ebooks: { value: 2230, prev: 2350 },
-    },
-    totalUsage: 16170,
-  },
-  parents: {
-    applicationUsage: 630,
-    applicationBreakdown: {
-      web: { value: 340, prev: 310 },
-      mobile: { value: 210, prev: 220 },
-      school: { value: 80, prev: 70 },
-    },
-    contentUsage: 2000,
-    contentBreakdown: {
-      lessonPlans: { value: 800, prev: 720 },
-      learningResources: { value: 780, prev: 800 },
-      ebooks: { value: 420, prev: 380 },
-    },
-    totalUsage: 2630,
-  },
-};
+const applicationData: SchoolRow[] = [
+  { school: "Riverside Academy", totalUsers: 1250, activeUsers: 1008, teachers: 490, students: 3100, otherUsers: 340, totalUsage: 3930 },
+  { school: "Lakeside High School", totalUsers: 980, activeUsers: 812, teachers: 380, students: 2450, otherUsers: 260, totalUsage: 3090 },
+  { school: "Mountain View School", totalUsers: 1420, activeUsers: 1180, teachers: 520, students: 3480, otherUsers: 390, totalUsage: 4390 },
+  { school: "Sunrise International", totalUsers: 870, activeUsers: 690, teachers: 310, students: 2100, otherUsers: 220, totalUsage: 2630 },
+  { school: "Green Valley School", totalUsers: 1105, activeUsers: 905, teachers: 420, students: 2780, otherUsers: 290, totalUsage: 3490 },
+];
 
-const TrendChip = ({ value, prev }: { value: number; prev: number }) => {
-  const pct = prev === 0 ? 0 : ((value - prev) / prev) * 100;
-  const up = pct >= 0;
+const contentData: SchoolRow[] = [
+  { school: "Riverside Academy", totalUsers: 1250, activeUsers: 1008, teachers: 590, students: 3850, otherUsers: 420, totalUsage: 4860 },
+  { school: "Lakeside High School", totalUsers: 980, activeUsers: 812, teachers: 460, students: 3020, otherUsers: 315, totalUsage: 3795 },
+  { school: "Mountain View School", totalUsers: 1420, activeUsers: 1180, teachers: 640, students: 4290, otherUsers: 470, totalUsage: 5400 },
+  { school: "Sunrise International", totalUsers: 870, activeUsers: 690, teachers: 380, students: 2610, otherUsers: 275, totalUsage: 3265 },
+  { school: "Green Valley School", totalUsers: 1105, activeUsers: 905, teachers: 510, students: 3450, otherUsers: 360, totalUsage: 4320 },
+];
+
+const SchoolTable = ({ rows }: { rows: SchoolRow[] }) => {
+  const navigate = useNavigate();
   return (
-    <div
-      className={`flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${
-        up
-          ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-          : "bg-red-500/10 text-red-600 dark:text-red-400"
-      }`}
-      title={`Previous: ${prev.toLocaleString()}`}
-    >
-      {up ? <TrendingUp className="h-2.5 w-2.5" /> : <TrendingDown className="h-2.5 w-2.5" />}
-      <span className="tabular-nums">{up ? "+" : ""}{pct.toFixed(1)}%</span>
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[220px]">School</TableHead>
+            <TableHead>Total Users</TableHead>
+            <TableHead>Active Users</TableHead>
+            <TableHead>Teachers</TableHead>
+            <TableHead>Students</TableHead>
+            <TableHead>Other Users</TableHead>
+            <TableHead>Total Usage</TableHead>
+            <TableHead className="w-[90px]">Preview</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rows.map((r) => (
+            <TableRow key={r.school}>
+              <TableCell className="font-medium">{r.school}</TableCell>
+              <TableCell className="tabular-nums">{r.totalUsers.toLocaleString()}</TableCell>
+              <TableCell className="tabular-nums">{r.activeUsers.toLocaleString()}</TableCell>
+              <TableCell className="tabular-nums">{r.teachers.toLocaleString()}</TableCell>
+              <TableCell className="tabular-nums">{r.students.toLocaleString()}</TableCell>
+              <TableCell className="tabular-nums">{r.otherUsers.toLocaleString()}</TableCell>
+              <TableCell>
+                <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-xs font-medium tabular-nums">
+                  {r.totalUsage.toLocaleString()} mins
+                </span>
+              </TableCell>
+              <TableCell>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0"
+                  onClick={() => navigate(`/?school=${encodeURIComponent(r.school)}`)}
+                >
+                  <Eye className="h-4 w-4" />
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };
-
-const BreakdownItem = ({
-  icon: Icon,
-  label,
-  metric,
-  tone,
-}: {
-  icon: LucideIcon;
-  label: string;
-  metric: Metric;
-  tone: "primary" | "chart-2" | "chart-3" | "secondary" | "chart-4" | "chart-5";
-}) => {
-  const toneClasses: Record<string, string> = {
-    primary: "from-primary/10 to-primary/5 border-primary/20",
-    "chart-2": "from-chart-2/10 to-chart-2/5 border-chart-2/20",
-    "chart-3": "from-chart-3/10 to-chart-3/5 border-chart-3/20",
-    secondary: "from-secondary/10 to-secondary/5 border-secondary/20",
-    "chart-4": "from-chart-4/10 to-chart-4/5 border-chart-4/20",
-    "chart-5": "from-chart-5/10 to-chart-5/5 border-chart-5/20",
-  };
-  const iconBg: Record<string, string> = {
-    primary: "bg-primary/10 text-primary",
-    "chart-2": "bg-chart-2/10 text-chart-2",
-    "chart-3": "bg-chart-3/10 text-chart-3",
-    secondary: "bg-secondary/10 text-secondary",
-    "chart-4": "bg-chart-4/10 text-chart-4",
-    "chart-5": "bg-chart-5/10 text-chart-5",
-  };
-  return (
-    <div className={`flex items-center gap-3 p-3 rounded-lg bg-gradient-to-br border transition-all hover:shadow-md ${toneClasses[tone]}`}>
-      <div className={`p-2 rounded-md ${iconBg[tone]}`}>
-        <Icon className="h-4 w-4" />
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center justify-between gap-2">
-          <p className="text-xs text-muted-foreground">{label}</p>
-          <TrendChip value={metric.value} prev={metric.prev} />
-        </div>
-        <p className="text-sm font-semibold text-foreground">{metric.value.toLocaleString()}</p>
-      </div>
-    </div>
-  );
-};
-
-const TabPanel = ({ data, contentLabels }: { data: typeof userTypeData.teachers; contentLabels: { lessonPlans: string } }) => (
-  <div className="grid grid-cols-3 gap-6 divide-x divide-border">
-    <div className="space-y-4">
-      <div>
-        <p className="text-sm text-muted-foreground mb-1">Application Usage</p>
-        <p className="text-3xl font-semibold text-primary">{data.applicationUsage.toLocaleString()}</p>
-      </div>
-      <div className="space-y-2">
-        <BreakdownItem icon={Monitor} label="Web" metric={data.applicationBreakdown.web} tone="primary" />
-        <BreakdownItem icon={Smartphone} label="Mobile" metric={data.applicationBreakdown.mobile} tone="chart-2" />
-        <BreakdownItem icon={Building2} label="School" metric={data.applicationBreakdown.school} tone="chart-3" />
-      </div>
-    </div>
-    <div className="pl-6 space-y-4">
-      <div>
-        <p className="text-sm text-muted-foreground mb-1">Content Usage</p>
-        <p className="text-3xl font-semibold text-secondary">{data.contentUsage.toLocaleString()}</p>
-      </div>
-      <div className="space-y-2">
-        <BreakdownItem icon={FileText} label={contentLabels.lessonPlans} metric={data.contentBreakdown.lessonPlans} tone="secondary" />
-        <BreakdownItem icon={Library} label="Learning Resources" metric={data.contentBreakdown.learningResources} tone="chart-4" />
-        <BreakdownItem icon={BookOpen} label="Ebooks" metric={data.contentBreakdown.ebooks} tone="chart-5" />
-      </div>
-    </div>
-    <div className="pl-6">
-      <p className="text-sm text-muted-foreground mb-1">Total Usage</p>
-      <p className="text-3xl font-semibold text-foreground">{data.totalUsage.toLocaleString()}</p>
-    </div>
-  </div>
-);
 
 export const DetailedAnalytics = () => {
+  const [tab, setTab] = useState<"application" | "content">("application");
   return (
     <Card>
       <CardHeader className="flex flex-row items-start justify-between">
@@ -157,27 +95,33 @@ export const DetailedAnalytics = () => {
               mins
             </Badge>
           </div>
-          <CardDescription>Usage breakdown by user type and content category</CardDescription>
+          <CardDescription>School-wise usage breakdown across the network</CardDescription>
         </div>
-        <SectionInfoButton description="Comprehensive breakdown of application, content, and total usage metrics segmented by user type." />
+        <SectionInfoButton description="Network-wide breakdown of application and content usage segmented by school." />
       </CardHeader>
       <CardContent>
-        <Tabs defaultValue="teachers" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="teachers">Teachers</TabsTrigger>
-            <TabsTrigger value="students">Students</TabsTrigger>
-            <TabsTrigger value="parents">OTHER USERS</TabsTrigger>
+        <Tabs value={tab} onValueChange={(v) => setTab(v as "application" | "content")} className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="application">Application</TabsTrigger>
+            <TabsTrigger value="content">Content</TabsTrigger>
           </TabsList>
-          <TabsContent value="teachers" className="space-y-4 pt-4">
-            <TabPanel data={userTypeData.teachers} contentLabels={{ lessonPlans: "Lesson Plans" }} />
+          <TabsContent value="application" className="pt-4">
+            <SchoolTable rows={applicationData} />
           </TabsContent>
-          <TabsContent value="students" className="space-y-4 pt-4">
-            <TabPanel data={userTypeData.students} contentLabels={{ lessonPlans: "Assessments" }} />
-          </TabsContent>
-          <TabsContent value="parents" className="space-y-4 pt-4">
-            <TabPanel data={userTypeData.parents} contentLabels={{ lessonPlans: "Assessments" }} />
+          <TabsContent value="content" className="pt-4">
+            <SchoolTable rows={contentData} />
           </TabsContent>
         </Tabs>
+        <div className="mt-4 flex justify-end">
+          <Button
+            variant="outline"
+            size="sm"
+            className="group border-primary/30 bg-primary/5 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+          >
+            View More
+            <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
