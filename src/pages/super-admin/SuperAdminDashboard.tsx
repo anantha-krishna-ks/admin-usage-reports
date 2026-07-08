@@ -5,7 +5,6 @@ import { CombinedUsageCard } from "@/components/super-admin/CombinedUsageCard";
 import { ActiveUsersCard } from "@/components/super-admin/ActiveUsersCard";
 import { ApplicationTrendChart } from "@/components/super-admin/ApplicationTrendChart";
 import { DetailedAnalytics } from "@/components/super-admin/DetailedAnalytics";
-import { SectionDrillDown } from "@/components/super-admin/SectionDrillDown";
 import { ContentUsageTable } from "@/components/super-admin/ContentUsageTable";
 import { CustomContentCreation } from "@/components/super-admin/CustomContentCreation";
 import { DateRangeFilter } from "@/components/super-admin/DateRangeFilter";
@@ -89,9 +88,6 @@ const SuperAdminDashboard = () => {
 
         {/* Content Usage */}
         <ContentUsageTable />
-
-        {/* Section Drill Down */}
-        <SectionDrillDown dateRange={date} />
 
         {/* Custom Content Creation */}
         <CustomContentCreation />
