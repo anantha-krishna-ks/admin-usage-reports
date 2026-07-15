@@ -5,9 +5,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Eye, ArrowRight } from "lucide-react";
+import { Eye, ArrowRight, LayoutGrid, Globe, Smartphone, Building2, Laptop, type LucideIcon } from "lucide-react";
 import { SectionInfoButton } from "@/components/SectionInfoButton";
 import { TrendChip } from "@/components/TrendChip";
+import { cn } from "@/lib/utils";
+
+type Channel = "all" | "web" | "mobile" | "school" | "desktop";
 
 interface SchoolRow {
   school: string;
@@ -16,7 +19,7 @@ interface SchoolRow {
   teachers: number;
   students: number;
   otherUsers: number;
-  totalUsage: number;
+  usage: Record<Exclude<Channel, "all">, number>;
 }
 
 interface SchoolContentRow {
@@ -31,11 +34,19 @@ interface SchoolContentRow {
 }
 
 const applicationData: SchoolRow[] = [
-  { school: "Riverside Academy", totalUsers: 1250, activeUsers: 1008, teachers: 490, students: 3100, otherUsers: 340, totalUsage: 3930 },
-  { school: "Lakeside High School", totalUsers: 980, activeUsers: 812, teachers: 380, students: 2450, otherUsers: 260, totalUsage: 3090 },
-  { school: "Mountain View School", totalUsers: 1420, activeUsers: 1180, teachers: 520, students: 3480, otherUsers: 390, totalUsage: 4390 },
-  { school: "Sunrise International", totalUsers: 870, activeUsers: 690, teachers: 310, students: 2100, otherUsers: 220, totalUsage: 2630 },
-  { school: "Green Valley School", totalUsers: 1105, activeUsers: 905, teachers: 420, students: 2780, otherUsers: 290, totalUsage: 3490 },
+  { school: "Riverside Academy", totalUsers: 1250, activeUsers: 1008, teachers: 490, students: 3100, otherUsers: 340, usage: { web: 1769, mobile: 983, school: 590, desktop: 590 } },
+  { school: "Lakeside High School", totalUsers: 980, activeUsers: 812, teachers: 380, students: 2450, otherUsers: 260, usage: { web: 1391, mobile: 865, school: 494, desktop: 340 } },
+  { school: "Mountain View School", totalUsers: 1420, activeUsers: 1180, teachers: 520, students: 3480, otherUsers: 390, usage: { web: 1976, mobile: 1207, school: 790, desktop: 418 } },
+  { school: "Sunrise International", totalUsers: 870, activeUsers: 690, teachers: 310, students: 2100, otherUsers: 220, usage: { web: 1184, mobile: 710, school: 395, desktop: 342 } },
+  { school: "Green Valley School", totalUsers: 1105, activeUsers: 905, teachers: 420, students: 2780, otherUsers: 290, usage: { web: 1571, mobile: 906, school: 558, desktop: 456 } },
+];
+
+const channelFilters: { id: Channel; label: string; icon: LucideIcon }[] = [
+  { id: "all", label: "All", icon: LayoutGrid },
+  { id: "web", label: "Web", icon: Globe },
+  { id: "mobile", label: "Mobile", icon: Smartphone },
+  { id: "school", label: "School", icon: Building2 },
+  { id: "desktop", label: "Desktop", icon: Laptop },
 ];
 
 const contentData: SchoolContentRow[] = [
@@ -46,8 +57,14 @@ const contentData: SchoolContentRow[] = [
   { school: "Green Valley School", lessonPlan: 110, learningResource: 78, items: 305, tests: 25, ebook: 48, trendValue: 566, trendPrev: 515 },
 ];
 
-const ApplicationTable = ({ rows }: { rows: SchoolRow[] }) => {
+const getUsage = (row: SchoolRow, channel: Channel) =>
+  channel === "all"
+    ? Object.values(row.usage).reduce((s, v) => s + v, 0)
+    : row.usage[channel];
+
+const ApplicationTable = ({ rows, channel }: { rows: SchoolRow[]; channel: Channel }) => {
   const navigate = useNavigate();
+  const activeLabel = channel === "all" ? "Total" : channelFilters.find((c) => c.id === channel)?.label;
   return (
     <div className="rounded-md border">
       <Table>
@@ -59,7 +76,7 @@ const ApplicationTable = ({ rows }: { rows: SchoolRow[] }) => {
             <TableHead>Teachers</TableHead>
             <TableHead>Students</TableHead>
             <TableHead>Other Users</TableHead>
-            <TableHead>Total Usage</TableHead>
+            <TableHead>{activeLabel} Usage</TableHead>
             <TableHead className="w-[90px]">Preview</TableHead>
           </TableRow>
         </TableHeader>
@@ -74,7 +91,7 @@ const ApplicationTable = ({ rows }: { rows: SchoolRow[] }) => {
               <TableCell className="tabular-nums">{r.otherUsers.toLocaleString()}</TableCell>
               <TableCell>
                 <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-xs font-medium tabular-nums">
-                  {r.totalUsage.toLocaleString()} mins
+                  {getUsage(r, channel).toLocaleString()} mins
                 </span>
               </TableCell>
               <TableCell>
@@ -144,6 +161,8 @@ const ContentTable = ({ rows }: { rows: SchoolContentRow[] }) => {
 
 export const DetailedAnalytics = () => {
   const [tab, setTab] = useState<"application" | "content">("application");
+  const [channel, setChannel] = useState<Channel>("all");
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-start justify-between">
@@ -164,8 +183,29 @@ export const DetailedAnalytics = () => {
             <TabsTrigger value="application">Application</TabsTrigger>
             <TabsTrigger value="content">Content</TabsTrigger>
           </TabsList>
-          <TabsContent value="application" className="pt-4">
-            <ApplicationTable rows={applicationData} />
+          <TabsContent value="application" className="pt-4 space-y-4">
+            <div className="flex flex-wrap items-center gap-2">
+              {channelFilters.map((f) => {
+                const Icon = f.icon;
+                const active = channel === f.id;
+                return (
+                  <button
+                    key={f.id}
+                    onClick={() => setChannel(f.id)}
+                    className={cn(
+                      "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                      active
+                        ? "border-primary/60 bg-primary/10 text-primary"
+                        : "border-border bg-muted/30 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+                    )}
+                  >
+                    <Icon className="h-3.5 w-3.5" />
+                    {f.label}
+                  </button>
+                );
+              })}
+            </div>
+            <ApplicationTable rows={applicationData} channel={channel} />
           </TabsContent>
           <TabsContent value="content" className="pt-4">
             <ContentTable rows={contentData} />
