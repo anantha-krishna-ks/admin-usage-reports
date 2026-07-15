@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eye, ArrowRight } from "lucide-react";
 import { SectionInfoButton } from "@/components/SectionInfoButton";
+import { TrendChip } from "@/components/TrendChip";
 
 interface SchoolRow {
   school: string;
@@ -18,6 +19,16 @@ interface SchoolRow {
   totalUsage: number;
 }
 
+interface SchoolContentRow {
+  school: string;
+  lessonPlan: number;
+  learningResource: number;
+  items: number;
+  tests: number;
+  ebook: number;
+  trend: number;
+}
+
 const applicationData: SchoolRow[] = [
   { school: "Riverside Academy", totalUsers: 1250, activeUsers: 1008, teachers: 490, students: 3100, otherUsers: 340, totalUsage: 3930 },
   { school: "Lakeside High School", totalUsers: 980, activeUsers: 812, teachers: 380, students: 2450, otherUsers: 260, totalUsage: 3090 },
@@ -26,15 +37,15 @@ const applicationData: SchoolRow[] = [
   { school: "Green Valley School", totalUsers: 1105, activeUsers: 905, teachers: 420, students: 2780, otherUsers: 290, totalUsage: 3490 },
 ];
 
-const contentData: SchoolRow[] = [
-  { school: "Riverside Academy", totalUsers: 1250, activeUsers: 1008, teachers: 590, students: 3850, otherUsers: 420, totalUsage: 4860 },
-  { school: "Lakeside High School", totalUsers: 980, activeUsers: 812, teachers: 460, students: 3020, otherUsers: 315, totalUsage: 3795 },
-  { school: "Mountain View School", totalUsers: 1420, activeUsers: 1180, teachers: 640, students: 4290, otherUsers: 470, totalUsage: 5400 },
-  { school: "Sunrise International", totalUsers: 870, activeUsers: 690, teachers: 380, students: 2610, otherUsers: 275, totalUsage: 3265 },
-  { school: "Green Valley School", totalUsers: 1105, activeUsers: 905, teachers: 510, students: 3450, otherUsers: 360, totalUsage: 4320 },
+const contentData: SchoolContentRow[] = [
+  { school: "Riverside Academy", lessonPlan: 124, learningResource: 86, items: 340, tests: 28, ebook: 55, trend: 12 },
+  { school: "Lakeside High School", lessonPlan: 98, learningResource: 72, items: 285, tests: 22, ebook: 41, trend: 8 },
+  { school: "Mountain View School", lessonPlan: 156, learningResource: 94, items: 410, tests: 35, ebook: 62, trend: 15 },
+  { school: "Sunrise International", lessonPlan: 82, learningResource: 58, items: 220, tests: 18, ebook: 34, trend: -5 },
+  { school: "Green Valley School", lessonPlan: 110, learningResource: 78, items: 305, tests: 25, ebook: 48, trend: 10 },
 ];
 
-const SchoolTable = ({ rows }: { rows: SchoolRow[] }) => {
+const ApplicationTable = ({ rows }: { rows: SchoolRow[] }) => {
   const navigate = useNavigate();
   return (
     <div className="rounded-md border">
@@ -83,6 +94,53 @@ const SchoolTable = ({ rows }: { rows: SchoolRow[] }) => {
   );
 };
 
+const ContentTable = ({ rows }: { rows: SchoolContentRow[] }) => {
+  const navigate = useNavigate();
+  return (
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[220px]">School</TableHead>
+            <TableHead>Lesson Plan</TableHead>
+            <TableHead>Learning Resource</TableHead>
+            <TableHead>Items</TableHead>
+            <TableHead>Tests</TableHead>
+            <TableHead>Ebook</TableHead>
+            <TableHead>Trend</TableHead>
+            <TableHead className="w-[90px]">Preview</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rows.map((r) => (
+            <TableRow key={r.school}>
+              <TableCell className="font-medium">{r.school}</TableCell>
+              <TableCell className="tabular-nums">{r.lessonPlan.toLocaleString()}</TableCell>
+              <TableCell className="tabular-nums">{r.learningResource.toLocaleString()}</TableCell>
+              <TableCell className="tabular-nums">{r.items.toLocaleString()}</TableCell>
+              <TableCell className="tabular-nums">{r.tests.toLocaleString()}</TableCell>
+              <TableCell className="tabular-nums">{r.ebook.toLocaleString()}</TableCell>
+              <TableCell>
+                <TrendChip trend={r.trend} />
+              </TableCell>
+              <TableCell>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0"
+                  onClick={() => navigate(`/?school=${encodeURIComponent(r.school)}`)}
+                >
+                  <Eye className="h-4 w-4" />
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+};
+
 export const DetailedAnalytics = () => {
   const [tab, setTab] = useState<"application" | "content">("application");
   return (
@@ -106,10 +164,10 @@ export const DetailedAnalytics = () => {
             <TabsTrigger value="content">Content</TabsTrigger>
           </TabsList>
           <TabsContent value="application" className="pt-4">
-            <SchoolTable rows={applicationData} />
+            <ApplicationTable rows={applicationData} />
           </TabsContent>
           <TabsContent value="content" className="pt-4">
-            <SchoolTable rows={contentData} />
+            <ContentTable rows={contentData} />
           </TabsContent>
         </Tabs>
         <div className="mt-4 flex justify-end">
