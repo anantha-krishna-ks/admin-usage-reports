@@ -23,8 +23,6 @@ import {
   PauseCircle,
   RefreshCw,
   PlugZap,
-  ScanFace,
-  ShieldAlert,
   MoreHorizontal,
 } from "lucide-react";
 
