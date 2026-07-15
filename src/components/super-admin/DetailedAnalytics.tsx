@@ -161,6 +161,8 @@ const ContentTable = ({ rows }: { rows: SchoolContentRow[] }) => {
 
 export const DetailedAnalytics = () => {
   const [tab, setTab] = useState<"application" | "content">("application");
+  const [channel, setChannel] = useState<Channel>("all");
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-start justify-between">
@@ -181,8 +183,29 @@ export const DetailedAnalytics = () => {
             <TabsTrigger value="application">Application</TabsTrigger>
             <TabsTrigger value="content">Content</TabsTrigger>
           </TabsList>
-          <TabsContent value="application" className="pt-4">
-            <ApplicationTable rows={applicationData} />
+          <TabsContent value="application" className="pt-4 space-y-4">
+            <div className="flex flex-wrap items-center gap-2">
+              {channelFilters.map((f) => {
+                const Icon = f.icon;
+                const active = channel === f.id;
+                return (
+                  <button
+                    key={f.id}
+                    onClick={() => setChannel(f.id)}
+                    className={cn(
+                      "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                      active
+                        ? "border-primary/60 bg-primary/10 text-primary"
+                        : "border-border bg-muted/30 text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+                    )}
+                  >
+                    <Icon className="h-3.5 w-3.5" />
+                    {f.label}
+                  </button>
+                );
+              })}
+            </div>
+            <ApplicationTable rows={applicationData} channel={channel} />
           </TabsContent>
           <TabsContent value="content" className="pt-4">
             <ContentTable rows={contentData} />
