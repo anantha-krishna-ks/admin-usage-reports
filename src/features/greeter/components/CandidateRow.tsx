@@ -91,29 +91,14 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
 
       {/* Precheck */}
       <div className="col-span-3 flex flex-col gap-1.5">
-        <StageChips stages={c.stages} />
-        <div className="flex items-center gap-1.5">
-          {c.idMatch.verdict === "match" ? (
-            <span
-              className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2 py-0.5 text-[10px] font-semibold text-success"
-              title={`AI ID match score ${c.idMatch.score}`}
-            >
-              <ScanFace className="h-3 w-3" /> AI matched
-            </span>
-          ) : (
-            <span
-              className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2 py-0.5 text-[10px] font-semibold text-destructive"
-              title={`AI ID ${c.idMatch.verdict} · score ${c.idMatch.score}`}
-            >
-              <ShieldAlert className="h-3 w-3" /> AI not matched
-            </span>
-          )}
-          {c.reconnecting && (
+        <StageChips stages={c.stages} idMatch={c.idMatch} />
+        {c.reconnecting && (
+          <div className="flex items-center gap-1.5">
             <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2 py-0.5 text-[10px] font-semibold text-destructive">
               <WifiOff className="h-3 w-3" /> Reconnect
             </span>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Status */}
