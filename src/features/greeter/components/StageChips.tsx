@@ -30,17 +30,10 @@ const stateLabel: Record<StageState, string> = {
 };
 
 const nodeTone: Record<StageState, string> = {
-  completed: "border-success/40 bg-success/10 text-success",
-  in_progress: "border-warning/40 bg-warning/10 text-warning",
-  flagged: "border-destructive/40 bg-destructive/10 text-destructive",
-  not_started: "border-border bg-background text-muted-foreground",
-};
-
-const segmentTone: Record<StageState, string> = {
-  completed: "bg-success/40",
-  in_progress: "bg-warning/40",
-  flagged: "bg-destructive/40",
-  not_started: "bg-border",
+  completed: "border-success/30 bg-success/10 text-success",
+  in_progress: "border-warning/30 bg-warning/10 text-warning",
+  flagged: "border-destructive/35 bg-destructive/10 text-destructive",
+  not_started: "border-border bg-muted/30 text-muted-foreground",
 };
 
 interface StageChipsProps {
@@ -98,68 +91,71 @@ export function StageChips({ stages, idMatch }: StageChipsProps) {
           };
 
   return (
-    <div className="w-full space-y-2">
-      {/* Summary header */}
-      <div className="flex items-center justify-between gap-2">
-        <div className="min-w-0 truncate text-xs font-semibold text-foreground">
-          {summary.title}
-        </div>
-        <div className="flex shrink-0 items-center gap-1.5">
-          <span className="text-[10px] font-medium text-muted-foreground">
-            {completed}/{STAGE_ORDER.length}
-          </span>
+    <div className="w-full rounded-lg border border-border bg-background/80 p-2 shadow-sm">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex min-w-0 items-center gap-2">
           <span
-            className={`rounded-full border px-1.5 py-0.5 text-[10px] font-semibold ${summary.pillCls}`}
+            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border ${hasIssue ? "border-destructive/30 bg-destructive/10 text-destructive" : inProgress ? "border-warning/30 bg-warning/10 text-warning" : completed === STAGE_ORDER.length ? "border-success/30 bg-success/10 text-success" : "border-border bg-muted/30 text-muted-foreground"}`}
+            aria-hidden="true"
           >
-            {summary.pill}
+            {hasIssue ? (
+              <AlertTriangle className="h-3.5 w-3.5" />
+            ) : inProgress ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : completed === STAGE_ORDER.length ? (
+              <CheckCircle2 className="h-3.5 w-3.5" />
+            ) : (
+              <Circle className="h-2 w-2 fill-current" />
+            )}
           </span>
+          <div className="min-w-0">
+            <div className="truncate text-xs font-semibold leading-tight text-foreground">
+              {summary.title}
+            </div>
+            <div className="mt-0.5 text-[10px] font-medium leading-none text-muted-foreground">
+              {completed}/{STAGE_ORDER.length} stages complete
+            </div>
+          </div>
         </div>
+        <span
+          className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-semibold ${summary.pillCls}`}
+        >
+          {summary.pill}
+        </span>
       </div>
 
-      {/* Stepper */}
       <div
-        className="flex items-start"
+        className="mt-2 grid grid-cols-4 gap-1.5"
         role="progressbar"
         aria-valuenow={completed}
         aria-valuemax={STAGE_ORDER.length}
         aria-label="Precheck progress"
       >
-        {STAGE_ORDER.map((stage, index) => {
+        {STAGE_ORDER.map((stage) => {
           const stageState = stages[stage];
           const isIssue = issueStages.has(stage);
           const isActive = stage === activeStage;
-          const nextState = index < STAGE_ORDER.length - 1 ? stages[STAGE_ORDER[index + 1]] : null;
 
           return (
-            <div key={stage} className="flex min-w-0 flex-1 flex-col items-center">
-              <div className="flex w-full items-center">
-                {/* left connector */}
-                <div
-                  className={`h-0.5 flex-1 ${index === 0 ? "bg-transparent" : segmentTone[stageState]}`}
-                />
-                {/* node */}
-                <div
-                  className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border ${nodeTone[stageState]} ${isActive ? "ring-2 ring-primary/25 ring-offset-1 ring-offset-background" : ""}`}
-                  title={`${STAGE_LABEL[stage]}: ${stateLabel[stageState]}`}
-                  aria-label={`${STAGE_LABEL[stage]} ${stateLabel[stageState]}`}
-                >
-                  {isIssue ? (
-                    <AlertTriangle className="h-3 w-3" strokeWidth={2.5} />
-                  ) : stageState === "completed" ? (
-                    <CheckCircle2 className="h-3.5 w-3.5" />
-                  ) : stageState === "in_progress" ? (
-                    <Loader2 className="h-3 w-3 animate-spin" />
-                  ) : (
-                    <Circle className="h-2 w-2 fill-current" />
-                  )}
-                </div>
-                {/* right connector */}
-                <div
-                  className={`h-0.5 flex-1 ${index === STAGE_ORDER.length - 1 || !nextState ? "bg-transparent" : segmentTone[nextState]}`}
-                />
+            <div
+              key={stage}
+              className={`min-w-0 rounded-md border px-1.5 py-1 ${isIssue ? "border-destructive/35 bg-destructive/10 text-destructive" : nodeTone[stageState]} ${isActive ? "ring-1 ring-primary/25" : ""}`}
+              title={`${STAGE_LABEL[stage]}: ${stateLabel[stageState]}`}
+              aria-label={`${STAGE_LABEL[stage]} ${stateLabel[stageState]}`}
+            >
+              <div className="flex items-center justify-center">
+                {isIssue ? (
+                  <AlertTriangle className="h-3.5 w-3.5" strokeWidth={2.4} />
+                ) : stageState === "completed" ? (
+                  <CheckCircle2 className="h-3.5 w-3.5" />
+                ) : stageState === "in_progress" ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <Circle className="h-2.5 w-2.5 fill-current" />
+                )}
               </div>
               <div
-                className={`mt-1 w-full truncate text-center text-[10px] font-semibold leading-tight ${isActive ? "text-foreground" : "text-muted-foreground"}`}
+                className={`mt-0.5 truncate text-center text-[10px] font-semibold leading-tight ${isIssue || isActive ? "text-current" : "text-muted-foreground"}`}
               >
                 {STAGE_SHORT[stage]}
               </div>
@@ -168,19 +164,18 @@ export function StageChips({ stages, idMatch }: StageChipsProps) {
         })}
       </div>
 
-      {/* Issues */}
       {issues.length > 0 && (
-        <div className="space-y-1 rounded-md border border-destructive/20 bg-destructive/5 px-2 py-1.5">
+        <div className="mt-2 space-y-1 rounded-md border border-destructive/20 bg-destructive/5 px-2 py-1.5">
           {issues.map((iss, idx) => (
             <div
               key={`${iss.stage}-${idx}`}
-              className="flex min-w-0 items-start gap-1.5 text-[10px] leading-tight text-destructive"
+              className="grid min-w-0 grid-cols-[76px_minmax(0,1fr)] items-start gap-1.5 text-[10px] leading-tight text-destructive"
             >
-              <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0" />
-              <div className="min-w-0 flex-1">
-                <span className="font-semibold">{STAGE_LABEL[iss.stage]}:</span>{" "}
-                <span className="font-medium opacity-90">{iss.reason}</span>
+              <div className="flex min-w-0 items-center gap-1 font-semibold">
+                <AlertTriangle className="h-3 w-3 shrink-0" />
+                <span className="truncate">{STAGE_SHORT[iss.stage]}</span>
               </div>
+              <span className="min-w-0 break-words font-medium opacity-90">{iss.reason}</span>
             </div>
           ))}
         </div>
