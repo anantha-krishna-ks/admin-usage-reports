@@ -5,12 +5,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Eye, ArrowRight, LayoutGrid, Globe, Smartphone, Building2, Laptop, type LucideIcon } from "lucide-react";
+import { Eye, ArrowRight, LayoutGrid, Globe, Smartphone, Building2, type LucideIcon } from "lucide-react";
 import { SectionInfoButton } from "@/components/SectionInfoButton";
 import { TrendChip } from "@/components/TrendChip";
 import { cn } from "@/lib/utils";
 
-type Channel = "all" | "web" | "mobile" | "school" | "desktop";
+type Channel = "all" | "web" | "mobile" | "school";
 
 interface SchoolRow {
   school: string;
@@ -34,11 +34,11 @@ interface SchoolContentRow {
 }
 
 const applicationData: SchoolRow[] = [
-  { school: "Riverside Academy", totalUsers: 1250, activeUsers: 1008, teachers: 490, students: 3100, otherUsers: 340, usage: { web: 1769, mobile: 983, school: 590, desktop: 590 } },
-  { school: "Lakeside High School", totalUsers: 980, activeUsers: 812, teachers: 380, students: 2450, otherUsers: 260, usage: { web: 1391, mobile: 865, school: 494, desktop: 340 } },
-  { school: "Mountain View School", totalUsers: 1420, activeUsers: 1180, teachers: 520, students: 3480, otherUsers: 390, usage: { web: 1976, mobile: 1207, school: 790, desktop: 418 } },
-  { school: "Sunrise International", totalUsers: 870, activeUsers: 690, teachers: 310, students: 2100, otherUsers: 220, usage: { web: 1184, mobile: 710, school: 395, desktop: 342 } },
-  { school: "Green Valley School", totalUsers: 1105, activeUsers: 905, teachers: 420, students: 2780, otherUsers: 290, usage: { web: 1571, mobile: 906, school: 558, desktop: 456 } },
+  { school: "Riverside Academy", totalUsers: 1250, activeUsers: 1008, teachers: 490, students: 3100, otherUsers: 340, usage: { web: 2359, mobile: 983, school: 590 } },
+  { school: "Lakeside High School", totalUsers: 980, activeUsers: 812, teachers: 380, students: 2450, otherUsers: 260, usage: { web: 1731, mobile: 865, school: 494 } },
+  { school: "Mountain View School", totalUsers: 1420, activeUsers: 1180, teachers: 520, students: 3480, otherUsers: 390, usage: { web: 2394, mobile: 1207, school: 790 } },
+  { school: "Sunrise International", totalUsers: 870, activeUsers: 690, teachers: 310, students: 2100, otherUsers: 220, usage: { web: 1526, mobile: 710, school: 395 } },
+  { school: "Green Valley School", totalUsers: 1105, activeUsers: 905, teachers: 420, students: 2780, otherUsers: 290, usage: { web: 2027, mobile: 906, school: 558 } },
 ];
 
 const channelFilters: { id: Channel; label: string; icon: LucideIcon }[] = [
@@ -46,7 +46,6 @@ const channelFilters: { id: Channel; label: string; icon: LucideIcon }[] = [
   { id: "web", label: "Web", icon: Globe },
   { id: "mobile", label: "Mobile", icon: Smartphone },
   { id: "school", label: "School", icon: Building2 },
-  { id: "desktop", label: "Desktop", icon: Laptop },
 ];
 
 const contentData: SchoolContentRow[] = [
