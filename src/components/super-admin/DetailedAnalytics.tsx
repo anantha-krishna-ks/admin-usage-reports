@@ -122,7 +122,7 @@ const ContentTable = ({ rows }: { rows: SchoolContentRow[] }) => {
               <TableCell className="tabular-nums">{r.tests.toLocaleString()}</TableCell>
               <TableCell className="tabular-nums">{r.ebook.toLocaleString()}</TableCell>
               <TableCell>
-                <TrendChip trend={r.trend} />
+                <TrendChip value={r.trendValue} prev={r.trendPrev} />
               </TableCell>
               <TableCell>
                 <Button
