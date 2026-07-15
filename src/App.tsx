@@ -33,6 +33,7 @@ const App = () => (
           <Route path="/person-usage-detail" element={<PersonUsageDetail />} />
           <Route path="/environment-detail" element={<EnvironmentDetail />} />
           <Route path="/super-admin" element={<SuperAdminDashboard />} />
+          <Route path="/greeter" element={<GreeterDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
