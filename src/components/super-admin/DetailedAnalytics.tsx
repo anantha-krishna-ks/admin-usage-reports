@@ -10,7 +10,7 @@ import { SectionInfoButton } from "@/components/SectionInfoButton";
 import { TrendChip } from "@/components/TrendChip";
 import { cn } from "@/lib/utils";
 
-type Channel = "all" | "web" | "mobile" | "school" | "desktop";
+type Channel = "all" | "web" | "mobile" | "school";
 
 interface SchoolRow {
   school: string;
