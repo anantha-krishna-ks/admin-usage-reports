@@ -57,8 +57,14 @@ const contentData: SchoolContentRow[] = [
   { school: "Green Valley School", lessonPlan: 110, learningResource: 78, items: 305, tests: 25, ebook: 48, trendValue: 566, trendPrev: 515 },
 ];
 
-const ApplicationTable = ({ rows }: { rows: SchoolRow[] }) => {
+const getUsage = (row: SchoolRow, channel: Channel) =>
+  channel === "all"
+    ? Object.values(row.usage).reduce((s, v) => s + v, 0)
+    : row.usage[channel];
+
+const ApplicationTable = ({ rows, channel }: { rows: SchoolRow[]; channel: Channel }) => {
   const navigate = useNavigate();
+  const activeLabel = channel === "all" ? "Total" : channelFilters.find((c) => c.id === channel)?.label;
   return (
     <div className="rounded-md border">
       <Table>
@@ -70,7 +76,7 @@ const ApplicationTable = ({ rows }: { rows: SchoolRow[] }) => {
             <TableHead>Teachers</TableHead>
             <TableHead>Students</TableHead>
             <TableHead>Other Users</TableHead>
-            <TableHead>Total Usage</TableHead>
+            <TableHead>{activeLabel} Usage</TableHead>
             <TableHead className="w-[90px]">Preview</TableHead>
           </TableRow>
         </TableHeader>
@@ -85,7 +91,7 @@ const ApplicationTable = ({ rows }: { rows: SchoolRow[] }) => {
               <TableCell className="tabular-nums">{r.otherUsers.toLocaleString()}</TableCell>
               <TableCell>
                 <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-xs font-medium tabular-nums">
-                  {r.totalUsage.toLocaleString()} mins
+                  {getUsage(r, channel).toLocaleString()} mins
                 </span>
               </TableCell>
               <TableCell>
