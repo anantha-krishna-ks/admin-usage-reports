@@ -56,7 +56,7 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
   return (
     <div
       className={[
-        "relative grid grid-cols-[minmax(210px,1.2fr)_minmax(118px,0.7fr)_minmax(390px,2fr)_minmax(130px,0.75fr)_minmax(110px,0.6fr)] items-center gap-4 border-b border-border px-4 py-3 text-sm transition-colors",
+        "relative grid grid-cols-[minmax(210px,1.2fr)_minmax(118px,0.7fr)_minmax(390px,2fr)_minmax(180px,0.9fr)_minmax(110px,0.6fr)] items-center gap-4 border-b border-border px-4 py-3 text-sm transition-colors",
         "before:absolute before:left-0 before:top-0 before:h-full before:w-[3px]",
         accent,
         lockedByOther ? "bg-muted/30 opacity-60" : "hover:bg-muted/40",
