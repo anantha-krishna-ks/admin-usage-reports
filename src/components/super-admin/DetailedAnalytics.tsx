@@ -26,7 +26,8 @@ interface SchoolContentRow {
   items: number;
   tests: number;
   ebook: number;
-  trend: number;
+  trendValue: number;
+  trendPrev: number;
 }
 
 const applicationData: SchoolRow[] = [
@@ -38,11 +39,11 @@ const applicationData: SchoolRow[] = [
 ];
 
 const contentData: SchoolContentRow[] = [
-  { school: "Riverside Academy", lessonPlan: 124, learningResource: 86, items: 340, tests: 28, ebook: 55, trend: 12 },
-  { school: "Lakeside High School", lessonPlan: 98, learningResource: 72, items: 285, tests: 22, ebook: 41, trend: 8 },
-  { school: "Mountain View School", lessonPlan: 156, learningResource: 94, items: 410, tests: 35, ebook: 62, trend: 15 },
-  { school: "Sunrise International", lessonPlan: 82, learningResource: 58, items: 220, tests: 18, ebook: 34, trend: -5 },
-  { school: "Green Valley School", lessonPlan: 110, learningResource: 78, items: 305, tests: 25, ebook: 48, trend: 10 },
+  { school: "Riverside Academy", lessonPlan: 124, learningResource: 86, items: 340, tests: 28, ebook: 55, trendValue: 633, trendPrev: 565 },
+  { school: "Lakeside High School", lessonPlan: 98, learningResource: 72, items: 285, tests: 22, ebook: 41, trendValue: 518, trendPrev: 480 },
+  { school: "Mountain View School", lessonPlan: 156, learningResource: 94, items: 410, tests: 35, ebook: 62, trendValue: 757, trendPrev: 658 },
+  { school: "Sunrise International", lessonPlan: 82, learningResource: 58, items: 220, tests: 18, ebook: 34, trendValue: 412, trendPrev: 434 },
+  { school: "Green Valley School", lessonPlan: 110, learningResource: 78, items: 305, tests: 25, ebook: 48, trendValue: 566, trendPrev: 515 },
 ];
 
 const ApplicationTable = ({ rows }: { rows: SchoolRow[] }) => {
