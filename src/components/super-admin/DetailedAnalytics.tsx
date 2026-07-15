@@ -33,13 +33,6 @@ interface SchoolContentRow {
   trendPrev: number;
 }
 
-const usageByChannel: Record<Exclude<Channel, "all">, number[]> = {
-  web: [1769, 1391, 1976, 1184, 1571],
-  mobile: [983, 865, 1207, 710, 906],
-  school: [590, 494, 790, 395, 558],
-  desktop: [590, 340, 418, 342, 456],
-};
-
 const applicationData: SchoolRow[] = [
   { school: "Riverside Academy", totalUsers: 1250, activeUsers: 1008, teachers: 490, students: 3100, otherUsers: 340, usage: { web: 1769, mobile: 983, school: 590, desktop: 590 } },
   { school: "Lakeside High School", totalUsers: 980, activeUsers: 812, teachers: 380, students: 2450, otherUsers: 260, usage: { web: 1391, mobile: 865, school: 494, desktop: 340 } },
