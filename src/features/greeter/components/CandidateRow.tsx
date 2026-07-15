@@ -220,3 +220,65 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
     </div>
   );
 }
+
+type Tone = "success" | "warning" | "info" | "destructive" | "muted";
+
+function StatusCard({
+  tone,
+  icon,
+  label,
+  sub,
+}: {
+  tone: Tone;
+  icon: React.ReactNode;
+  label: string;
+  sub?: string;
+}) {
+  const styles: Record<Tone, { wrap: string; chip: string; dot: string; text: string }> = {
+    success: {
+      wrap: "border-success/30 bg-success/5",
+      chip: "bg-success/15 text-success",
+      dot: "bg-success",
+      text: "text-success",
+    },
+    warning: {
+      wrap: "border-warning/30 bg-warning/5",
+      chip: "bg-warning/15 text-warning",
+      dot: "bg-warning",
+      text: "text-warning",
+    },
+    info: {
+      wrap: "border-info/30 bg-info/5",
+      chip: "bg-info/15 text-info",
+      dot: "bg-info",
+      text: "text-info",
+    },
+    destructive: {
+      wrap: "border-destructive/30 bg-destructive/5",
+      chip: "bg-destructive/15 text-destructive",
+      dot: "bg-destructive",
+      text: "text-destructive",
+    },
+    muted: {
+      wrap: "border-border bg-muted/40",
+      chip: "bg-muted text-muted-foreground",
+      dot: "bg-muted-foreground/60",
+      text: "text-muted-foreground",
+    },
+  };
+  const s = styles[tone];
+  return (
+    <div className={`flex items-center gap-2 rounded-lg border px-2 py-1.5 ${s.wrap}`}>
+      <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${s.chip}`}>
+        {icon}
+      </span>
+      <div className="min-w-0 leading-tight">
+        <div className={`truncate text-xs font-semibold ${s.text}`}>{label}</div>
+        {sub && (
+          <div className="truncate text-[10px] font-medium text-muted-foreground">{sub}</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
