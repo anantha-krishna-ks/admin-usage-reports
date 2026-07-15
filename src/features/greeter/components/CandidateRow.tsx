@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+  Radio,
   WifiOff,
   Lock,
   Eye,
@@ -22,10 +23,9 @@ import {
   PauseCircle,
   RefreshCw,
   PlugZap,
+  ScanFace,
   ShieldAlert,
-  ShieldCheck,
   MoreHorizontal,
-  Radio,
 } from "lucide-react";
 
 interface Props {
@@ -47,43 +47,27 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
     return () => window.clearInterval(id);
   }, [c.lock]);
 
-  const allocationChip = () => {
-    if (isReconnected)
-      return (
-        <span className="inline-flex items-center gap-1 rounded bg-destructive/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-destructive">
-          <WifiOff className="h-3 w-3" /> Reconnect
-        </span>
-      );
-    if (isAllocated)
-      return (
-        <span className="inline-flex items-center gap-1 rounded bg-success/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-success">
-          <Radio className="h-3 w-3" /> Allocated
-        </span>
-      );
-    if (c.allocation === "unallocated")
-      return (
-        <span className="rounded bg-info/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-info">
-          Unallocated
-        </span>
-      );
-    return (
-      <span className="rounded bg-muted px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
-        In Precheck
-      </span>
-    );
-  };
+  const accent = isReconnected
+    ? "before:bg-destructive"
+    : isAllocated
+      ? "before:bg-success"
+      : c.allocation === "unallocated"
+        ? "before:bg-info"
+        : "before:bg-transparent";
 
   return (
-    <tr
+    <div
       className={[
-        "group border-b border-border transition-colors last:border-b-0",
-        lockedByOther ? "bg-muted/20 opacity-60" : "hover:bg-muted/30",
-        lockedByMe ? "bg-info/[0.04]" : "",
+        "relative grid grid-cols-12 items-center gap-4 border-b border-border px-4 py-3 text-sm transition-colors",
+        "before:absolute before:left-0 before:top-0 before:h-full before:w-[3px]",
+        accent,
+        lockedByOther ? "bg-muted/30 opacity-60" : "hover:bg-muted/40",
+        lockedByMe ? "bg-info/5" : "",
       ].join(" ")}
     >
       {/* Candidate */}
-      <td className="px-4 py-3.5 align-middle">
-        <div className="flex items-center gap-2.5">
+      <div className="col-span-3 min-w-0">
+        <div className="flex items-center gap-2">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted text-[10px] font-semibold text-muted-foreground">
             {c.firstName[0]}
             {c.lastName[0]}
@@ -95,139 +79,150 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
             <div className="truncate text-xs text-muted-foreground">{c.assessmentTitle}</div>
           </div>
         </div>
-      </td>
+      </div>
 
       {/* Schedule */}
-      <td className="px-4 py-3.5 align-middle">
+      <div className="col-span-2">
         <div className="font-mono text-xs text-foreground">
           {formatTime(c.scheduleStart)}–{formatTime(c.scheduleEnd)}
         </div>
         <div className="font-mono text-[10px] text-muted-foreground">ID {c.id}</div>
-      </td>
+      </div>
 
       {/* Precheck */}
-      <td className="px-4 py-3.5 align-middle">
+      <div className="col-span-3 flex flex-col gap-1.5">
         <StageChips stages={c.stages} />
-      </td>
+        <div className="flex items-center gap-1.5">
+          {c.idMatch.verdict === "match" ? (
+            <span
+              className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2 py-0.5 text-[10px] font-semibold text-success"
+              title={`AI ID match score ${c.idMatch.score}`}
+            >
+              <ScanFace className="h-3 w-3" /> AI matched
+            </span>
+          ) : (
+            <span
+              className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2 py-0.5 text-[10px] font-semibold text-destructive"
+              title={`AI ID ${c.idMatch.verdict} · score ${c.idMatch.score}`}
+            >
+              <ShieldAlert className="h-3 w-3" /> AI not matched
+            </span>
+          )}
+          {c.reconnecting && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2 py-0.5 text-[10px] font-semibold text-destructive">
+              <WifiOff className="h-3 w-3" /> Reconnect
+            </span>
+          )}
+        </div>
+      </div>
 
-      {/* AI Identity */}
-      <td className="px-4 py-3.5 align-middle">
-        {c.idMatch.verdict === "match" ? (
-          <span
-            className="inline-flex items-center gap-1.5 rounded-full border border-success/20 bg-success/10 px-2 py-0.5 text-[10px] font-semibold text-success"
-            title={`AI ID match score ${c.idMatch.score}`}
-          >
-            <ShieldCheck className="h-3 w-3" /> ID Verified
-          </span>
-        ) : (
-          <span
-            className="inline-flex items-center gap-1.5 rounded-full border border-destructive/20 bg-destructive/10 px-2 py-0.5 text-[10px] font-semibold text-destructive"
-            title={`AI ID ${c.idMatch.verdict} · score ${c.idMatch.score}`}
-          >
-            <ShieldAlert className="h-3 w-3" /> AI Not Matched
+      {/* Status */}
+      <div className="col-span-2 min-w-0">
+        {lockedByOther && c.lock && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-warning/10 px-2 py-0.5 text-[10px] font-semibold text-warning">
+            <Lock className="h-3 w-3" /> {c.lock.greeterName} · {formatElapsed(c.lock.since)}
           </span>
         )}
-      </td>
-
-      {/* Allocation / lock status */}
-      <td className="px-4 py-3.5 align-middle">
-        <div className="flex flex-col gap-1">
-          {allocationChip()}
-          {lockedByOther && c.lock && (
-            <span className="inline-flex items-center gap-1 text-[10px] font-medium text-warning">
-              <Lock className="h-3 w-3" /> {c.lock.greeterName} · {formatElapsed(c.lock.since)}
-            </span>
-          )}
-          {lockedByMe && c.lock && (
-            <span className="inline-flex items-center gap-1 text-[10px] font-medium text-info">
-              <Eye className="h-3 w-3" /> Reviewing · {formatElapsed(c.lock.since)}
-            </span>
-          )}
-          {!c.lock && isAllocated && c.proctorName && (
-            <span className="truncate text-[10px] text-muted-foreground">to {c.proctorName}</span>
-          )}
-        </div>
-      </td>
+        {lockedByMe && c.lock && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-info/10 px-2 py-0.5 text-[10px] font-semibold text-info">
+            <Eye className="h-3 w-3" /> Reviewing · {formatElapsed(c.lock.since)}
+          </span>
+        )}
+        {!c.lock && isAllocated && c.proctorName && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2 py-0.5 text-[10px] font-semibold text-success">
+            <Radio className="h-3 w-3" /> {c.proctorName}
+          </span>
+        )}
+        {!c.lock && isReconnected && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2 py-0.5 text-[10px] font-semibold text-destructive">
+            <WifiOff className="h-3 w-3" />
+            Disconnected{c.disconnectedAt ? ` · ${formatElapsed(c.disconnectedAt)}` : ""}
+          </span>
+        )}
+        {!c.lock && !isAllocated && !isReconnected && (
+          <span className="text-[11px] uppercase tracking-wider text-muted-foreground">
+            {c.allocation === "precheck" ? "In precheck" : "Ready for review"}
+          </span>
+        )}
+      </div>
 
       {/* Actions */}
-      <td className="px-4 py-3.5 align-middle text-right">
-        <div className="flex items-center justify-end gap-1">
-          <Button
-            size="icon"
-            variant="ghost"
-            disabled={lockedByOther}
-            onClick={() => onView(c.id)}
-            className="h-8 w-8 text-muted-foreground hover:bg-primary/10 hover:text-primary"
-            title="View candidate"
-          >
-            <Eye className="h-4 w-4" />
-          </Button>
-          {!lockedByOther && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  className="h-8 w-8 text-muted-foreground hover:text-foreground"
-                  aria-label="More actions"
-                >
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-52">
-                {!isAllocated && !isReconnected && (
-                  <>
-                    <DropdownMenuItem onClick={() => greeterActions.selfAllocate(c.id)}>
-                      <UserPlus2 className="mr-2 h-4 w-4" /> Allocate to self
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => greeterActions.autoAllocate(c.id)}>
-                      <Bot className="mr-2 h-4 w-4" /> Auto-allocate proctor
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      onClick={() => greeterActions.approve(c.id)}
-                      className="text-success focus:text-success"
-                    >
-                      <Check className="mr-2 h-4 w-4" /> Approve
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => greeterActions.hold(c.id)}
-                      className="text-warning focus:text-warning"
-                    >
-                      <PauseCircle className="mr-2 h-4 w-4" /> Hold
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => greeterActions.reject(c.id)}
-                      className="text-destructive focus:text-destructive"
-                    >
-                      <X className="mr-2 h-4 w-4" /> Reject
-                    </DropdownMenuItem>
-                  </>
-                )}
-                {isReconnected && (
-                  <>
-                    <DropdownMenuItem onClick={() => greeterActions.rerunPrecheck(c.id)}>
-                      <RefreshCw className="mr-2 h-4 w-4" /> Re-run precheck
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => greeterActions.reallocateToOriginalProctor(c.id)}
-                      disabled={!c.proctorId}
-                      className="text-success focus:text-success"
-                    >
-                      <PlugZap className="mr-2 h-4 w-4" /> Reallocate to original
-                    </DropdownMenuItem>
-                  </>
-                )}
-                {isAllocated && (
-                  <DropdownMenuItem disabled className="text-xs text-muted-foreground">
-                    Already allocated
+      <div className="col-span-2 flex items-center justify-end gap-1.5">
+        <Button
+          size="sm"
+          variant="ghost"
+          disabled={lockedByOther}
+          onClick={() => onView(c.id)}
+          className="h-8 px-2.5 text-xs text-primary hover:bg-primary/10 hover:text-primary"
+        >
+          <Eye className="mr-1.5 h-3.5 w-3.5" />
+          View
+        </Button>
+        {!lockedByOther && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                aria-label="More actions"
+              >
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-52">
+              {!isAllocated && !isReconnected && (
+                <>
+                  <DropdownMenuItem onClick={() => greeterActions.selfAllocate(c.id)}>
+                    <UserPlus2 className="mr-2 h-4 w-4" /> Allocate to self
                   </DropdownMenuItem>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
-        </div>
-      </td>
-    </tr>
+                  <DropdownMenuItem onClick={() => greeterActions.autoAllocate(c.id)}>
+                    <Bot className="mr-2 h-4 w-4" /> Auto-allocate proctor
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => greeterActions.approve(c.id)}
+                    className="text-success focus:text-success"
+                  >
+                    <Check className="mr-2 h-4 w-4" /> Approve
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => greeterActions.hold(c.id)}
+                    className="text-warning focus:text-warning"
+                  >
+                    <PauseCircle className="mr-2 h-4 w-4" /> Hold
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => greeterActions.reject(c.id)}
+                    className="text-destructive focus:text-destructive"
+                  >
+                    <X className="mr-2 h-4 w-4" /> Reject
+                  </DropdownMenuItem>
+                </>
+              )}
+              {isReconnected && (
+                <>
+                  <DropdownMenuItem onClick={() => greeterActions.rerunPrecheck(c.id)}>
+                    <RefreshCw className="mr-2 h-4 w-4" /> Re-run precheck
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => greeterActions.reallocateToOriginalProctor(c.id)}
+                    disabled={!c.proctorId}
+                    className="text-success focus:text-success"
+                  >
+                    <PlugZap className="mr-2 h-4 w-4" /> Reallocate to original
+                  </DropdownMenuItem>
+                </>
+              )}
+              {isAllocated && (
+                <DropdownMenuItem disabled className="text-xs text-muted-foreground">
+                  Already allocated
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+      </div>
+    </div>
   );
 }
