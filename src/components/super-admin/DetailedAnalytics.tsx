@@ -61,6 +61,11 @@ const getUsage = (row: SchoolRow, channel: Channel) =>
     ? Object.values(row.usage).reduce((s, v) => s + v, 0)
     : row.usage[channel];
 
+const totalSchools = applicationData.length;
+const totalUsageMins = applicationData.reduce((sum, row) => sum + getUsage(row, "all"), 0);
+const totalUsageHours = totalUsageMins / 60;
+const avgUsageMins = Math.round(totalUsageMins / totalSchools);
+
 const ApplicationTable = ({ rows, channel }: { rows: SchoolRow[]; channel: Channel }) => {
   const navigate = useNavigate();
   const activeLabel = channel === "all" ? "Total" : channelFilters.find((c) => c.id === channel)?.label;
