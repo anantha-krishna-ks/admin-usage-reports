@@ -56,7 +56,7 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
   return (
     <div
       className={[
-        "relative grid grid-cols-[minmax(210px,1.25fr)_minmax(118px,0.75fr)_minmax(330px,1.9fr)_minmax(130px,0.8fr)_minmax(110px,0.6fr)] items-center gap-4 border-b border-border px-4 py-3 text-sm transition-colors",
+        "relative grid grid-cols-[minmax(210px,1.2fr)_minmax(118px,0.7fr)_minmax(390px,2fr)_minmax(130px,0.75fr)_minmax(110px,0.6fr)] items-center gap-4 border-b border-border px-4 py-3 text-sm transition-colors",
         "before:absolute before:left-0 before:top-0 before:h-full before:w-[3px]",
         accent,
         lockedByOther ? "bg-muted/30 opacity-60" : "hover:bg-muted/40",
@@ -88,10 +88,10 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
       </div>
 
       {/* Precheck */}
-      <div className="flex min-w-0 flex-col gap-1.5">
+      <div className="min-w-0">
         <StageChips stages={c.stages} idMatch={c.idMatch} />
         {c.reconnecting && (
-          <div className="flex items-center gap-1.5">
+          <div className="mt-1.5 flex items-center gap-1.5">
             <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2 py-0.5 text-[10px] font-semibold text-destructive">
               <WifiOff className="h-3 w-3" /> Reconnect
             </span>

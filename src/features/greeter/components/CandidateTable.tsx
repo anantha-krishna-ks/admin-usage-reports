@@ -16,13 +16,13 @@ export function CandidateTable({ candidates, currentGreeterId, onView }: Props) 
   const rowVirtualizer = useVirtualizer({
     count: candidates.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 112,
+    estimateSize: () => 136,
     overscan: 8,
   });
 
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-      <div className="grid grid-cols-[minmax(210px,1.25fr)_minmax(118px,0.75fr)_minmax(330px,1.9fr)_minmax(130px,0.8fr)_minmax(110px,0.6fr)] gap-4 border-b border-border bg-muted/40 px-4 py-2.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+      <div className="grid grid-cols-[minmax(210px,1.2fr)_minmax(118px,0.7fr)_minmax(390px,2fr)_minmax(130px,0.75fr)_minmax(110px,0.6fr)] gap-4 border-b border-border bg-muted/40 px-4 py-2.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
         <div>Candidate</div>
         <div>Schedule</div>
         <div>Precheck</div>
@@ -52,6 +52,8 @@ export function CandidateTable({ candidates, currentGreeterId, onView }: Props) 
               return (
                 <div
                   key={c.id}
+                  data-index={v.index}
+                  ref={rowVirtualizer.measureElement}
                   style={{
                     position: "absolute",
                     top: 0,
