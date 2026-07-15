@@ -12,6 +12,7 @@ import PersonUsageDetail from "./pages/PersonUsageDetail";
 import EnvironmentDetail from "./pages/EnvironmentDetail";
 import DashboardGuide from "./pages/DashboardGuide";
 import SuperAdminDashboard from "./pages/super-admin/SuperAdminDashboard";
+import GreeterDashboard from "./pages/greeter/GreeterDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
