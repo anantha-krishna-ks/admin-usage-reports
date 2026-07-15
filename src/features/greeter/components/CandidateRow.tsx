@@ -100,34 +100,45 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
       </div>
 
       {/* Status */}
-      <div className="min-w-0">
-        {lockedByOther && c.lock && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-warning/10 px-2 py-0.5 text-[10px] font-semibold text-warning">
-            <Lock className="h-3 w-3" /> {c.lock.greeterName} · {formatElapsed(c.lock.since)}
-          </span>
-        )}
-        {lockedByMe && c.lock && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-info/10 px-2 py-0.5 text-[10px] font-semibold text-info">
-            <Eye className="h-3 w-3" /> Reviewing · {formatElapsed(c.lock.since)}
-          </span>
-        )}
-        {!c.lock && isAllocated && c.proctorName && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2 py-0.5 text-[10px] font-semibold text-success">
-            <Radio className="h-3 w-3" /> {c.proctorName}
-          </span>
-        )}
-        {!c.lock && isReconnected && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2 py-0.5 text-[10px] font-semibold text-destructive">
-            <WifiOff className="h-3 w-3" />
-            Disconnected{c.disconnectedAt ? ` · ${formatElapsed(c.disconnectedAt)}` : ""}
-          </span>
-        )}
-        {!c.lock && !isAllocated && !isReconnected && (
-          <span className="text-[11px] uppercase tracking-wider text-muted-foreground">
-            {c.allocation === "precheck" ? "In precheck" : "Ready for review"}
-          </span>
+      <div className="min-w-0 border-l border-border/70 pl-4">
+        {lockedByOther && c.lock ? (
+          <StatusCard
+            tone="warning"
+            icon={<Lock className="h-3.5 w-3.5" />}
+            label={c.lock.greeterName}
+            sub={`Locked · ${formatElapsed(c.lock.since)}`}
+          />
+        ) : lockedByMe && c.lock ? (
+          <StatusCard
+            tone="info"
+            icon={<Eye className="h-3.5 w-3.5" />}
+            label="Reviewing"
+            sub={formatElapsed(c.lock.since)}
+          />
+        ) : isAllocated && c.proctorName ? (
+          <StatusCard
+            tone="success"
+            icon={<Radio className="h-3.5 w-3.5" />}
+            label={c.proctorName}
+            sub="Allocated"
+          />
+        ) : isReconnected ? (
+          <StatusCard
+            tone="destructive"
+            icon={<WifiOff className="h-3.5 w-3.5" />}
+            label="Disconnected"
+            sub={c.disconnectedAt ? formatElapsed(c.disconnectedAt) : "Reconnect"}
+          />
+        ) : (
+          <StatusCard
+            tone="muted"
+            icon={<span className="h-2 w-2 rounded-full bg-current" />}
+            label={c.allocation === "precheck" ? "In precheck" : "Ready for review"}
+            sub="Unassigned"
+          />
         )}
       </div>
+
 
       {/* Actions */}
       <div className="flex items-center justify-end gap-1.5">
