@@ -1,5 +1,6 @@
 import type { Stages, StageKey } from "../types";
 import { STAGE_LABELS } from "../mock-data";
+import { ScanFace, ShieldAlert } from "lucide-react";
 
 const STAGE_ORDER: StageKey[] = ["eula", "system", "headshot", "room"];
 
@@ -23,6 +24,11 @@ const labelStyles: Record<string, string> = {
   completed: "text-success",
   flagged: "text-destructive",
 };
+
+interface StageChipsProps {
+  stages: Stages;
+  idMatch?: { verdict: "match" | "review" | "mismatch"; score: number };
+}
 
 const connectorStyles: Record<string, string> = {
   not_started: "bg-border",
