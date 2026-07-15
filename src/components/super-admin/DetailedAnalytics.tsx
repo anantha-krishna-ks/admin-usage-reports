@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Eye, ArrowRight, LayoutGrid, Globe, Smartphone, Building2, type LucideIcon } from "lucide-react";
+import { Eye, ArrowRight, LayoutGrid, Globe, Smartphone, Building2, School, Clock, BarChart3, type LucideIcon } from "lucide-react";
 import { SectionInfoButton } from "@/components/SectionInfoButton";
 import { TrendChip } from "@/components/TrendChip";
 import { cn } from "@/lib/utils";
