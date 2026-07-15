@@ -56,7 +56,7 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
   return (
     <div
       className={[
-        "relative grid grid-cols-[minmax(210px,1.2fr)_minmax(118px,0.7fr)_minmax(390px,2fr)_minmax(130px,0.75fr)_minmax(110px,0.6fr)] items-center gap-4 border-b border-border px-4 py-3 text-sm transition-colors",
+        "relative grid grid-cols-[minmax(210px,1.2fr)_minmax(118px,0.7fr)_minmax(390px,2fr)_minmax(180px,0.9fr)_minmax(110px,0.6fr)] items-center gap-4 border-b border-border px-4 py-3 text-sm transition-colors",
         "before:absolute before:left-0 before:top-0 before:h-full before:w-[3px]",
         accent,
         lockedByOther ? "bg-muted/30 opacity-60" : "hover:bg-muted/40",
@@ -100,34 +100,45 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
       </div>
 
       {/* Status */}
-      <div className="min-w-0">
-        {lockedByOther && c.lock && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-warning/10 px-2 py-0.5 text-[10px] font-semibold text-warning">
-            <Lock className="h-3 w-3" /> {c.lock.greeterName} · {formatElapsed(c.lock.since)}
-          </span>
-        )}
-        {lockedByMe && c.lock && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-info/10 px-2 py-0.5 text-[10px] font-semibold text-info">
-            <Eye className="h-3 w-3" /> Reviewing · {formatElapsed(c.lock.since)}
-          </span>
-        )}
-        {!c.lock && isAllocated && c.proctorName && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2 py-0.5 text-[10px] font-semibold text-success">
-            <Radio className="h-3 w-3" /> {c.proctorName}
-          </span>
-        )}
-        {!c.lock && isReconnected && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2 py-0.5 text-[10px] font-semibold text-destructive">
-            <WifiOff className="h-3 w-3" />
-            Disconnected{c.disconnectedAt ? ` · ${formatElapsed(c.disconnectedAt)}` : ""}
-          </span>
-        )}
-        {!c.lock && !isAllocated && !isReconnected && (
-          <span className="text-[11px] uppercase tracking-wider text-muted-foreground">
-            {c.allocation === "precheck" ? "In precheck" : "Ready for review"}
-          </span>
+      <div className="min-w-0 border-l border-border/70 pl-4">
+        {lockedByOther && c.lock ? (
+          <StatusCard
+            tone="warning"
+            icon={<Lock className="h-3.5 w-3.5" />}
+            label={c.lock.greeterName}
+            sub={`Locked · ${formatElapsed(c.lock.since)}`}
+          />
+        ) : lockedByMe && c.lock ? (
+          <StatusCard
+            tone="info"
+            icon={<Eye className="h-3.5 w-3.5" />}
+            label="Reviewing"
+            sub={formatElapsed(c.lock.since)}
+          />
+        ) : isAllocated && c.proctorName ? (
+          <StatusCard
+            tone="success"
+            icon={<Radio className="h-3.5 w-3.5" />}
+            label={c.proctorName}
+            sub="Allocated"
+          />
+        ) : isReconnected ? (
+          <StatusCard
+            tone="destructive"
+            icon={<WifiOff className="h-3.5 w-3.5" />}
+            label="Disconnected"
+            sub={c.disconnectedAt ? formatElapsed(c.disconnectedAt) : "Reconnect"}
+          />
+        ) : (
+          <StatusCard
+            tone="muted"
+            icon={<span className="h-2 w-2 rounded-full bg-current" />}
+            label={c.allocation === "precheck" ? "In precheck" : "Ready for review"}
+            sub="Unassigned"
+          />
         )}
       </div>
+
 
       {/* Actions */}
       <div className="flex items-center justify-end gap-1.5">
@@ -209,3 +220,65 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
     </div>
   );
 }
+
+type Tone = "success" | "warning" | "info" | "destructive" | "muted";
+
+function StatusCard({
+  tone,
+  icon,
+  label,
+  sub,
+}: {
+  tone: Tone;
+  icon: React.ReactNode;
+  label: string;
+  sub?: string;
+}) {
+  const styles: Record<Tone, { wrap: string; chip: string; dot: string; text: string }> = {
+    success: {
+      wrap: "border-success/30 bg-success/5",
+      chip: "bg-success/15 text-success",
+      dot: "bg-success",
+      text: "text-success",
+    },
+    warning: {
+      wrap: "border-warning/30 bg-warning/5",
+      chip: "bg-warning/15 text-warning",
+      dot: "bg-warning",
+      text: "text-warning",
+    },
+    info: {
+      wrap: "border-info/30 bg-info/5",
+      chip: "bg-info/15 text-info",
+      dot: "bg-info",
+      text: "text-info",
+    },
+    destructive: {
+      wrap: "border-destructive/30 bg-destructive/5",
+      chip: "bg-destructive/15 text-destructive",
+      dot: "bg-destructive",
+      text: "text-destructive",
+    },
+    muted: {
+      wrap: "border-border bg-muted/40",
+      chip: "bg-muted text-muted-foreground",
+      dot: "bg-muted-foreground/60",
+      text: "text-muted-foreground",
+    },
+  };
+  const s = styles[tone];
+  return (
+    <div className={`flex items-center gap-2 rounded-lg border px-2 py-1.5 ${s.wrap}`}>
+      <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${s.chip}`}>
+        {icon}
+      </span>
+      <div className="min-w-0 leading-tight">
+        <div className={`truncate text-xs font-semibold ${s.text}`}>{label}</div>
+        {sub && (
+          <div className="truncate text-[10px] font-medium text-muted-foreground">{sub}</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
