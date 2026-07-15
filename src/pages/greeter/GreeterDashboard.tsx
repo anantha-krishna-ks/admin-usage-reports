@@ -12,7 +12,7 @@ import {
 import { RefreshIndicator } from "@/features/greeter/components/RefreshIndicator";
 import { CandidateTable } from "@/features/greeter/components/CandidateTable";
 import { DetailDrawer } from "@/features/greeter/components/DetailDrawer";
-import { LegendFooter } from "@/features/greeter/components/LegendFooter";
+
 
 export default function GreeterDashboard() {
   const candidates = useGreeterStore((s) => s.candidates);
