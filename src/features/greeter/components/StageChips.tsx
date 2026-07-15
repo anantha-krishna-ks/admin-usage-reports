@@ -173,7 +173,7 @@ export function StageChips({ stages, idMatch }: StageChipsProps) {
                     <StageIcon className="h-3.5 w-3.5" />
                   )}
                 </div>
-                <div className={`h-px flex-1 ${index === STAGE_ORDER.length - 1 ? "bg-transparent" : stageTone[STAGE_ORDER[index + 1] ? stages[STAGE_ORDER[index + 1]] : stage].line}`} />
+                <div className={`h-px flex-1 ${index === STAGE_ORDER.length - 1 ? "bg-transparent" : stageTone[stages[STAGE_ORDER[index + 1]]].line}`} />
               </div>
               <div className={`mt-1 truncate text-center text-[10px] font-semibold leading-tight ${isActive ? "text-foreground" : stageTone[stageState].text}`}>
                 {STAGE_SHORT[stage]}
