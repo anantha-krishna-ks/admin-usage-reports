@@ -56,7 +56,7 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
   return (
     <div
       className={[
-        "relative grid grid-cols-12 items-center gap-4 border-b border-border px-4 py-3 text-sm transition-colors",
+        "relative grid grid-cols-[minmax(210px,1.25fr)_minmax(118px,0.75fr)_minmax(330px,1.9fr)_minmax(130px,0.8fr)_minmax(110px,0.6fr)] items-center gap-4 border-b border-border px-4 py-3 text-sm transition-colors",
         "before:absolute before:left-0 before:top-0 before:h-full before:w-[3px]",
         accent,
         lockedByOther ? "bg-muted/30 opacity-60" : "hover:bg-muted/40",
@@ -64,7 +64,7 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
       ].join(" ")}
     >
       {/* Candidate */}
-      <div className="col-span-3 min-w-0">
+      <div className="min-w-0">
         <div className="flex items-center gap-2">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted text-[10px] font-semibold text-muted-foreground">
             {c.firstName[0]}
@@ -80,7 +80,7 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
       </div>
 
       {/* Schedule */}
-      <div className="col-span-2">
+      <div>
         <div className="font-mono text-xs text-foreground">
           {formatTime(c.scheduleStart)}–{formatTime(c.scheduleEnd)}
         </div>
@@ -88,7 +88,7 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
       </div>
 
       {/* Precheck */}
-      <div className="col-span-3 flex flex-col gap-1.5">
+      <div className="flex min-w-0 flex-col gap-1.5">
         <StageChips stages={c.stages} idMatch={c.idMatch} />
         {c.reconnecting && (
           <div className="flex items-center gap-1.5">
@@ -100,7 +100,7 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
       </div>
 
       {/* Status */}
-      <div className="col-span-2 min-w-0">
+      <div className="min-w-0">
         {lockedByOther && c.lock && (
           <span className="inline-flex items-center gap-1 rounded-full bg-warning/10 px-2 py-0.5 text-[10px] font-semibold text-warning">
             <Lock className="h-3 w-3" /> {c.lock.greeterName} · {formatElapsed(c.lock.since)}
@@ -130,7 +130,7 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
       </div>
 
       {/* Actions */}
-      <div className="col-span-2 flex items-center justify-end gap-1.5">
+      <div className="flex items-center justify-end gap-1.5">
         <Button
           size="sm"
           variant="ghost"
