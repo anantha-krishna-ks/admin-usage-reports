@@ -12,6 +12,7 @@ import PersonUsageDetail from "./pages/PersonUsageDetail";
 import EnvironmentDetail from "./pages/EnvironmentDetail";
 import DashboardGuide from "./pages/DashboardGuide";
 import SuperAdminDashboard from "./pages/super-admin/SuperAdminDashboard";
+import GreeterDashboard from "./pages/greeter/GreeterDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/person-usage-detail" element={<PersonUsageDetail />} />
           <Route path="/environment-detail" element={<EnvironmentDetail />} />
           <Route path="/super-admin" element={<SuperAdminDashboard />} />
+          <Route path="/greeter" element={<GreeterDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
