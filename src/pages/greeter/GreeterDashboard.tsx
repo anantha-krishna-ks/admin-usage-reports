@@ -106,8 +106,8 @@ export default function GreeterDashboard() {
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <h1 className="text-3xl font-semibold tracking-tight">Live Candidate Queue</h1>
-            <p className="mt-1 flex items-center gap-2 text-muted-foreground">
-              <Radio className="h-4 w-4 text-success" />
+            <p className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
+              <Radio className="h-3.5 w-3.5 text-success" />
               Monitor precheck, allocate proctors, and resolve reconnects in real time
             </p>
           </div>
@@ -121,25 +121,24 @@ export default function GreeterDashboard() {
         {/* Summary tiles / allocation filter */}
         <AllocationTabs active={filter} setActive={setFilter} counts={counts} />
 
-        {/* Toolbar */}
-        <div className="flex flex-col items-stretch justify-between gap-3 rounded-lg border border-border bg-card/40 px-4 py-3 sm:flex-row sm:items-center">
-          <ReviewFilter value={reviewFilter} setValue={setReviewFilter} />
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <span className="rounded-full bg-muted px-2.5 py-1 font-semibold tabular-nums text-foreground">
-              {visible.length}
-            </span>
-            <span>candidate{visible.length === 1 ? "" : "s"} shown</span>
+        {/* Queue card */}
+        <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+          <div className="flex flex-col items-stretch justify-between gap-3 border-b border-border bg-muted/20 px-5 py-3 sm:flex-row sm:items-center">
+            <div className="flex items-baseline gap-2">
+              <h2 className="text-sm font-semibold text-foreground">Candidates</h2>
+              <span className="text-xs text-muted-foreground">
+                <span className="font-semibold tabular-nums text-foreground">{visible.length}</span>
+                {" "}shown · {byDate.length} in queue
+              </span>
+            </div>
+            <ReviewFilter value={reviewFilter} setValue={setReviewFilter} />
           </div>
+          <CandidateTable
+            candidates={visible}
+            currentGreeterId={currentGreeter.id}
+            onView={handleView}
+          />
         </div>
-
-        {/* Table card */}
-        <CandidateTable
-          candidates={visible}
-          currentGreeterId={currentGreeter.id}
-          onView={handleView}
-        />
-
-        <LegendFooter />
       </div>
 
       <DetailDrawer candidate={openCandidate} onClose={handleClose} />
