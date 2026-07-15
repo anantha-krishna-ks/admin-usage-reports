@@ -1,5 +1,4 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
 import { formatDateKey } from "../format";
 
 interface Props {
@@ -8,38 +7,40 @@ interface Props {
   currentKey: string;
 }
 
+const opts: { key: -1 | 0 | 1; label: string }[] = [
+  { key: -1, label: "Yesterday" },
+  { key: 0, label: "Today" },
+  { key: 1, label: "Tomorrow" },
+];
+
 export function DateFilter({ dateOffset, setOffset, currentKey }: Props) {
   return (
-    <div className="inline-flex items-center gap-1 rounded-md border border-border bg-background p-0.5">
-      <Button
-        size="sm"
-        variant={dateOffset === -1 ? "default" : "ghost"}
-        onClick={() => setOffset(-1)}
-        className="h-7 px-2 text-[11px]"
-      >
-        <ChevronLeft className="mr-1 h-3 w-3" />
-        Yesterday
-      </Button>
-      <Button
-        size="sm"
-        variant={dateOffset === 0 ? "default" : "ghost"}
-        onClick={() => setOffset(0)}
-        className="h-7 px-3 text-[11px] font-bold"
-      >
-        Today
-      </Button>
-      <Button
-        size="sm"
-        variant={dateOffset === 1 ? "default" : "ghost"}
-        onClick={() => setOffset(1)}
-        className="h-7 px-2 text-[11px]"
-      >
-        Tomorrow
-        <ChevronRight className="ml-1 h-3 w-3" />
-      </Button>
-      <span className="ml-2 hidden font-mono text-[10px] uppercase tracking-wider text-muted-foreground md:inline">
+    <div className="inline-flex items-center gap-3">
+      <div className="inline-flex items-center gap-1 rounded-full border border-border bg-background p-1 shadow-sm">
+        {opts.map((o) => {
+          const active = dateOffset === o.key;
+          return (
+            <button
+              key={o.key}
+              onClick={() => setOffset(o.key)}
+              className={[
+                "inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-all",
+                active
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground",
+              ].join(" ")}
+            >
+              {o.key === -1 && <ChevronLeft className="h-3 w-3" />}
+              {o.label}
+              {o.key === 1 && <ChevronRight className="h-3 w-3" />}
+            </button>
+          );
+        })}
+      </div>
+      <div className="hidden items-center gap-1.5 rounded-md bg-muted/50 px-2.5 py-1 text-[11px] font-medium text-muted-foreground md:inline-flex">
+        <Calendar className="h-3 w-3" />
         {formatDateKey(currentKey)}
-      </span>
+      </div>
     </div>
   );
 }
