@@ -181,7 +181,47 @@ export const DetailedAnalytics = () => {
         </div>
         <SectionInfoButton description="Network-wide breakdown of application and content usage segmented by school." />
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-6">
+        {/* Summary widgets */}
+        <div className="grid gap-3 md:grid-cols-3">
+          <Card className="border-primary/20 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent">
+            <CardContent className="flex items-center gap-3 p-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/15 text-primary">
+                <School className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <p className="text-xs uppercase tracking-wide text-muted-foreground">Total Schools</p>
+                <p className="text-xl font-semibold tabular-nums">{totalSchools}</p>
+                <p className="text-xs text-muted-foreground">active across the network</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="flex items-center gap-3 p-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary/15 text-secondary">
+                <Clock className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <p className="text-xs uppercase tracking-wide text-muted-foreground">Total Hours of Usage</p>
+                <p className="text-xl font-semibold tabular-nums">{totalUsageHours.toLocaleString(undefined, { maximumFractionDigits: 1 })}</p>
+                <p className="text-xs text-muted-foreground">hours this month</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="flex items-center gap-3 p-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-chart-3/15 text-chart-3">
+                <BarChart3 className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <p className="text-xs uppercase tracking-wide text-muted-foreground">Avg Usage</p>
+                <p className="text-xl font-semibold tabular-nums">{avgUsageMins.toLocaleString()}</p>
+                <p className="text-xs text-muted-foreground">mins per school</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         <Tabs value={tab} onValueChange={(v) => setTab(v as "application" | "content")} className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="application">Application</TabsTrigger>
