@@ -46,7 +46,6 @@ const channelFilters: { id: Channel; label: string; icon: LucideIcon }[] = [
   { id: "web", label: "Web", icon: Globe },
   { id: "mobile", label: "Mobile", icon: Smartphone },
   { id: "school", label: "School", icon: Building2 },
-  { id: "desktop", label: "Desktop", icon: Laptop },
 ];
 
 const contentData: SchoolContentRow[] = [
