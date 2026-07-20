@@ -8,9 +8,10 @@ interface Props {
   candidates: Candidate[];
   currentGreeterId: string;
   onView: (id: string) => void;
+  onOpenGlobalChat?: () => void;
 }
 
-export function CandidateTable({ candidates, currentGreeterId, onView }: Props) {
+export function CandidateTable({ candidates, currentGreeterId, onView, onOpenGlobalChat }: Props) {
   const parentRef = useRef<HTMLDivElement>(null);
 
   const rowVirtualizer = useVirtualizer({
@@ -67,6 +68,7 @@ export function CandidateTable({ candidates, currentGreeterId, onView }: Props) 
                     candidate={c}
                     currentGreeterId={currentGreeterId}
                     onView={onView}
+                    onOpenGlobalChat={onOpenGlobalChat}
                   />
                 </div>
               );

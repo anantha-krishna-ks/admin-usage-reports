@@ -31,9 +31,10 @@ interface Props {
   candidate: Candidate;
   currentGreeterId: string;
   onView: (id: string) => void;
+  onOpenGlobalChat?: () => void;
 }
 
-export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) {
+export function CandidateRow({ candidate: c, currentGreeterId, onView, onOpenGlobalChat }: Props) {
   const lockedByOther = !!(c.lock && c.lock.greeterId !== currentGreeterId);
   const lockedByMe = !!(c.lock && c.lock.greeterId === currentGreeterId);
   const isAllocated = c.allocation === "allocated";
@@ -143,7 +144,7 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
 
       {/* Actions */}
       <div className="flex items-center justify-end gap-1.5">
-        <ChatFloater candidate={c} disabled={lockedByOther} />
+        <ChatFloater candidate={c} disabled={lockedByOther} onOpenGlobalChat={onOpenGlobalChat} />
         <div className="flex items-center overflow-hidden rounded-lg border border-border bg-background">
           <Button
             size="sm"
