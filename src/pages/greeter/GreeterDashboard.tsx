@@ -28,6 +28,7 @@ export default function GreeterDashboard() {
   const [filter, setFilter] = useState<AllocFilter>("all");
   const [reviewFilter, setReviewFilter] = useState<ReviewFilterValue>("all");
   const [openId, setOpenId] = useState<string | null>(null);
+  const [globalChatOpen, setGlobalChatOpen] = useState(false);
 
   const currentKey = useMemo(() => {
     const d = new Date();
@@ -138,13 +139,14 @@ export default function GreeterDashboard() {
           candidates={visible}
           currentGreeterId={currentGreeter.id}
           onView={handleView}
+          onOpenGlobalChat={() => setGlobalChatOpen(true)}
         />
 
         <LegendFooter />
       </div>
 
       <DetailDrawer candidate={openCandidate} onClose={handleClose} />
-      <GlobalChatFab />
+      <GlobalChatFab open={globalChatOpen} onOpenChange={setGlobalChatOpen} />
     </div>
   );
 }
