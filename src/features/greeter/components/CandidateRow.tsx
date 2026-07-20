@@ -144,7 +144,7 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView, onOpenGlo
 
 
       {/* Actions */}
-      <div className="flex items-center justify-end gap-1.5">
+      <div className="flex items-center justify-end gap-2.5">
         <ChatFloater candidate={c} disabled={lockedByOther} onOpenGlobalChat={onOpenGlobalChat} />
         <div className="flex items-center overflow-hidden rounded-lg border border-border bg-background">
           <Button
