@@ -12,6 +12,7 @@ import {
 import { RefreshIndicator } from "@/features/greeter/components/RefreshIndicator";
 import { CandidateTable } from "@/features/greeter/components/CandidateTable";
 import { DetailDrawer } from "@/features/greeter/components/DetailDrawer";
+import { GlobalChatFab } from "@/features/greeter/components/GlobalChatFab";
 import { LegendFooter } from "@/features/greeter/components/LegendFooter";
 
 export default function GreeterDashboard() {
@@ -143,6 +144,7 @@ export default function GreeterDashboard() {
       </div>
 
       <DetailDrawer candidate={openCandidate} onClose={handleClose} />
+      <GlobalChatFab />
     </div>
   );
 }
