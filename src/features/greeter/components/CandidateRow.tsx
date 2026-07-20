@@ -68,16 +68,16 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView, onOpenGlo
     >
       {/* Candidate */}
       <div className="min-w-0">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted text-[10px] font-semibold text-muted-foreground">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
             {c.firstName[0]}
             {c.lastName[0]}
           </div>
           <div className="min-w-0">
-            <div className="truncate text-sm font-medium text-foreground">
+            <div className="truncate text-base font-medium text-foreground">
               {c.firstName} {c.lastName}
             </div>
-            <div className="truncate text-xs text-muted-foreground">{c.assessmentTitle}</div>
+            <div className="truncate text-sm text-muted-foreground">{c.assessmentTitle}</div>
           </div>
         </div>
       </div>
