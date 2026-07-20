@@ -60,7 +60,7 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView, onOpenGlo
       className={[
         "relative grid grid-cols-[minmax(210px,1.2fr)_minmax(118px,0.7fr)_minmax(390px,2fr)_minmax(180px,0.9fr)_minmax(140px,0.7fr)] items-center gap-4 px-4 py-3 text-sm transition-colors",
         "before:absolute before:left-0 before:top-0 before:h-full before:w-[3px]",
-        "after:absolute after:bottom-0 after:left-8 after:right-8 after:h-[2px] after:rounded-full after:bg-gradient-to-r after:from-transparent after:via-border/50 after:via-40% after:to-transparent after:shadow-[inset_0_1px_1px_rgba(0,0,0,0.08),0_1px_0_rgba(255,255,255,0.7)]",
+        "after:absolute after:bottom-0 after:inset-x-0 after:h-[3px] after:bg-border/70 after:shadow-[inset_0_1px_1px_rgba(0,0,0,0.06),0_1px_0_rgba(255,255,255,0.5)]",
         accent,
         lockedByOther ? "bg-muted/30 opacity-60" : "hover:bg-muted/40",
         lockedByMe ? "bg-info/5" : "",
