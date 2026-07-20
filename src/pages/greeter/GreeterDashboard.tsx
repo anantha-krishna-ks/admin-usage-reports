@@ -144,6 +144,7 @@ export default function GreeterDashboard() {
       </div>
 
       <DetailDrawer candidate={openCandidate} onClose={handleClose} />
+      <GlobalChatFab />
     </div>
   );
 }
