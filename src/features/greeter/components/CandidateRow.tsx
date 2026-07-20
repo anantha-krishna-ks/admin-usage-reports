@@ -145,87 +145,89 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
       <div className="flex items-center justify-end gap-1.5">
         <Button
           size="sm"
-          variant="ghost"
           disabled={lockedByOther}
-          onClick={() => onView(c.id)}
-          className="h-8 px-2.5 text-xs text-primary hover:bg-primary/10 hover:text-primary"
-        >
-          <Eye className="mr-1.5 h-3.5 w-3.5" />
-          View
-        </Button>
-        <Button
-          size="sm"
-          variant="ghost"
-          disabled={lockedByOther}
-          className="h-8 w-8 p-0 text-muted-foreground hover:bg-primary/10 hover:text-primary"
+          className="h-8 gap-1.5 bg-primary px-3 text-xs font-semibold text-primary-foreground shadow-sm hover:bg-primary/90"
           aria-label="Chat with candidate"
         >
-          <MessageSquare className="h-4 w-4" />
+          <MessageSquare className="h-3.5 w-3.5" />
+          Chat
         </Button>
-        {!lockedByOther && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                size="sm"
-                variant="ghost"
-                className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
-                aria-label="More actions"
-              >
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-52">
-              {!isAllocated && !isReconnected && (
-                <>
-                  <DropdownMenuItem onClick={() => greeterActions.selfAllocate(c.id)}>
-                    <UserPlus2 className="mr-2 h-4 w-4" /> Allocate to self
+        <div className="flex items-center overflow-hidden rounded-lg border border-border bg-background">
+          <Button
+            size="sm"
+            variant="ghost"
+            disabled={lockedByOther}
+            onClick={() => onView(c.id)}
+            className="h-8 w-8 rounded-none border-r border-border p-0 text-muted-foreground hover:bg-muted/50 hover:text-primary"
+            aria-label="View candidate"
+          >
+            <Eye className="h-4 w-4" />
+          </Button>
+          {!lockedByOther && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="h-8 w-8 rounded-none p-0 text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                  aria-label="More actions"
+                >
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-52">
+                {!isAllocated && !isReconnected && (
+                  <>
+                    <DropdownMenuItem onClick={() => greeterActions.selfAllocate(c.id)}>
+                      <UserPlus2 className="mr-2 h-4 w-4" /> Allocate to self
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => greeterActions.autoAllocate(c.id)}>
+                      <Bot className="mr-2 h-4 w-4" /> Auto-allocate proctor
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={() => greeterActions.approve(c.id)}
+                      className="text-success focus:text-success"
+                    >
+                      <Check className="mr-2 h-4 w-4" /> Approve
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => greeterActions.hold(c.id)}
+                      className="text-warning focus:text-warning"
+                    >
+                      <PauseCircle className="mr-2 h-4 w-4" /> Hold
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => greeterActions.reject(c.id)}
+                      className="text-destructive focus:text-destructive"
+                    >
+                      <X className="mr-2 h-4 w-4" /> Reject
+                    </DropdownMenuItem>
+                  </>
+                )}
+                {isReconnected && (
+                  <>
+                    <DropdownMenuItem onClick={() => greeterActions.rerunPrecheck(c.id)}>
+                      <RefreshCw className="mr-2 h-4 w-4" /> Re-run precheck
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => greeterActions.reallocateToOriginalProctor(c.id)}
+                      disabled={!c.proctorId}
+                      className="text-success focus:text-success"
+                    >
+                      <PlugZap className="mr-2 h-4 w-4" /> Reallocate to original
+                    </DropdownMenuItem>
+                  </>
+                )}
+                {isAllocated && (
+                  <DropdownMenuItem disabled className="text-xs text-muted-foreground">
+                    Already allocated
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => greeterActions.autoAllocate(c.id)}>
-                    <Bot className="mr-2 h-4 w-4" /> Auto-allocate proctor
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => greeterActions.approve(c.id)}
-                    className="text-success focus:text-success"
-                  >
-                    <Check className="mr-2 h-4 w-4" /> Approve
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => greeterActions.hold(c.id)}
-                    className="text-warning focus:text-warning"
-                  >
-                    <PauseCircle className="mr-2 h-4 w-4" /> Hold
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => greeterActions.reject(c.id)}
-                    className="text-destructive focus:text-destructive"
-                  >
-                    <X className="mr-2 h-4 w-4" /> Reject
-                  </DropdownMenuItem>
-                </>
-              )}
-              {isReconnected && (
-                <>
-                  <DropdownMenuItem onClick={() => greeterActions.rerunPrecheck(c.id)}>
-                    <RefreshCw className="mr-2 h-4 w-4" /> Re-run precheck
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => greeterActions.reallocateToOriginalProctor(c.id)}
-                    disabled={!c.proctorId}
-                    className="text-success focus:text-success"
-                  >
-                    <PlugZap className="mr-2 h-4 w-4" /> Reallocate to original
-                  </DropdownMenuItem>
-                </>
-              )}
-              {isAllocated && (
-                <DropdownMenuItem disabled className="text-xs text-muted-foreground">
-                  Already allocated
-                </DropdownMenuItem>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )}
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </div>
       </div>
     </div>
   );
