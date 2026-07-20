@@ -24,6 +24,7 @@ import {
   RefreshCw,
   PlugZap,
   MoreHorizontal,
+  MessageSquare,
 } from "lucide-react";
 
 interface Props {
@@ -151,6 +152,15 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView }: Props) 
         >
           <Eye className="mr-1.5 h-3.5 w-3.5" />
           View
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          disabled={lockedByOther}
+          className="h-8 w-8 p-0 text-muted-foreground hover:bg-primary/10 hover:text-primary"
+          aria-label="Chat with candidate"
+        >
+          <MessageSquare className="h-4 w-4" />
         </Button>
         {!lockedByOther && (
           <DropdownMenu>
