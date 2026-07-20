@@ -58,8 +58,9 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView, onOpenGlo
   return (
     <div
       className={[
-        "relative grid grid-cols-[minmax(210px,1.2fr)_minmax(118px,0.7fr)_minmax(390px,2fr)_minmax(180px,0.9fr)_minmax(140px,0.7fr)] items-center gap-4 border-b border-border px-4 py-3 text-sm transition-colors",
+        "relative grid grid-cols-[minmax(210px,1.2fr)_minmax(118px,0.7fr)_minmax(390px,2fr)_minmax(180px,0.9fr)_minmax(140px,0.7fr)] items-center gap-4 px-4 py-3 text-sm transition-colors",
         "before:absolute before:left-0 before:top-0 before:h-full before:w-[3px]",
+        "after:absolute after:bottom-0 after:left-4 after:right-4 after:h-px after:bg-gradient-to-r after:from-transparent after:via-border/80 after:to-transparent after:shadow-[0_1px_0_0_hsl(var(--background))]",
         accent,
         lockedByOther ? "bg-muted/30 opacity-60" : "hover:bg-muted/40",
         lockedByMe ? "bg-info/5" : "",
