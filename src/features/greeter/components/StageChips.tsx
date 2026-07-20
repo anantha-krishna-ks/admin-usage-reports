@@ -4,6 +4,9 @@ import {
   CheckCircle2,
   Loader2,
   Circle,
+  Check,
+  X,
+  PauseCircle,
 } from "lucide-react";
 
 const STAGE_ORDER: StageKey[] = ["eula", "system", "headshot", "room"];
