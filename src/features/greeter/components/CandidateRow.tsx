@@ -83,7 +83,7 @@ export function CandidateRow({ candidate: c, currentGreeterId, onView, onOpenGlo
       </div>
 
       {/* Schedule */}
-      <div>
+      <div className="pl-3">
         <div className="font-mono text-xs text-foreground">
           {formatTime(c.scheduleStart)}–{formatTime(c.scheduleEnd)}
         </div>
