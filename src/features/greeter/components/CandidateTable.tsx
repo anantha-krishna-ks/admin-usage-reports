@@ -22,7 +22,7 @@ export function CandidateTable({ candidates, currentGreeterId, onView }: Props) 
 
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-      <div className="grid grid-cols-[minmax(210px,1.2fr)_minmax(118px,0.7fr)_minmax(390px,2fr)_minmax(180px,0.9fr)_minmax(110px,0.6fr)] gap-4 border-b border-border bg-muted/40 px-4 py-2.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+      <div className="grid grid-cols-[minmax(210px,1.2fr)_minmax(118px,0.7fr)_minmax(390px,2fr)_minmax(180px,0.9fr)_minmax(140px,0.7fr)] gap-4 border-b border-border bg-muted/40 px-4 py-2.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
         <div>Candidate</div>
         <div>Schedule</div>
         <div>Precheck</div>
