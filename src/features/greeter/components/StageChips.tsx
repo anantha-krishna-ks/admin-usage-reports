@@ -4,6 +4,9 @@ import {
   CheckCircle2,
   Loader2,
   Circle,
+  Check,
+  X,
+  PauseCircle,
 } from "lucide-react";
 
 const STAGE_ORDER: StageKey[] = ["eula", "system", "headshot", "room"];
@@ -165,7 +168,7 @@ export function StageChips({ stages, idMatch }: StageChipsProps) {
       </div>
 
       {issues.length > 0 && (
-        <div className="mt-2 space-y-1 rounded-md border border-destructive/20 bg-destructive/5 px-2 py-1.5">
+        <div className="mt-2 space-y-1.5 rounded-md border border-destructive/20 bg-destructive/5 px-2 py-1.5">
           {issues.map((iss, idx) => (
             <div
               key={`${iss.stage}-${idx}`}
@@ -178,6 +181,39 @@ export function StageChips({ stages, idMatch }: StageChipsProps) {
               <span className="min-w-0 break-words font-medium opacity-90">{iss.reason}</span>
             </div>
           ))}
+          <div
+            className="mt-1 flex items-center gap-1 border-t border-destructive/15 pt-1.5"
+            role="group"
+            aria-label="Resolve precheck issue"
+          >
+            <button
+              type="button"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border border-success/30 bg-success/10 px-1.5 py-1 text-[10px] font-semibold text-success transition hover:bg-success/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-success/40"
+              aria-label="Approve"
+            >
+              <Check className="h-3 w-3" strokeWidth={2.6} />
+              Approve
+            </button>
+            <button
+              type="button"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border border-warning/30 bg-warning/10 px-1.5 py-1 text-[10px] font-semibold text-warning transition hover:bg-warning/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-warning/40"
+              aria-label="Put on hold"
+            >
+              <PauseCircle className="h-3 w-3" strokeWidth={2.4} />
+              Hold
+            </button>
+            <button
+              type="button"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border border-destructive/30 bg-destructive/10 px-1.5 py-1 text-[10px] font-semibold text-destructive transition hover:bg-destructive/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-destructive/40"
+              aria-label="Reject"
+            >
+              <X className="h-3 w-3" strokeWidth={2.6} />
+              Reject
+            </button>
+          </div>
         </div>
       )}
     </div>
