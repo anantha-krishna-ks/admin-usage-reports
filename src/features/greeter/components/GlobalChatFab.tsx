@@ -21,8 +21,19 @@ const CANNED: Record<string, string> = {
     "I can help you triage the greeter queue — try one of the suggested prompts below.",
 };
 
-export function GlobalChatFab() {
-  const [open, setOpen] = useState(false);
+interface GlobalChatFabProps {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
+
+export function GlobalChatFab({ open: externalOpen, onOpenChange }: GlobalChatFabProps = {}) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = externalOpen ?? internalOpen;
+  const setOpen = (v: boolean) => {
+    onOpenChange?.(v);
+    if (externalOpen === undefined) setInternalOpen(v);
+  };
+
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Msg[]>([
     {
@@ -61,7 +72,7 @@ export function GlobalChatFab() {
     <>
       {/* Floating button */}
       <button
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => setOpen(!open)}
         aria-label={open ? "Close assistant" : "Open assistant"}
         className={cn(
           "fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full",
