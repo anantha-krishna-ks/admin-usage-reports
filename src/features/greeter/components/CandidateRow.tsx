@@ -24,6 +24,7 @@ import {
   RefreshCw,
   PlugZap,
   MoreHorizontal,
+  MessageSquare,
 } from "lucide-react";
 
 interface Props {
