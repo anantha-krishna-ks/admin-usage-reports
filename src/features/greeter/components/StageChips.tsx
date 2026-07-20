@@ -189,7 +189,7 @@ export function StageChips({ stages, idMatch }: StageChipsProps) {
             <button
               type="button"
               onClick={(e) => e.stopPropagation()}
-              className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border border-success/30 bg-success/10 px-1.5 py-1 text-[10px] font-semibold text-success transition hover:bg-success/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-success/40"
+              className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border border-success bg-white px-1.5 py-1 text-[10px] font-semibold text-success shadow-sm transition hover:bg-success/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-success/40"
               aria-label="Approve"
             >
               <Check className="h-3 w-3" strokeWidth={2.6} />
@@ -198,7 +198,7 @@ export function StageChips({ stages, idMatch }: StageChipsProps) {
             <button
               type="button"
               onClick={(e) => e.stopPropagation()}
-              className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border border-warning/30 bg-warning/10 px-1.5 py-1 text-[10px] font-semibold text-warning transition hover:bg-warning/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-warning/40"
+              className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border border-warning bg-white px-1.5 py-1 text-[10px] font-semibold text-warning shadow-sm transition hover:bg-warning/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-warning/40"
               aria-label="Put on hold"
             >
               <PauseCircle className="h-3 w-3" strokeWidth={2.4} />
@@ -207,7 +207,7 @@ export function StageChips({ stages, idMatch }: StageChipsProps) {
             <button
               type="button"
               onClick={(e) => e.stopPropagation()}
-              className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border border-destructive/30 bg-destructive/10 px-1.5 py-1 text-[10px] font-semibold text-destructive transition hover:bg-destructive/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-destructive/40"
+              className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border border-destructive bg-white px-1.5 py-1 text-[10px] font-semibold text-destructive shadow-sm transition hover:bg-destructive/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-destructive/40"
               aria-label="Reject"
             >
               <X className="h-3 w-3" strokeWidth={2.6} />
